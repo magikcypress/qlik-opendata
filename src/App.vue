@@ -17,10 +17,10 @@ import Measures from '@/components/measures.vue';
 export default {
 	name: 'App',
 	components: {
-		Sheets,
+		//Sheets,
 		Objects,
-		Dimensions,
-		Measures
+		//Dimensions,
+		//Measures
 	}
 }
 </script>
