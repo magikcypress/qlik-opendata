@@ -30,6 +30,11 @@ const { jsonData, error, validateAndRepairJSON } = useJsonRepair();
 const qlikData = ref([]);
 const loadError = ref(null);
 const jsonError = ref(null);
+const activeSheet = ref(null);
+
+const toggleKpi = (sheetId) => {
+	activeSheet.value = activeSheet.value === sheetId ? null : sheetId;
+};
 
 onMounted(() => {
 	loadQlikScript();
@@ -58,11 +63,15 @@ onMounted(() => {
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
 		<div v-else>
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 			<div v-for="sheet in qlikData" :key="sheet.qInfo.qId" class="sheet">
-				<h2>{{ sheet.qMeta.title }}</h2>
-				<!-- <div class="kpi">
-          <qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId" :object-id="sheet.qMeta.id"></qlik-embed>
-        </div> -->
+				<ul>
+					<li><a href="#" @click.prevent="toggleKpi(sheet.qInfo.qId)">{{ sheet.qMeta.title }}</a></li>
+				</ul>
+				<div v-if="activeSheet === sheet.qInfo.qId" class="kpi">
+					<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId"
+						:object-id="sheet.qMeta.id"></qlik-embed>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -71,8 +80,8 @@ onMounted(() => {
 <style scoped>
 .sheet {
 	border: 1px solid #ddd;
-	padding: 10px;
-	margin: 10px 0;
+	padding: 2px;
+	margin: 2px 0;
 	border-radius: 5px;
 }
 
@@ -82,6 +91,11 @@ onMounted(() => {
 
 .kpi {
 	height: 800px;
+}
+
+ul {
+	list-style: none;
+	padding: 0 2px;
 }
 
 .error {

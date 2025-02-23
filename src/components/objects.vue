@@ -9,23 +9,32 @@ const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
 
 // Créer le script et définir les attributs
 const loadQlikScript = () => {
-	const script = document.createElement('script');
-	script.crossOrigin = 'anonymous';
-	script.type = 'application/javascript';
-	script.src = 'https://cdn.jsdelivr.net/npm/@qlik/embed-web-components';
-	script.setAttribute('data-host', tenantUrl);
-	script.setAttribute('data-client-id', qlikClientId);
-	script.setAttribute('data-redirect-uri', redirectUrl);
-	script.setAttribute('data-access-token-storage', 'session');
-	script.setAttribute('data-cross-site-cookies', 'true');
-	script.setAttribute('data-auto-redirect', 'true');
+	if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/@qlik/embed-web-components"]')) {
+		const script = document.createElement('script');
+		script.crossOrigin = 'anonymous';
+		script.type = 'application/javascript';
+		script.src = 'https://cdn.jsdelivr.net/npm/@qlik/embed-web-components';
+		script.setAttribute('data-host', tenantUrl);
+		script.setAttribute('data-client-id', qlikClientId);
+		script.setAttribute('data-redirect-uri', redirectUrl);
+		script.setAttribute('data-access-token-storage', 'session');
+		script.setAttribute('data-cross-site-cookies', 'true');
+		script.setAttribute('data-auto-redirect', 'true');
 
-	// Ajouter le script au document
-	document.body.appendChild(script);
+		// Ajouter le script au document
+		document.body.appendChild(script);
+	}
 };
 
 const { jsonData, error, validateAndRepairJSON } = useJsonRepair();
 const qlikData = ref([]);
+const loadError = ref(null);
+const jsonError = ref(null);
+const activeObject = ref(null);
+
+const toggleKpi = (objectId) => {
+	activeObject.value = activeObject.value === objectId ? null : objectId;
+};
 
 onMounted(() => {
 	loadQlikScript();
@@ -36,9 +45,11 @@ onMounted(() => {
 		.then(data => {
 			validateAndRepairJSON(data);
 			qlikData.value = jsonData.value;
+			jsonError.value = null;
 		})
 		.catch(error => {
 			console.error('Error loading JSON file:', error);
+			loadError.value = 'Error loading JSON file';
 		});
 });
 </script>
@@ -46,11 +57,20 @@ onMounted(() => {
 <template>
 	<div>
 		<h2>Objects</h2>
-		<div v-for="object in qlikData" class="object">
-			<h2>{{ object.name }}</h2>
-			<!-- <div class="kpi">
-				<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId" :object-id="object.name"></qlik-embed>
-			</div> -->
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
+		<div v-else>
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+			<div v-for="object in qlikData" class="object">
+				<ul>
+					<li><a href="#" @click.prevent="toggleKpi(object.name)">{{ object.name }}</a> ({{ object.type }})
+					</li>
+				</ul>
+				<div v-if="activeObject === object.name" class="kpi">
+					<qlik-embed ref="kpi" ui="analytics/chart" :app-id="qlikAppId"
+						:object-id="object.name"></qlik-embed>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -67,7 +87,17 @@ onMounted(() => {
 	padding-left: 20px;
 }
 
+ul {
+	list-style: none;
+	padding: 0 2px;
+}
+
 .kpi {
 	height: 800px;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
 }
 </style>
