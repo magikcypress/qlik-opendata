@@ -46,30 +46,18 @@ onMounted(() => {
 
 <template>
 	<div>
-		<h2>Sheets</h2>
-		<div v-for="dimensions in qlikData" :key="dimensions.qInfo.qId" class="sheet">
+		<h2>Dimensions</h2>
+		<div v-for="dimensions in qlikData" :key="dimensions.qInfo.qId" class="dimension">
 			<h2>{{ dimensions.qMeta.title }}</h2>
-			<div class="kpi">
-				<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId"
-					:object-id="dimensions.qMeta.id"></qlik-embed>
-			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-.sheet {
+.dimension {
 	border: 1px solid #ddd;
-	padding: 10px;
-	margin: 10px 0;
+	padding: 5px;
+	margin: 8px 0;
 	border-radius: 5px;
-}
-
-.details {
-	padding-left: 20px;
-}
-
-.kpi {
-	height: 800px;
 }
 </style>

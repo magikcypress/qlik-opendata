@@ -1,1 +1,926 @@
-[{"qInfo":{"qId":"06b8f892-3a6c-4e34-8587-e9ed9022a726","qType":"dimension"},"qMeta":{"title":"Voie","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"06b8f892-3a6c-4e34-8587-e9ed9022a726","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.774Z","modifiedDate":"2020-04-21T07:54:31.774Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"72b5eca7-238b-406e-9262-7f7985de3e40","qType":"dimension"},"qMeta":{"title":"Lib. Sexe SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"72b5eca7-238b-406e-9262-7f7985de3e40","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.781Z","modifiedDate":"2020-04-21T07:54:31.781Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"eb37d2fc-0202-4757-b07c-584d83300dab","qType":"dimension"},"qMeta":{"title":"Commune INSEE","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"eb37d2fc-0202-4757-b07c-584d83300dab","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.782Z","modifiedDate":"2020-04-21T07:54:31.782Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"09a3930b-db19-4573-b40e-849b294d6684","qType":"dimension"},"qMeta":{"title":"Lib. Cat\u00e9gor. Etab.","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"09a3930b-db19-4573-b40e-849b294d6684","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.807Z","modifiedDate":"2020-04-21T07:54:31.807Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"0e6c002f-1709-4e95-83d3-8aaa922d6960","qType":"dimension"},"qMeta":{"title":"Lib. APE","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"0e6c002f-1709-4e95-83d3-8aaa922d6960","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.810Z","modifiedDate":"2020-04-21T07:54:31.810Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"101e9b52-8fc0-489d-837d-8b19ea71738a","qType":"dimension"},"qMeta":{"title":"Groupe d'interrogation","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"101e9b52-8fc0-489d-837d-8b19ea71738a","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.810Z","modifiedDate":"2020-04-21T07:54:31.810Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"2990971d-e92f-4f3d-adf7-db153223d883","qType":"dimension"},"qMeta":{"title":"Raison Sociale SAE","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"2990971d-e92f-4f3d-adf7-db153223d883","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.811Z","modifiedDate":"2020-04-21T07:54:31.811Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"3b25e752-ad2a-4fa3-a990-68fa264edc78","qType":"dimension"},"qMeta":{"title":"Code Zone","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"3b25e752-ad2a-4fa3-a990-68fa264edc78","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.815Z","modifiedDate":"2020-04-21T07:54:31.815Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"41c92b0e-8ec0-4f56-b371-0bce9c24343b","qType":"dimension"},"qMeta":{"title":"Lib. Tranche Age SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"41c92b0e-8ec0-4f56-b371-0bce9c24343b","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.815Z","modifiedDate":"2020-04-21T07:54:31.815Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"54633a78-a9b0-4be8-bab2-d5684baef7a7","qType":"dimension"},"qMeta":{"title":"Type Voie","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"54633a78-a9b0-4be8-bab2-d5684baef7a7","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.815Z","modifiedDate":"2020-04-21T07:54:31.815Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"57e55d62-ed61-4185-90ac-ff2d896e24fd","qType":"dimension"},"qMeta":{"title":"Sexe SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"57e55d62-ed61-4185-90ac-ff2d896e24fd","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.816Z","modifiedDate":"2020-04-21T07:54:31.816Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"620fe2f9-1e50-4027-83d5-2ba3deff26c4","qType":"dimension"},"qMeta":{"title":"Cat\u00e9gorie d'\u00e9tablissement","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"620fe2f9-1e50-4027-83d5-2ba3deff26c4","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.816Z","modifiedDate":"2020-04-21T07:54:31.816Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"73f07697-2599-4111-a676-edbe7e9457aa","qType":"dimension"},"qMeta":{"title":"Tranche Age SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"73f07697-2599-4111-a676-edbe7e9457aa","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.816Z","modifiedDate":"2020-04-21T07:54:31.816Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"77525c26-dbe1-4326-81e4-2bace925a116","qType":"dimension"},"qMeta":{"title":"Lib. Mode Exercice SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"77525c26-dbe1-4326-81e4-2bace925a116","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.817Z","modifiedDate":"2020-04-21T07:54:31.817Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"8234fce7-e270-4690-9d42-09c857a9ec56","qType":"dimension"},"qMeta":{"title":"Statut juridique","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"8234fce7-e270-4690-9d42-09c857a9ec56","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.817Z","modifiedDate":"2020-04-21T07:54:31.817Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"91dd3c88-5a49-4822-9759-34202ff1e039","qType":"dimension"},"qMeta":{"title":"Mode Exercice SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"91dd3c88-5a49-4822-9759-34202ff1e039","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.818Z","modifiedDate":"2020-04-21T07:54:31.818Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"9c5967c8-0e7d-4e5e-9982-924e9233cfd0","qType":"dimension"},"qMeta":{"title":"Lib. SPH","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"9c5967c8-0e7d-4e5e-9982-924e9233cfd0","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.818Z","modifiedDate":"2020-04-21T07:54:31.818Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"DDYQMg","qType":"dimension"},"qMeta":{"title":"Code Postal","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"DDYQMg","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.818Z","modifiedDate":"2020-04-21T07:54:31.818Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"QJMzRH","qType":"dimension"},"qMeta":{"title":"Lib. Cat\u00e9gor. Etab. SAE","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"QJMzRH","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.822Z","modifiedDate":"2020-04-21T07:54:31.822Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"a71e79d4-5456-4877-8561-d455f44ff8b1","qType":"dimension"},"qMeta":{"title":"D\u00e9partement Nom","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"a71e79d4-5456-4877-8561-d455f44ff8b1","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.822Z","modifiedDate":"2020-04-21T07:54:31.822Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"a9466578-a31e-4a71-bb1d-f99fdf90acbc","qType":"dimension"},"qMeta":{"title":"Lib. Cat\u00e9g. Gr. Etab.","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"a9466578-a31e-4a71-bb1d-f99fdf90acbc","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.823Z","modifiedDate":"2020-04-21T07:54:31.823Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"ad95fa9f-6fe1-4525-9ef4-e176b736ad45","qType":"dimension"},"qMeta":{"title":"Ann\u00e9e","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"ad95fa9f-6fe1-4525-9ef4-e176b736ad45","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.823Z","modifiedDate":"2020-04-21T07:54:31.823Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"be32e37a-51f8-423d-b598-e2b3ce0bbe48","qType":"dimension"},"qMeta":{"title":"Qualit\u00e9 d'ESPIC","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"be32e37a-51f8-423d-b598-e2b3ce0bbe48","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.824Z","modifiedDate":"2020-04-21T07:54:31.824Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"cebd4b21-7851-40ce-b4a7-bb15e56e417f","qType":"dimension"},"qMeta":{"title":"R\u00e9gion","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"cebd4b21-7851-40ce-b4a7-bb15e56e417f","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.824Z","modifiedDate":"2020-04-21T07:54:31.824Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"cf9b522d-8470-457f-a3e3-1647f6818dd7","qType":"dimension"},"qMeta":{"title":"T\u00e9l\u00e9phone","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"cf9b522d-8470-457f-a3e3-1647f6818dd7","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.825Z","modifiedDate":"2020-04-21T07:54:31.825Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"d3f914d7-eba5-419a-adce-e3c632266b3e","qType":"dimension"},"qMeta":{"title":"Lib. TUU SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"d3f914d7-eba5-419a-adce-e3c632266b3e","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.825Z","modifiedDate":"2020-04-21T07:54:31.825Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"d60208f2-e016-4553-b7e3-bc60583f7af1","qType":"dimension"},"qMeta":{"title":"Lib. MFT","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"d60208f2-e016-4553-b7e3-bc60583f7af1","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.826Z","modifiedDate":"2020-04-21T07:54:31.826Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"e9ab66b8-2aed-4a96-885b-606ee1550109","qType":"dimension"},"qMeta":{"title":"Lib. Zone SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"e9ab66b8-2aed-4a96-885b-606ee1550109","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.827Z","modifiedDate":"2020-04-21T07:54:31.827Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"f11d31f3-d391-45bb-93c9-f4c85c3dd8e6","qType":"dimension"},"qMeta":{"title":"FINESS","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"f11d31f3-d391-45bb-93c9-f4c85c3dd8e6","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.827Z","modifiedDate":"2020-04-21T07:54:31.827Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"f3fac23c-f079-49a2-aee6-db510c99cd7d","qType":"dimension"},"qMeta":{"title":"Lib. Regr. Zone Activit\u00e9 SF","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"f3fac23c-f079-49a2-aee6-db510c99cd7d","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.828Z","modifiedDate":"2020-04-21T07:54:31.828Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"mKdXqFe","qType":"dimension"},"qMeta":{"title":"G\u00e9ographie avec \u00e9tablissement","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"mKdXqFe","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.831Z","modifiedDate":"2020-04-21T07:54:31.831Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"xPumbs","qType":"dimension"},"qMeta":{"title":"Zones\/TUU","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"xPumbs","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.833Z","modifiedDate":"2020-04-21T07:54:31.833Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},{"qInfo":{"qId":"zSMm","qType":"dimension"},"qMeta":{"title":"Geographie","description":"","tags":[],"_resourcetype":"app.object","_objecttype":"dimension","id":"zSMm","approved":false,"published":false,"owner":"qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","createdDate":"2020-04-21T07:54:31.834Z","modifiedDate":"2020-04-21T07:54:31.834Z","privileges":["read","update","delete","publish","change_owner"]},"qData":[]},]
+[
+    {
+        "qInfo": {
+            "qId": "06b8f892-3a6c-4e34-8587-e9ed9022a726",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Voie",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "06b8f892-3a6c-4e34-8587-e9ed9022a726",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.774Z",
+            "modifiedDate": "2020-04-21T07:54:31.774Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "72b5eca7-238b-406e-9262-7f7985de3e40",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Sexe SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "72b5eca7-238b-406e-9262-7f7985de3e40",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.781Z",
+            "modifiedDate": "2020-04-21T07:54:31.781Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "eb37d2fc-0202-4757-b07c-584d83300dab",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Commune INSEE",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "eb37d2fc-0202-4757-b07c-584d83300dab",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.782Z",
+            "modifiedDate": "2020-04-21T07:54:31.782Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "09a3930b-db19-4573-b40e-849b294d6684",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Cat\u00e9gor. Etab.",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "09a3930b-db19-4573-b40e-849b294d6684",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.807Z",
+            "modifiedDate": "2020-04-21T07:54:31.807Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "0e6c002f-1709-4e95-83d3-8aaa922d6960",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. APE",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "0e6c002f-1709-4e95-83d3-8aaa922d6960",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.810Z",
+            "modifiedDate": "2020-04-21T07:54:31.810Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "101e9b52-8fc0-489d-837d-8b19ea71738a",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Groupe d'interrogation",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "101e9b52-8fc0-489d-837d-8b19ea71738a",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.810Z",
+            "modifiedDate": "2020-04-21T07:54:31.810Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "2990971d-e92f-4f3d-adf7-db153223d883",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Raison Sociale SAE",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "2990971d-e92f-4f3d-adf7-db153223d883",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.811Z",
+            "modifiedDate": "2020-04-21T07:54:31.811Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "3b25e752-ad2a-4fa3-a990-68fa264edc78",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Code Zone",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "3b25e752-ad2a-4fa3-a990-68fa264edc78",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.815Z",
+            "modifiedDate": "2020-04-21T07:54:31.815Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "41c92b0e-8ec0-4f56-b371-0bce9c24343b",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Tranche Age SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "41c92b0e-8ec0-4f56-b371-0bce9c24343b",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.815Z",
+            "modifiedDate": "2020-04-21T07:54:31.815Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "54633a78-a9b0-4be8-bab2-d5684baef7a7",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Type Voie",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "54633a78-a9b0-4be8-bab2-d5684baef7a7",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.815Z",
+            "modifiedDate": "2020-04-21T07:54:31.815Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "57e55d62-ed61-4185-90ac-ff2d896e24fd",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Sexe SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "57e55d62-ed61-4185-90ac-ff2d896e24fd",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.816Z",
+            "modifiedDate": "2020-04-21T07:54:31.816Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "620fe2f9-1e50-4027-83d5-2ba3deff26c4",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Cat\u00e9gorie d'\u00e9tablissement",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "620fe2f9-1e50-4027-83d5-2ba3deff26c4",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.816Z",
+            "modifiedDate": "2020-04-21T07:54:31.816Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "73f07697-2599-4111-a676-edbe7e9457aa",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Tranche Age SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "73f07697-2599-4111-a676-edbe7e9457aa",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.816Z",
+            "modifiedDate": "2020-04-21T07:54:31.816Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "77525c26-dbe1-4326-81e4-2bace925a116",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Mode Exercice SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "77525c26-dbe1-4326-81e4-2bace925a116",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.817Z",
+            "modifiedDate": "2020-04-21T07:54:31.817Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "8234fce7-e270-4690-9d42-09c857a9ec56",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Statut juridique",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "8234fce7-e270-4690-9d42-09c857a9ec56",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.817Z",
+            "modifiedDate": "2020-04-21T07:54:31.817Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "91dd3c88-5a49-4822-9759-34202ff1e039",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Mode Exercice SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "91dd3c88-5a49-4822-9759-34202ff1e039",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.818Z",
+            "modifiedDate": "2020-04-21T07:54:31.818Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "9c5967c8-0e7d-4e5e-9982-924e9233cfd0",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. SPH",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "9c5967c8-0e7d-4e5e-9982-924e9233cfd0",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.818Z",
+            "modifiedDate": "2020-04-21T07:54:31.818Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "DDYQMg",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Code Postal",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "DDYQMg",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.818Z",
+            "modifiedDate": "2020-04-21T07:54:31.818Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "QJMzRH",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Cat\u00e9gor. Etab. SAE",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "QJMzRH",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.822Z",
+            "modifiedDate": "2020-04-21T07:54:31.822Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "a71e79d4-5456-4877-8561-d455f44ff8b1",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "D\u00e9partement Nom",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "a71e79d4-5456-4877-8561-d455f44ff8b1",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.822Z",
+            "modifiedDate": "2020-04-21T07:54:31.822Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "a9466578-a31e-4a71-bb1d-f99fdf90acbc",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Cat\u00e9g. Gr. Etab.",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "a9466578-a31e-4a71-bb1d-f99fdf90acbc",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.823Z",
+            "modifiedDate": "2020-04-21T07:54:31.823Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "ad95fa9f-6fe1-4525-9ef4-e176b736ad45",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Ann\u00e9e",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "ad95fa9f-6fe1-4525-9ef4-e176b736ad45",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.823Z",
+            "modifiedDate": "2020-04-21T07:54:31.823Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "be32e37a-51f8-423d-b598-e2b3ce0bbe48",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Qualit\u00e9 d'ESPIC",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "be32e37a-51f8-423d-b598-e2b3ce0bbe48",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.824Z",
+            "modifiedDate": "2020-04-21T07:54:31.824Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "cebd4b21-7851-40ce-b4a7-bb15e56e417f",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "R\u00e9gion",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "cebd4b21-7851-40ce-b4a7-bb15e56e417f",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.824Z",
+            "modifiedDate": "2020-04-21T07:54:31.824Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "cf9b522d-8470-457f-a3e3-1647f6818dd7",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "T\u00e9l\u00e9phone",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "cf9b522d-8470-457f-a3e3-1647f6818dd7",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.825Z",
+            "modifiedDate": "2020-04-21T07:54:31.825Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "d3f914d7-eba5-419a-adce-e3c632266b3e",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. TUU SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "d3f914d7-eba5-419a-adce-e3c632266b3e",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.825Z",
+            "modifiedDate": "2020-04-21T07:54:31.825Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "d60208f2-e016-4553-b7e3-bc60583f7af1",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. MFT",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "d60208f2-e016-4553-b7e3-bc60583f7af1",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.826Z",
+            "modifiedDate": "2020-04-21T07:54:31.826Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "e9ab66b8-2aed-4a96-885b-606ee1550109",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Zone SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "e9ab66b8-2aed-4a96-885b-606ee1550109",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.827Z",
+            "modifiedDate": "2020-04-21T07:54:31.827Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "f11d31f3-d391-45bb-93c9-f4c85c3dd8e6",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "FINESS",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "f11d31f3-d391-45bb-93c9-f4c85c3dd8e6",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.827Z",
+            "modifiedDate": "2020-04-21T07:54:31.827Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "f3fac23c-f079-49a2-aee6-db510c99cd7d",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Lib. Regr. Zone Activit\u00e9 SF",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "f3fac23c-f079-49a2-aee6-db510c99cd7d",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.828Z",
+            "modifiedDate": "2020-04-21T07:54:31.828Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "mKdXqFe",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "G\u00e9ographie avec \u00e9tablissement",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "mKdXqFe",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.831Z",
+            "modifiedDate": "2020-04-21T07:54:31.831Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "xPumbs",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Zones\/TUU",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "xPumbs",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.833Z",
+            "modifiedDate": "2020-04-21T07:54:31.833Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "zSMm",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Geographie",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "zSMm",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.eu.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "createdDate": "2020-04-21T07:54:31.834Z",
+            "modifiedDate": "2020-04-21T07:54:31.834Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish",
+                "change_owner"
+            ]
+        },
+        "qData": []
+    },
+]

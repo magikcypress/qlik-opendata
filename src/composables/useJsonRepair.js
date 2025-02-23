@@ -7,6 +7,9 @@ export function useJsonRepair() {
 
 	const validateAndRepairJSON = (jsonString) => {
 		try {
+			if (typeof jsonString !== 'string') {
+				throw new Error('Input must be a string');
+			}
 			const repairedJson = jsonrepair(jsonString);
 			jsonData.value = JSON.parse(repairedJson);
 			error.value = null;

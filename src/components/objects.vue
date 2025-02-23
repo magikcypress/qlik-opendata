@@ -43,21 +43,20 @@ onMounted(() => {
 });
 </script>
 
-
 <template>
 	<div>
 		<h2>Objects</h2>
-		<div v-for="object in qlikData" class="sheet">
+		<div v-for="object in qlikData" class="object">
 			<h2>{{ object.name }}</h2>
-			<div class="kpi">
+			<!-- <div class="kpi">
 				<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId" :object-id="object.name"></qlik-embed>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
 
 <style scoped>
-.sheet {
+.object {
 	border: 1px solid #ddd;
 	padding: 10px;
 	margin: 10px 0;
