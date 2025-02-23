@@ -1,0 +1,407 @@
+[
+    {
+        "qInfo": {
+            "qId": "rBYkxC",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "App ID",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "rBYkxC",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.137Z",
+            "modifiedDate": "2024-10-31T17:32:20.137Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "vGhjqp",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Space Role Assignment Type Level",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "vGhjqp",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.138Z",
+            "modifiedDate": "2024-10-31T17:32:20.138Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "SmTJtWA",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "App Name",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "SmTJtWA",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.138Z",
+            "modifiedDate": "2024-10-31T17:32:20.138Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "usgD",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "User Role Permission Action",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "usgD",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.138Z",
+            "modifiedDate": "2024-10-31T17:32:20.138Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "PPjVkg",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "User Role Permission",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "PPjVkg",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.139Z",
+            "modifiedDate": "2024-10-31T17:32:20.139Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "gsjq",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Space Assignment Role",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "gsjq",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.139Z",
+            "modifiedDate": "2024-10-31T17:32:20.139Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "ahbxN",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Space Role Inherited From Group",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "ahbxN",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.140Z",
+            "modifiedDate": "2024-10-31T17:32:20.140Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "GawuAGd",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Space Role Assignment Type",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "GawuAGd",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.140Z",
+            "modifiedDate": "2024-10-31T17:32:20.140Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "JsQNaem",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Space Name",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "JsQNaem",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.141Z",
+            "modifiedDate": "2024-10-31T17:32:20.141Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "pHQjcC",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Space Type",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "pHQjcC",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.141Z",
+            "modifiedDate": "2024-10-31T17:32:20.141Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "FPCxbBd",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Role Inherited From Group",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "FPCxbBd",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.143Z",
+            "modifiedDate": "2024-10-31T17:32:20.143Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "sxGjy",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "User Name",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "sxGjy",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.144Z",
+            "modifiedDate": "2024-10-31T17:32:20.144Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "Jyxkb",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Role Assignment Type",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "Jyxkb",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.144Z",
+            "modifiedDate": "2024-10-31T17:32:20.144Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "cJwR",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Role Name",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "cJwR",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.144Z",
+            "modifiedDate": "2024-10-31T17:32:20.144Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "TeuGA",
+            "qType": "dimension"
+        },
+        "qMeta": {
+            "title": "Space Type\/Name Drill",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "dimension",
+            "id": "TeuGA",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.145Z",
+            "modifiedDate": "2024-10-31T17:32:20.145Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    }
+]

@@ -1,0 +1,245 @@
+[
+    {
+        "qInfo": {
+            "qId": "ChjLJm",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Groups w\/ Access",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "ChjLJm",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.129Z",
+            "modifiedDate": "2024-10-31T17:32:20.129Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "JFkbNm",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Users w\/ Access",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "JFkbNm",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.135Z",
+            "modifiedDate": "2024-10-31T17:32:20.135Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "ctfFS",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Shared Apps",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "ctfFS",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.136Z",
+            "modifiedDate": "2024-10-31T17:32:20.136Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "rCueyM",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Apps",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "rCueyM",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.136Z",
+            "modifiedDate": "2024-10-31T17:32:20.136Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "ddxgh",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Spaces",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "ddxgh",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.137Z",
+            "modifiedDate": "2024-10-31T17:32:20.137Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "mwJYzj",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Roles from Groups",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "mwJYzj",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.141Z",
+            "modifiedDate": "2024-10-31T17:32:20.141Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "XtpVpHd",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Used Roles",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "XtpVpHd",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.142Z",
+            "modifiedDate": "2024-10-31T17:32:20.142Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "xHgaBg",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Users with Roles",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "xHgaBg",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.142Z",
+            "modifiedDate": "2024-10-31T17:32:20.142Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "ALjHK",
+            "qType": "measure"
+        },
+        "qMeta": {
+            "title": "Roles",
+            "description": "",
+            "tags": [],
+            "_resourcetype": "app.object",
+            "_objecttype": "measure",
+            "id": "ALjHK",
+            "approved": false,
+            "published": false,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.143Z",
+            "modifiedDate": "2024-10-31T17:32:20.143Z",
+            "privileges": [
+                "read",
+                "update",
+                "delete",
+                "publish"
+            ]
+        },
+        "qData": []
+    }
+]

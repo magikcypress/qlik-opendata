@@ -1,0 +1,77 @@
+[
+    {
+        "qInfo": {
+            "qId": "6069713e-2231-42d3-a4f2-9869d25b0b86",
+            "qType": "sheet"
+        },
+        "qMeta": {
+            "title": "About",
+            "description": "",
+            "_resourcetype": "app.object",
+            "_objecttype": "sheet",
+            "id": "6069713e-2231-42d3-a4f2-9869d25b0b86",
+            "approved": false,
+            "published": true,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.084Z",
+            "modifiedDate": "2024-10-31T17:32:20.084Z",
+            "publishTime": "2024-07-15T20:03:07.418Z",
+            "privileges": [
+                "read",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "7fec9f05-1e45-40f3-88d5-9be8f0e9b8e3",
+            "qType": "sheet"
+        },
+        "qMeta": {
+            "title": "User Permissions",
+            "description": "",
+            "_resourcetype": "app.object",
+            "_objecttype": "sheet",
+            "id": "7fec9f05-1e45-40f3-88d5-9be8f0e9b8e3",
+            "approved": false,
+            "published": true,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.095Z",
+            "modifiedDate": "2024-10-31T17:32:20.095Z",
+            "publishTime": "2024-07-15T20:03:05.892Z",
+            "privileges": [
+                "read",
+                "publish"
+            ]
+        },
+        "qData": []
+    },
+    {
+        "qInfo": {
+            "qId": "fe4dec7c-8859-4cd2-bdc2-f4067554cc0c",
+            "qType": "sheet"
+        },
+        "qMeta": {
+            "title": "User Roles",
+            "description": "",
+            "_resourcetype": "app.object",
+            "_objecttype": "sheet",
+            "id": "fe4dec7c-8859-4cd2-bdc2-f4067554cc0c",
+            "approved": false,
+            "published": true,
+            "owner": "qfp.de.qlikcloud.com\\auth0|5c5c24bcce7dcf461fcc14fc",
+            "ownerId": "67095f265e518098b1b13cdd",
+            "createdDate": "2024-10-31T17:32:20.109Z",
+            "modifiedDate": "2024-10-31T17:32:20.109Z",
+            "publishTime": "2024-07-15T20:03:04.422Z",
+            "privileges": [
+                "read",
+                "publish"
+            ]
+        },
+        "qData": []
+    }
+]
