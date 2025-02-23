@@ -42,7 +42,7 @@ export default {
 	},
 	created() {
 		// Fetch JSON data from the local file
-		fetch('../../data/sheets.json')
+		fetch('../../data/objects.json')
 			.then(response => response.json())
 			.then(data => {
 				// Assign the JSON data to qlikData
