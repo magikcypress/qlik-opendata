@@ -1,51 +1,51 @@
 <template>
-  <div>
-    <h2>Measures</h2>
-    <div v-for="measures in qlikData" :key="measures.qInfo.qId" class="sheet">
-      <h2>{{ measures.qMeta.title }}</h2>
-      <div class="details">
-        <h3>Privileges</h3>
-        <ul>
-          <li v-for="privilege in measures.qMeta.privileges" :key="privilege">
-            {{ privilege }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+	<div>
+		<h2>Measures</h2>
+		<div v-for="measures in qlikData" :key="measures.qInfo.qId" class="sheet">
+			<h2>{{ measures.qMeta.title }}</h2>
+			<div class="details">
+				<h3>Privileges</h3>
+				<ul>
+					<li v-for="privilege in measures.qMeta.privileges" :key="privilege">
+						{{ privilege }}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      qlikData: [] // Initialize with an empty array
-    };
-  },
-  created() {
-    // Fetch JSON data from the local file
-    fetch('../../data/measures.json')
-      .then(response => response.json())
-      .then(data => {
-        // Assign the JSON data to qlikData
-        this.qlikData = data;
-      })
-      .catch(error => {
-        console.error('Error loading JSON file:', error);
-      });
-  }
+	data() {
+		return {
+			qlikData: [] // Initialize with an empty array
+		};
+	},
+	created() {
+		// Fetch JSON data from the local file
+		fetch('../../data/measures.json')
+			.then(response => response.json())
+			.then(data => {
+				// Assign the JSON data to qlikData
+				this.qlikData = data;
+			})
+			.catch(error => {
+				console.error('Error loading JSON file:', error);
+			});
+	}
 };
 </script>
 
 <style scoped>
 .sheet {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin: 10px 0;
+	border-radius: 5px;
 }
 
 .details {
-  padding-left: 20px;
+	padding-left: 20px;
 }
 </style>
