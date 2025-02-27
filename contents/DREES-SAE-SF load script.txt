@@ -19,8 +19,9 @@ SET DayNames='lun.;mar.;mer.;jeu.;ven.;sam.;dim.';
 SET LongDayNames='lundi;mardi;mercredi;jeudi;vendredi;samedi;dimanche';
 SET NumericalAbbreviation='3:k;6:M;9:Md;12:T;15:P;18:E;21:Z;24:Y;-3:m;-6:μ;-9:n;-12:p;-15:f;-18:a;-21:z;-24:y';
 
-Set vRepertoire = 'C:\CJE\Docs Clients\DREES\Données maquette';
+Set vRepertoire = 'lib://Secteur Public - Dev:DataFiles';
 
+ 
 ///$tab Sages Femmes
 SexeSF:
 mapping Load
@@ -139,7 +140,7 @@ LOAD
 // 	[Region_Area_30%],
 	[Region_Point],
 	Num#([Region_Code]) AS [CleRegion]
- FROM [$(vRepertoire)\Geographie\GeoData\Region.qvd]
+ FROM [$(vRepertoire)\Region.qvd]
 (qvd);
 
 
@@ -284,7 +285,7 @@ LOAD
 	[Departement] as [Département Nom],
 	[Departement_Area],
 	[Departement_Point]    
- FROM [$(vRepertoire)\Geographie\GeoData\Departement.qvd]
+ FROM [$(vRepertoire)\Departement.qvd]
 (qvd);
 
 [LiensSFSAE]:
