@@ -33,12 +33,17 @@ const addSheetToMongoDB = async (sheet) => {
 				qId: sheet.qInfo.qId,
 				title: sheet.qMeta.title,
 				description: sheet.qMeta.description,
-				tags: sheet.qMeta.tags,
-				createdAt: sheet.qMeta.createdAt,
-				updatedAt: sheet.qMeta.updatedAt,
+				approved: sheet.qMeta.approved,
+				published: sheet.qMeta.published,
+				owner: sheet.qMeta.owner,
+				ownerId: sheet.qMeta.ownerId,
+				createdDate: sheet.qMeta.createdDate,
+				modifiedDate: sheet.qMeta.modifiedDate,
+				publishTime: sheet.qMeta.publishTime,
 				active: false
 			})
 		});
+
 		console.log('response:', response);
 		if (!response.ok) {
 			throw new Error('Failed to add sheet to MongoDB');

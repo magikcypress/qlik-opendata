@@ -3,10 +3,10 @@
 		<aside class="sidebar">
 			<h2>Menu</h2>
 			<ul>
-				<li><a href="#" @click.prevent="toggleSection('sheets')" class="clickable">Sheets</a></li>
-				<li><a href="#" @click.prevent="toggleSection('objects')" class="clickable">Objects</a></li>
-				<li><a href="#" @click.prevent="toggleSection('dimensions')" class="clickable">Dimensions</a></li>
-				<li><a href="#" @click.prevent="toggleSection('measures')" class="clickable">Measures</a></li>
+				<li><a href="#" @click.prevent="toggleSection('sheets')" class="link">Sheets</a></li>
+				<li><a href="#" @click.prevent="toggleSection('objects')" class="link">Objects</a></li>
+				<li><a href="#" @click.prevent="toggleSection('dimensions')" class="link">Dimensions</a></li>
+				<li><a href="#" @click.prevent="toggleSection('measures')" class="link">Measures</a></li>
 			</ul>
 		</aside>
 
@@ -140,5 +140,10 @@ export default {
 
 .content h1 {
 	margin-top: 0;
+}
+
+.link {
+	padding: 5px 150px 10px 5px;
+	border-radius: 5px;
 }
 </style>

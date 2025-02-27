@@ -14,3 +14,18 @@ export function loadQlikScript(tenantUrl, qlikClientId, redirectUrl) {
 		document.body.appendChild(script);
 	}
 }
+
+export function loadQlikScriptAnon(tenantUrl, qlikClientId, redirectUrl) {
+	if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/@qlik/embed-web-components"]')) {
+		const script = document.createElement('script');
+		script.crossOrigin = 'anonymous';
+		script.type = 'application/javascript';
+		script.src = 'https://cdn.jsdelivr.net/npm/@qlik/embed-web-components';
+		script.setAttribute('data-host', tenantUrl);
+		script.setAttribute('data-client-id', qlikClientId);
+		script.setAttribute('data-access-code', qlikEmbedAccessCode);
+		script.setAttribute('data-auth-type', 'anonymous');
+
+		document.body.appendChild(script);
+	}
+}

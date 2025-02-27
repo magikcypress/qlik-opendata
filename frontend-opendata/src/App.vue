@@ -19,21 +19,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import Logo from '@/assets/logo-mini.png';
-import { useAuth0 } from '@auth0/auth0-vue';
 
-const { isAuthenticated } = useAuth0();
-const activeSection = ref(null);
-const activeSheet = ref(null);
-
-const toggleSection = (section) => {
-	activeSection.value = activeSection.value === section ? null : section;
-};
-
-const toggleKpi = (sheetId) => {
-	activeSheet.value = activeSheet.value === sheetId ? null : sheetId;
-};
 </script>
 
 <style scoped>

@@ -69,9 +69,13 @@ const sheetSchema = new mongoose.Schema({
     qId: { type: String, required: true, unique: true },
     title: { type: String, required: true },
     description: { type: String },
-    tags: { type: String },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
+    approved: { type: Boolean, default: false },
+    published: { type: Boolean, default: false },
+    owner: { type: String, required: true },
+    ownerId: { type: String, required: true },
+    createdDate: { type: Date, default: Date.now },
+    modifiedDate: { type: Date, default: Date.now },
+    publishTime: { type: Date },
     active: { type: Boolean, default: true }
 });
 

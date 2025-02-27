@@ -4,8 +4,8 @@ import { loadQlikScript } from '@/utils/utils';
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
-const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI;
 const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
+const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE
 
 const sheets = ref([]);
 const activeSheets = ref([]);
@@ -25,7 +25,7 @@ const fetchSheets = async () => {
 };
 
 onMounted(() => {
-	loadQlikScript(tenantUrl, qlikClientId, redirectUrl);
+	loadQlikScriptAnon(tenantUrl, qlikClientId, qlikEmbedAccessCode);
 	fetchSheets();
 });
 </script>
