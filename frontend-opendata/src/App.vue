@@ -20,7 +20,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import Logo from '@/assets/logo.png';
+import Logo from '@/assets/logo-mini.png';
 import { useAuth0 } from '@auth0/auth0-vue';
 
 const { isAuthenticated } = useAuth0();
@@ -51,12 +51,13 @@ header {
 
 .logo {
 	display: block;
-	margin: 0 auto 1rem;
+	width: 100px;
+	height: auto;
 }
 
 nav {
 	display: flex;
-	justify-content: center;
+	justify-content: left;
 	gap: 1rem;
 }
 
