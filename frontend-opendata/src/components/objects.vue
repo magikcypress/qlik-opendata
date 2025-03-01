@@ -183,7 +183,7 @@ onMounted(() => {
 }
 
 .link {
-	padding: 5px 500px 5px 5px;
+	padding: 5px 350px 5px 5px;
 	border-radius: 5px;
 }
 

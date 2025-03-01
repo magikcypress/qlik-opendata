@@ -76,7 +76,7 @@ const sheetSchema = new mongoose.Schema({
     createdDate: { type: Date, default: Date.now },
     modifiedDate: { type: Date, default: Date.now },
     publishTime: { type: Date },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
 });
 
 const Sheet = mongoose.model('Sheet', sheetSchema);
@@ -89,7 +89,7 @@ const objectSchema = new mongoose.Schema({
     colspan: { type: String, required: true },
     rowspan: { type: String, required: true },
     bounds: { type: Array, required: true },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
 });
 
 const Object = mongoose.model('Object', objectSchema);
@@ -100,7 +100,7 @@ const dimensionSchema = new mongoose.Schema({
     field: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
 });
 
 const Dimension = mongoose.model('Dimension', dimensionSchema);
@@ -111,7 +111,7 @@ const measureSchema = new mongoose.Schema({
     expression: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
 });
 
 const Measure = mongoose.model('Measure', measureSchema);
@@ -126,7 +126,7 @@ const metadataSchema = new mongoose.Schema({
     license: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
 });
 
 const Metadata = mongoose.model('Metadata', metadataSchema);
@@ -138,7 +138,7 @@ const publicationSchema = new mongoose.Schema({
     publishedAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     data: { type: mongoose.Schema.Types.Mixed, required: true },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
 });
 
 const Publication = mongoose.model('Publication', publicationSchema);
@@ -148,7 +148,7 @@ const categorySchema = new mongoose.Schema({
     description: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
 });
 
 const Category = mongoose.model('Category', categorySchema);
