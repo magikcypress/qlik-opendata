@@ -113,10 +113,12 @@ onMounted(() => {
 	checkObjectInDatabase();
 
 	// Fetch JSON data from the local file
-	fetch('../../data/objects.json')
+	fetch(`${import.meta.env.VITE_BACKEND_URI}/data/objects.json`)
 		.then(response => response.text()) // Ensure the response is treated as text
 		.then(data => {
+			console.log('data:', data);
 			if (validateAndRepairJSON(data)) {
+				console.log('jsonData:', data);
 				qlikData.value = jsonData.value;
 				jsonError.value = null;
 			} else {
@@ -147,10 +149,11 @@ onMounted(() => {
 								class="btn btn-primary">Add to Public page</button>
 							<button v-else @click="removeObjectFromMongoDB(object)" class="btn btn-danger">Remove from
 								Public page</button>
-							<button v-if="objectsInDatabase.has(object.name)" @click="toggleObjectActive(object)"
-								:class="object.active ? 'deactivate-button' : 'activate-button'">
-								{{ object.active ? 'Deactivate' : 'Activate' }}
-							</button>
+							<label class="switch" v-if="objectsInDatabase.has(object.name)">
+								<input type="checkbox" @change="toggleObjectActive(object)"
+									checked="{{ object.active ? false : true }}">
+								<span class="slider round"></span>
+							</label>
 						</div>
 					</li>
 				</ul>
@@ -265,6 +268,59 @@ ul {
 
 .deactivate-button:hover {
 	background-color: #e53935;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	transition: .4s;
+	border-radius: 34px;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	transition: .4s;
+	border-radius: 50%;
+}
+
+input:checked+.slider {
+	background-color: #4CAF50;
+}
+
+input:checked+.slider:before {
+	transform: translateX(26px);
+}
+
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
 }
 
 .error {

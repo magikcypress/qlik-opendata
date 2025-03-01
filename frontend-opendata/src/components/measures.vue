@@ -40,7 +40,7 @@ onMounted(() => {
 	loadQlikScript();
 
 	// Fetch JSON data from the local file
-	fetch('../../data/measures.json')
+	fetch(`${import.meta.env.VITE_BACKEND_URI}/data/measures.json`)
 		.then(response => response.text()) // Ensure the response is treated as text
 		.then(data => {
 			validateAndRepairJSON(data);

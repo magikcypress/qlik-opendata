@@ -59,7 +59,7 @@ const addSheetToMongoDB = async (sheet) => {
 const removeSheetFromMongoDB = async (sheet) => {
 	try {
 		console.log('Removing sheet from MongoDB:', sheet);
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/${sheet.qInfo.qId}`, {
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/sheets/${sheet.qInfo.qId}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ const removeSheetFromMongoDB = async (sheet) => {
 
 const toggleSheetActive = async (sheet) => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/${sheet.qInfo.qId}/active`, {
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/sheets/${sheet.qInfo.qId}/active`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ const toggleSheetActive = async (sheet) => {
 			throw new Error('Failed to toggle sheet active state');
 		}
 		const updatedSheet = await response.json();
-		sheet.active = updatedSheet.active; // Update the local state
+		sheet.active = updatedSheet.active;
 	} catch (error) {
 		console.error('Error toggling sheet active state:', error);
 		alert('Error toggling sheet active state');
@@ -117,10 +117,12 @@ onMounted(() => {
 	checkSheetInDatabase();
 
 	// Fetch JSON data from the local file
-	fetch('../../data/sheets.json')
+	fetch(`${import.meta.env.VITE_BACKEND_URI}/data/sheets.json`)
 		.then(response => response.text()) // Ensure the response is treated as text
 		.then(data => {
+			console.log('data:', data);
 			if (validateAndRepairJSON(data)) {
+				console.log('jsonData:', data);
 				qlikData.value = jsonData.value;
 				jsonError.value = null;
 			} else {
@@ -150,10 +152,11 @@ onMounted(() => {
 								class="btn btn-primary">Add to Public page</button>
 							<button v-else @click="removeSheetFromMongoDB(sheet)" class="btn btn-danger">Remove from
 								Public page</button>
-							<button v-if="sheetsInDatabase.has(sheet.qInfo.qId)" @click="toggleSheetActive(sheet)"
-								:class="sheet.active ? 'deactivate-button' : 'activate-button'">
-								{{ sheet.active ? 'Deactivate' : 'Activate' }}
-							</button>
+							<label class="switch" v-if="sheetsInDatabase.has(sheet.qInfo.qId)">
+								<input type="checkbox" @change="toggleSheetActive(sheet)"
+									checked="{{ sheet.active ? false : true }}">
+								<span class="slider round"></span>
+							</label>
 						</div>
 					</li>
 				</ul>
@@ -183,7 +186,7 @@ onMounted(() => {
 }
 
 .link {
-	padding: 5px 400px 5px 5px;
+	padding: 5px 350px 5px 5px;
 	border-radius: 5px;
 }
 
@@ -268,6 +271,59 @@ ul {
 
 .deactivate-button:hover {
 	background-color: #e53935;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	transition: .4s;
+	border-radius: 34px;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	transition: .4s;
+	border-radius: 50%;
+}
+
+input:checked+.slider {
+	background-color: #4CAF50;
+}
+
+input:checked+.slider:before {
+	transform: translateX(26px);
+}
+
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
 }
 
 .error {

@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { loadQlikScript } from '@/utils/utils';
+import { loadQlikScriptAnon } from '@/utils/utils';
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
-const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
+const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID;
 const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
-const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE
+const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE;
 
 const sheets = ref([]);
 const activeSheets = ref([]);

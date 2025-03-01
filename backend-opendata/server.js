@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const { auth } = require('express-openid-connect');
 const crypto = require('crypto');
+const path = require('path');
 
 const randomString = crypto.randomBytes(8).toString("hex");
 
@@ -35,7 +36,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 }).catch((error) => {
     console.error('Error connecting to MongoDB:', error);
 });
-
 
 const UserSchema = new mongoose.Schema({
     auth0Id: { type: String, required: true, unique: true },
@@ -89,9 +89,6 @@ const objectSchema = new mongoose.Schema({
     colspan: { type: String, required: true },
     rowspan: { type: String, required: true },
     bounds: { type: Array, required: true },
-    data: { type: mongoose.Schema.Types.Mixed },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
     active: { type: Boolean, default: true }
 });
 
@@ -156,7 +153,10 @@ const categorySchema = new mongoose.Schema({
 
 const Category = mongoose.model('Category', categorySchema);
 
-// Define routes for Sheets
+// Define routes
+app.use('/data', express.static(path.join(__dirname, '../data')));
+app.use('/images', express.static(path.join(__dirname, '../frontend-opendata/src/assets/images')));
+
 app.get('/profile', async (req, res) => {
     if (req.oidc.isAuthenticated()) {
         const user = await User.findOne({ auth0Id: req.oidc.user.sub });
