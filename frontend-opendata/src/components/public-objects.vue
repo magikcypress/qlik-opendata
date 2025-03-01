@@ -36,13 +36,13 @@ onMounted(() => {
 		<div v-if="activeObjects.length > 0">
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 
-            <vue-draggable-next v-model="activeObjects">
-                <template v-for="element in activeObjects" :key="element.name" >
-                    <div class="object">
-                        <qlik-embed ui="analytics/chart" :app-id="qlikAppId" :object-id="element.name"></qlik-embed>
-                    </div>
-                </template>
-            </vue-draggable-next>
+			<vue-draggable-next v-model="activeObjects">
+				<template v-for="element in activeObjects" :key="element.name">
+					<div class="object">
+						<qlik-embed ui="analytics/chart" :app-id="qlikAppId" :object-id="element.name"></qlik-embed>
+					</div>
+				</template>
+			</vue-draggable-next>
 			<!-- <div v-for="object in activeObjects" :key="object.name" class="object">
 				<qlik-embed ui="analytics/chart" :app-id="qlikAppId" :object-id="object.name"></qlik-embed>
 			</div> -->

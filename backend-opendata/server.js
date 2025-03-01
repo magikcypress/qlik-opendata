@@ -82,7 +82,8 @@ const sheetSchema = new mongoose.Schema({
 const Sheet = mongoose.model('Sheet', sheetSchema);
 
 const objectSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
+    qId: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     type: { type: String, required: true },
     col: { type: String, required: true },
     row: { type: String, required: true },
@@ -225,6 +226,15 @@ app.put('/sheets/:id/active', async (req, res) => {
     }
 });
 
+app.delete('/sheets', async (req, res) => {
+    try {
+        await Sheet.deleteMany({});
+        res.json({ message: 'All sheets deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
 app.delete('/sheets/:id', async (req, res) => {
     try {
         const sheet = await Sheet.findOneAndDelete({ qId: req.params.id });
@@ -260,11 +270,9 @@ app.get('/objects/:id', async (req, res) => {
 
 app.post('/objects', async (req, res) => {
     try {
-        console.log(req.body);
         const newObject = new Object(req.body);
         await newObject.save();
         res.json(newObject);
-        console.log(res);
     } catch (error) {
         if (error.code === 11000) {
             res.status(400).json({ message: 'Duplicate entry detected' });
@@ -273,7 +281,6 @@ app.post('/objects', async (req, res) => {
         }
     }
 });
-
 
 app.put('/objects/:id/active', async (req, res) => {
     try {
@@ -284,6 +291,15 @@ app.put('/objects/:id/active', async (req, res) => {
         object.active = !object.active; // Toggle the active state
         await object.save();
         res.json(object);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
+app.delete('/objects', async (req, res) => {
+    try {
+        await Object.deleteMany({});
+        res.json({ message: 'All objects deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'An error occurred' });
     }

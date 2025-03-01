@@ -12,8 +12,8 @@ const qlikData = ref([]);
 const loadError = ref(null);
 const jsonError = ref(null);
 const activeSheet = ref(null);
-const sheetDetails = ref(null);
 const sheetsInDatabase = ref(new Set());
+const sheetsData = ref([]);
 
 const { jsonData, error, validateAndRepairJSON } = useJsonRepair();
 
@@ -40,7 +40,7 @@ const addSheetToMongoDB = async (sheet) => {
 				createdDate: sheet.qMeta.createdDate,
 				modifiedDate: sheet.qMeta.modifiedDate,
 				publishTime: sheet.qMeta.publishTime,
-				active: false
+				active: true
 			})
 		});
 
@@ -103,7 +103,7 @@ const checkSheetInDatabase = async () => {
 			throw new Error('Failed to fetch sheets from database');
 		}
 		const data = await response.json();
-		console.log('Sheets in database:', data);
+		sheetsData.value = data;
 		data.forEach(sheet => {
 			sheetsInDatabase.value.add(sheet.qId);
 		});
@@ -120,9 +120,7 @@ onMounted(() => {
 	fetch(`${import.meta.env.VITE_BACKEND_URI}/data/sheets.json`)
 		.then(response => response.text()) // Ensure the response is treated as text
 		.then(data => {
-			console.log('data:', data);
 			if (validateAndRepairJSON(data)) {
-				console.log('jsonData:', data);
 				qlikData.value = jsonData.value;
 				jsonError.value = null;
 			} else {
@@ -143,20 +141,23 @@ onMounted(() => {
 		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
 		<div v-else>
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+
 			<div v-for="sheet in qlikData" :key="sheet.qInfo.qId" class="sheet">
 				<ul>
 					<li class="sheet-item">
+						<!-- {{sheetsData.some(dbSheet => dbSheet.qId === sheet.qInfo.qId)}} -->
 						<a href="#" @click.prevent="toggleKpi(sheet.qInfo.qId)" class="link">{{ sheet.qMeta.title }}</a>
 						<div class="button-container">
 							<button v-if="!sheetsInDatabase.has(sheet.qInfo.qId)" @click="addSheetToMongoDB(sheet)"
 								class="btn btn-primary">Add to Public page</button>
 							<button v-else @click="removeSheetFromMongoDB(sheet)" class="btn btn-danger">Remove from
 								Public page</button>
-							<label class="switch" v-if="sheetsInDatabase.has(sheet.qInfo.qId)">
+							<!-- <label class="switch" v-if="sheetsInDatabase.has(sheet.qInfo.qId)">
 								<input type="checkbox" @change="toggleSheetActive(sheet)"
-									checked="{{ sheet.active ? false : true }}">
+									v-if="sheetsData.some(dbSheet => dbSheet.qId === sheet.qInfo.qId)"
+									checked="{{ sheetsData.active ? false : true }}">
 								<span class="slider round"></span>
-							</label>
+							</label> -->
 						</div>
 					</li>
 				</ul>

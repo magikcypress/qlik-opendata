@@ -1,30 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useJsonRepair } from "@/composables/useJsonRepair";
+import { loadQlikScript } from '@/utils/utils';
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
 const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI;
 const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
-
-// Créer le script et définir les attributs
-const loadQlikScript = () => {
-	if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/@qlik/embed-web-components"]')) {
-		const script = document.createElement('script');
-		script.crossOrigin = 'anonymous';
-		script.type = 'application/javascript';
-		script.src = 'https://cdn.jsdelivr.net/npm/@qlik/embed-web-components';
-		script.setAttribute('data-host', tenantUrl);
-		script.setAttribute('data-client-id', qlikClientId);
-		script.setAttribute('data-redirect-uri', redirectUrl);
-		script.setAttribute('data-access-token-storage', 'session');
-		script.setAttribute('data-cross-site-cookies', 'true');
-		script.setAttribute('data-auto-redirect', 'true');
-
-		// Ajouter le script au document
-		document.body.appendChild(script);
-	}
-};
 
 const { jsonData, error, validateAndRepairJSON } = useJsonRepair();
 const qlikData = ref([]);
@@ -36,19 +18,41 @@ const toggleKpi = (measureId) => {
 	activeMeasure.value = activeMeasure.value === measureId ? null : measureId;
 };
 
+const checkMeasuresInDatabase = async () => {
+	try {
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/measures`);
+		if (!response.ok) {
+			throw new Error('Failed to fetch measures from database');
+		}
+		const data = await response.json();
+		console.log('Measures in database:', data);
+		data.forEach(measure => {
+			measureInDatabase.value.add(measure.qId);
+		});
+	} catch (error) {
+		console.error('Error fetching objects from database:', error);
+	}
+};
+
 onMounted(() => {
-	loadQlikScript();
+	loadQlikScript(tenantUrl, qlikClientId, redirectUrl);
+	checkMeasuresInDatabase();
 
 	// Fetch JSON data from the local file
 	fetch(`${import.meta.env.VITE_BACKEND_URI}/data/measures.json`)
 		.then(response => response.text()) // Ensure the response is treated as text
 		.then(data => {
-			validateAndRepairJSON(data);
-			qlikData.value = jsonData.value;
-			jsonError.value = null;
+			console.log('data:', data);
+			if (validateAndRepairJSON(data)) {
+				console.log('jsonData:', data);
+				qlikData.value = jsonData.value;
+				jsonError.value = null;
+			} else {
+				jsonError.value = error.value;
+			}
 		})
-		.catch(error => {
-			console.error('Error loading JSON file:', error);
+		.catch(err => {
+			console.error('Error loading JSON file:', err);
 			loadError.value = 'Error loading JSON file';
 		});
 });
@@ -68,11 +72,6 @@ onMounted(() => {
 						measure.qMeta.title }}</a>
 					</li>
 				</ul>
-				<div v-if="activeMeasure === measure.qMeta.id" class="kpi">
-					<qlik-embed ui="analytics/chart" :app-id="qlikAppId" type="kpi"
-						:measures='`["${measure.qMeta.title}"]`'></qlik-embed>
-
-				</div>
 			</div>
 		</div>
 	</div>

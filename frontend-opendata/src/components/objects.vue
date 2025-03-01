@@ -12,8 +12,8 @@ const qlikData = ref([]);
 const loadError = ref(null);
 const jsonError = ref(null);
 const activeObject = ref(null);
-const objectDetails = ref(null);
 const objectsInDatabase = ref(new Set());
+const objectsData = ref([]);
 
 const { jsonData, error, validateAndRepairJSON } = useJsonRepair();
 
@@ -30,6 +30,7 @@ const addObjectToMongoDB = async (object) => {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
+				qId: object.name,
 				name: object.name,
 				type: object.type,
 				col: object.col,
@@ -37,7 +38,7 @@ const addObjectToMongoDB = async (object) => {
 				colspan: object.colspan,
 				rowspan: object.rowspan,
 				bounds: object.bounds,
-				active: false
+				active: true
 			})
 		});
 		console.log('response:', response);
@@ -99,7 +100,7 @@ const checkObjectInDatabase = async () => {
 			throw new Error('Failed to fetch objects from database');
 		}
 		const data = await response.json();
-		console.log('Objects in database:', data);
+		objectsData.value = data;
 		data.forEach(object => {
 			objectsInDatabase.value.add(object.name);
 		});
@@ -149,11 +150,11 @@ onMounted(() => {
 								class="btn btn-primary">Add to Public page</button>
 							<button v-else @click="removeObjectFromMongoDB(object)" class="btn btn-danger">Remove from
 								Public page</button>
-							<label class="switch" v-if="objectsInDatabase.has(object.name)">
+							<!-- <label class="switch" v-if="objectsInDatabase.has(object.name)">
 								<input type="checkbox" @change="toggleObjectActive(object)"
-									checked="{{ object.active ? false : true }}">
+									checked="{{ objectsInDatabase.has(object.name) ? true : false }}">
 								<span class="slider round"></span>
-							</label>
+							</label> -->
 						</div>
 					</li>
 				</ul>
