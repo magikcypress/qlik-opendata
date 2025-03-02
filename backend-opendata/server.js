@@ -178,7 +178,6 @@ app.get('/profile', async (req, res) => {
 app.get('/sheets', async (req, res) => {
     try {
         const sheets = await Sheet.find();
-        console.log(sheets);
         res.json(sheets);
     } catch (error) {
         res.status(500).json({ message: 'An error occurred' });
@@ -213,7 +212,6 @@ app.post('/sheets', async (req, res) => {
 
 app.put('/sheets/:id/active', async (req, res) => {
     try {
-        console.log(req.params.id);
         const sheet = await Sheet.findOne({ qId: req.params.id });
         if (!sheet) {
             return res.status(404).json({ message: 'Sheet not found' });
@@ -326,6 +324,18 @@ app.get('/dimensions', async (req, res) => {
     }
 });
 
+app.get('/dimensions/:id', async (req, res) => {
+    try {
+        const dimensions = await Dimensions.findOne({ qId: req.params.id });
+        if (!dimensions) {
+            return res.status(404).json({ message: 'Dimension not found' });
+        }
+        res.json(dimensions);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
 app.post('/dimensions', async (req, res) => {
     try {
         const newDimension = new Dimension(req.body);
@@ -355,6 +365,18 @@ app.delete('/dimensions/:id', async (req, res) => {
 app.get('/measures', async (req, res) => {
     try {
         const measures = await Measure.find();
+        res.json(measures);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
+app.get('/measures/:id', async (req, res) => {
+    try {
+        const measures = await Measure.findOne({ qId: req.params.id });
+        if (!measures) {
+            return res.status(404).json({ message: 'Measure not found' });
+        }
         res.json(measures);
     } catch (error) {
         res.status(500).json({ message: 'An error occurred' });
@@ -396,6 +418,18 @@ app.get('/metadata', async (req, res) => {
     }
 });
 
+app.get('/metadata/:id', async (req, res) => {
+    try {
+        const metadatas = await Metadata.findOne({ qId: req.params.id });
+        if (!metadatas) {
+            return res.status(404).json({ message: 'Metadata not found' });
+        }
+        res.json(metadatas);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
 app.post('/metadata', async (req, res) => {
     try {
         const newMetadata = new Metadata(req.body);
@@ -428,6 +462,35 @@ app.get('/publications', async (req, res) => {
         res.json(publications);
     } catch (error) {
         res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
+app.get('/publications/:id', async (req, res) => {
+    try {
+        const publications = await Publication.findOne({ id: req.params._id });
+        if (!publications) {
+            return res.status(404).json({ message: 'Publication not found' });
+        }
+        res.json(publications);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
+app.put('/publications/:id', async (req, res) => {
+    try {
+        const { title, description, author, data, active } = req.body;
+        const publication = await Publication.findByIdAndUpdate(
+            req.params.id,
+            { title, description, author, data, active, updatedAt: Date.now() },
+            { new: true }
+        );
+        if (!publication) {
+            return res.status(404).json({ error: 'Publication not found' });
+        }
+        res.status(200).json(publication);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -466,6 +529,18 @@ app.get('/categories', async (req, res) => {
     }
 });
 
+app.get('/categories/:id', async (req, res) => {
+    try {
+        const categories = await Category.findOne({ qId: req.params.id });
+        if (!categories) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+        res.json(categories);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
 app.post('/categories', async (req, res) => {
     try {
         const newCategory = new Category(req.body);
@@ -495,6 +570,18 @@ app.delete('/categories/:id', async (req, res) => {
 app.get('/comments', async (req, res) => {
     try {
         const comments = await Comment.find();
+        res.json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred' });
+    }
+});
+
+app.get('/comments/:id', async (req, res) => {
+    try {
+        const comments = await Comment.findOne({ qId: req.params.id });
+        if (!comments) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
         res.json(comments);
     } catch (error) {
         res.status(500).json({ message: 'An error occurred' });

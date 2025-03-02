@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Console from '@/views/Console.vue';
 import Public from '@/views/Public.vue';
+import PublicationsList from '@/components/PublicationsList.vue';
+import PublicationsAdd from '@/components/PublicationsAdd.vue';
+import PublicationsEdit from '@/components/PublicationsEdit.vue';
+
 import { useAuth0 } from '@auth0/auth0-vue';
 
 const router = createRouter({
@@ -16,6 +20,10 @@ const router = createRouter({
 			name: 'console',
 			component: Console
 		},
+		{ path: '/publications', component: PublicationsList },
+		{ path: '/publicationsadd', component: PublicationsAdd },
+		{ path: '/publications/edit/:id', component: PublicationsEdit },
+		{ path: '/', redirect: '/publications' },
 		{
 			path: '/login',
 			name: 'login',

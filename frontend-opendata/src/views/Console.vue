@@ -3,6 +3,7 @@
 		<aside class="sidebar">
 			<h2>Menu</h2>
 			<ul>
+				<li><a href="#" @click.prevent="toggleSection('publications')" class="link">Publications</a></li>
 				<li><a href="#" @click.prevent="toggleSection('sheets')" class="link">Sheets</a></li>
 				<li><a href="#" @click.prevent="toggleSection('objects')" class="link">Objects</a></li>
 				<li><a href="#" @click.prevent="toggleSection('dimensions')" class="link">Dimensions</a></li>
@@ -17,6 +18,8 @@
 					<p>Cette application vous permet de visualiser et d'interagir avec les données de Qlik Sense.</p>
 					<h2>Fonctionnalités</h2>
 					<ul>
+						<li><strong>Publications :</strong> Affiche les différentes publications de données disponibles.
+						</li>
 						<li><strong>Sheets :</strong> Affiche les différentes feuilles de données disponibles.</li>
 						<li><strong>Objects :</strong> Affiche les objets de données disponibles.</li>
 						<li><strong>Dimensions :</strong> Affiche les dimensions de données disponibles.</li>
@@ -27,6 +30,8 @@
 						l'application :
 					</p>
 					<ul>
+						<li><strong>Publications :</strong>Cliquez pour afficher les publications de données
+							disponibles.</li>
 						<li><strong>Sheets :</strong> Cliquez pour afficher les feuilles de données.</li>
 						<li><strong>Objects :</strong> Cliquez pour afficher les objets de données.</li>
 						<li><strong>Dimensions :</strong> Cliquez pour afficher les dimensions de données.</li>
@@ -38,6 +43,9 @@
 			</div>
 
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+			<div v-if="activeSection === 'publications'">
+				<PublicationsList :activePublication="activePublication" @toggleKpi="toggleKpi" />
+			</div>
 			<div v-if="activeSection === 'sheets'">
 				<Sheets :activeSheet="activeSheet" @toggleKpi="toggleKpi" />
 			</div>
@@ -65,12 +73,14 @@ import Sheets from '@/components/sheets.vue';
 import Objects from '@/components/objects.vue';
 import Dimensions from '@/components/dimensions.vue';
 import Measures from '@/components/measures.vue';
+import PublicationsList from '@/components/publicationsList.vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
 	name: 'Console',
 	components: {
 		Home,
+		PublicationsList,
 		Sheets,
 		Objects,
 		Dimensions,
