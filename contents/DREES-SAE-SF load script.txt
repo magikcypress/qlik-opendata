@@ -30,12 +30,16 @@ mapping Load
  FROM [$(vRepertoire)\SexeSF.qvd]
 (qvd);
 
+//Store SexeSF into [$(vRepertoire)\SexeSF.csv](txt);
+
 TUU:
 mapping LOAD
 	[TUU],
 	[Libellé Tranche Unité Urbaine]
  FROM [$(vRepertoire)\TUU.qvd]
 (qvd);
+
+//Store TUU into [$(vRepertoire)\TUU.csv](txt);
 
 [Zone Geo SF]:
 LOAD
@@ -47,12 +51,16 @@ LOAD
  FROM [$(vRepertoire)\ZoneGeo.qvd]
 (qvd);
 
+Store [Zone Geo SF] into [$(vRepertoire)\ZoneGeo.csv](txt);
+
 Exercice:
 mapping LOAD
 	[Mode Exercice SF],
 	[Libellé Mode Exercice SF]
  FROM [$(vRepertoire)\Exercice.qvd]
 (qvd);
+
+//Store Exercice into [$(vRepertoire)\Exercice.csv](txt);
 
 [Tranches Age SF]:
 LOAD
@@ -61,6 +69,8 @@ LOAD
 	[Ordre TA] as [Ordre TA SF]
  FROM [$(vRepertoire)\tables de reference.xlsx]
 (ooxml, embedded labels, table is TrancheAge);
+
+Store [Tranches Age SF] into [$(vRepertoire)\TrancheAgeSF.csv](txt);
 
 [SAGF_Tot_C_dep]:
 LOAD
@@ -78,6 +88,7 @@ LOAD
  FROM [$(vRepertoire)\SAGF_Tot_C_dep.qvd]
 (qvd);
 
+Store [SAGF_Tot_C_dep] into [$(vRepertoire)\SAGF_Tot_C_dep.csv](txt);
 ///$tab chargement SAE
 Set dataManagerTables = '','sae','Region';
 //This block renames script tables from non generated section which conflict with the names of managed tables
@@ -143,7 +154,7 @@ LOAD
  FROM [$(vRepertoire)\Region.qvd]
 (qvd);
 
-
+Store [Region] into [$(vRepertoire)\region.csv](txt);
 
 
 
@@ -232,6 +243,8 @@ LOAD
  FROM [$(vRepertoire)\finess-et.csv]
 (txt, utf8, embedded labels, delimiter is ';', msq);
 
+Store [finess-et] into [$(vRepertoire)\finess.csv](txt);
+
 mapcateg:
 mapping load distinct 
 	[Catég. Etablissement],
@@ -279,6 +292,8 @@ RESIDENT [sae];
 DROP TABLE [sae];
 RENAME TABLE [sae_temp_6c1b2a34-3e9f-d20a-273d-774b419b] to [sae];
 
+Store [sae] into [$(vRepertoire)\sae.csv](txt);
+
 [Departement]:
 LOAD
 	[Departement_Code] AS [Département],
@@ -287,6 +302,9 @@ LOAD
 	[Departement_Point]    
  FROM [$(vRepertoire)\Departement.qvd]
 (qvd);
+
+Store [Departement] into [$(vRepertoire)\Departement.csv](txt);
+
 
 [LiensSFSAE]:
 load distinct [annee]&'|'&[territoire-Département] as [CleSFSAE],annee as [Année],[territoire-Département] as [Département] resident [SAGF_Tot_C_dep];
