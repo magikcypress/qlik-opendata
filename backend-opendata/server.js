@@ -560,7 +560,6 @@ app.put('/categories/:id', async (req, res) => {
 
 app.post('/categories', async (req, res) => {
     try {
-        console.log(req.body);
         const newCategory = new Category(req.body);
         await newCategory.save();
         res.json(newCategory);
