@@ -133,7 +133,7 @@ const metadataSchema = new mongoose.Schema({
 const Metadata = mongoose.model('Metadata', metadataSchema);
 
 const publicationSchema = new mongoose.Schema({
-    title: { type: String, required: true },
+    title: { type: String, required: true, unique: true },
     description: { type: String },
     author: { type: String, required: true },
     publishedAt: { type: Date, default: Date.now },
@@ -145,7 +145,7 @@ const publicationSchema = new mongoose.Schema({
 const Publication = mongoose.model('Publication', publicationSchema);
 
 const categorySchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
+    title: { type: String, required: true, unique: true },
     description: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -531,7 +531,7 @@ app.get('/categories', async (req, res) => {
 
 app.get('/categories/:id', async (req, res) => {
     try {
-        const categories = await Category.findOne({ qId: req.params.id });
+        const categories = await Category.findOne({ id: req.params._id });
         if (!categories) {
             return res.status(404).json({ message: 'Category not found' });
         }
@@ -541,8 +541,26 @@ app.get('/categories/:id', async (req, res) => {
     }
 });
 
+app.put('/categories/:id', async (req, res) => {
+    try {
+        const { title, description, active } = req.body;
+        const categorie = await Category.findByIdAndUpdate(
+            req.params.id,
+            { title, description, active, updatedAt: Date.now() },
+            { new: true }
+        );
+        if (!categorie) {
+            return res.status(404).json({ error: 'Categorie not found' });
+        }
+        res.status(200).json(categorie);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.post('/categories', async (req, res) => {
     try {
+        console.log(req.body);
         const newCategory = new Category(req.body);
         await newCategory.save();
         res.json(newCategory);

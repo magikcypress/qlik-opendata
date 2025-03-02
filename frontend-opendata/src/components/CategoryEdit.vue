@@ -1,0 +1,142 @@
+<template>
+    <div class="category-form">
+        <h2>Edit Category</h2>
+        <div v-if="loadError" class="error">{{ loadError }}</div>
+        <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
+        <div v-if="successMessage" class="success">{{ successMessage }}</div>
+        <form @submit.prevent="submitCategory">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" v-model="title" required />
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" v-model="description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from 'vue-router';
+
+const title = ref("");
+const description = ref("");
+const errorMessage = ref(null);
+const successMessage = ref(null);
+const loadError = ref(null);
+const router = useRouter();
+const route = useRoute();
+
+const fetchCategory = async () => {
+    const id = route.params.id;
+    try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/categories/${id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch category');
+        }
+        const category = await response.json();
+        title.value = category.title;
+        description.value = category.description;
+    } catch (error) {
+        loadError.value = error.message;
+    }
+};
+
+const submitCategory = async () => {
+    if (!title.value) {
+        errorMessage.value = "Title field is required.";
+        return;
+    }
+
+    try {
+        const id = route.params.id;
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/categories/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title.value,
+                description: description.value,
+                updatedAt: new Date(),
+                active: true
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update category');
+        }
+
+        successMessage.value = "Category updated successfully!";
+        errorMessage.value = null;
+
+        // Redirect to the categories list page
+        router.push('/category');
+    } catch (error) {
+        errorMessage.value = error.message;
+        successMessage.value = null;
+    }
+};
+
+onMounted(() => {
+    fetchCategory();
+});
+</script>
+
+<style scoped>
+.category-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    color: red;
+    margin-bottom: 15px;
+}
+
+.success {
+    color: green;
+    margin-bottom: 15px;
+}
+</style>

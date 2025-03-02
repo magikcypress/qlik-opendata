@@ -8,22 +8,27 @@
 		</div>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else>
-			<ul class="publications-list">
-				<li v-for="publication in publications" :key="publication._id" class="publication-item">
-					<div class="publication-header">
-						<h3>{{ publication.title }}</h3>
-						<div class="buttons">
-							<router-link :to="`/publications/edit/${publication._id}`"
-								class="btn btn-secondary">Edit</router-link>
-							<button @click="deletePublication(publication._id)" class="btn btn-danger">Delete</button>
+			<div v-if="publications.length > 0">
+				<ul class="publications-list">
+					<li v-for="publication in publications" :key="publication._id" class="publication-item">
+						<div class="publication-header">
+							<h3>{{ publication.title }}</h3>
+							<div class="buttons">
+								<router-link :to="`/publications/edit/${publication._id}`"
+									class="btn btn-secondary">Edit</router-link>
+								<button @click="deletePublication(publication._id)" class="btn btn-danger">Delete</button>
+							</div>
 						</div>
-					</div>
-					<p>{{ publication.description }}</p>
-					<p><strong>Author:</strong> {{ publication.author }}</p>
-					<p><strong>Published At:</strong> {{ new Date(publication.publishedAt).toLocaleString() }}</p>
-					<p><strong>Data:</strong> {{ publication.data }}</p>
-				</li>
-			</ul>
+						<p>{{ publication.description }}</p>
+						<p><strong>Author:</strong> {{ publication.author }}</p>
+						<p><strong>Published At:</strong> {{ new Date(publication.publishedAt).toLocaleString() }}</p>
+						<p><strong>Data:</strong> {{ publication.data }}</p>
+					</li>
+				</ul>
+			</div>
+			<div v-else>
+				<p class="info-message">No publication are available.</p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -147,5 +152,15 @@ onMounted(() => {
 
 .btn-danger:hover {
 	background-color: #c82333;
+}
+
+.info-message {
+	background-color: #fff3cd;
+	color: #856404;
+	border: 1px solid #ffeeba;
+	padding: 10px;
+	border-radius: 5px;
+	margin: 10px 0;
+	font-weight: bold;
 }
 </style>

@@ -3,6 +3,7 @@
 		<aside class="sidebar">
 			<h2>Menu</h2>
 			<ul>
+				<li><a href="#" @click.prevent="toggleSection('category')" class="link">Category</a></li>
 				<li><a href="#" @click.prevent="toggleSection('publications')" class="link">Publications</a></li>
 				<li><a href="#" @click.prevent="toggleSection('sheets')" class="link">Sheets</a></li>
 				<li><a href="#" @click.prevent="toggleSection('objects')" class="link">Objects</a></li>
@@ -43,6 +44,9 @@
 			</div>
 
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+			<div v-if="activeSection === 'category'">
+				<CategoryList :activeCategory="activeCategory" @toggleKpi="toggleKpi" />
+			</div>
 			<div v-if="activeSection === 'publications'">
 				<PublicationsList :activePublication="activePublication" @toggleKpi="toggleKpi" />
 			</div>
@@ -74,12 +78,14 @@ import Objects from '@/components/objects.vue';
 import Dimensions from '@/components/dimensions.vue';
 import Measures from '@/components/measures.vue';
 import PublicationsList from '@/components/publicationsList.vue';
+import CategoryList from '@/components/CategoryList.vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
 	name: 'Console',
 	components: {
 		Home,
+		CategoryList,
 		PublicationsList,
 		Sheets,
 		Objects,
