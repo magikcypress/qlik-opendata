@@ -4,9 +4,11 @@ import Public from '@/views/Public.vue';
 import PublicationsList from '@/components/publicationsList.vue';
 import PublicationsAdd from '@/components/publicationsAdd.vue';
 import PublicationsEdit from '@/components/publicationsEdit.vue';
-import CategoryList from '@/components/CategoryList.vue';
-import CategoryAdd from '@/components/CategoryAdd.vue';
-import CategoryEdit from '@/components/CategoryEdit.vue';
+import Publication from '@/components/public-publications.vue';
+import CategoryList from '@/components/categoryList.vue';
+import CategoryAdd from '@/components/categoryAdd.vue';
+import CategoryEdit from '@/components/categoryEdit.vue';
+import Export from '@/components/export.vue';
 
 import { useAuth0 } from '@auth0/auth0-vue';
 
@@ -26,11 +28,13 @@ const router = createRouter({
 		{ path: '/publications', component: PublicationsList },
 		{ path: '/publicationsadd', component: PublicationsAdd },
 		{ path: '/publications/edit/:id', component: PublicationsEdit },
+		{ path: '/publication/:id', component: Publication },
 		{ path: '/', redirect: '/publications' },
 		{ path: '/category', component: CategoryList },
 		{ path: '/categoryadd', component: CategoryAdd },
 		{ path: '/category/edit/:id', component: CategoryEdit },
 		{ path: '/', redirect: '/category' },
+		{ path: '/export', component: Export },
 		{
 			path: '/login',
 			name: 'login',

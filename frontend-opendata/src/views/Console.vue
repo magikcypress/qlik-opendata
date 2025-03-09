@@ -5,6 +5,7 @@
 			<ul>
 				<li><a href="#" @click.prevent="toggleSection('category')" class="link">Category</a></li>
 				<li><a href="#" @click.prevent="toggleSection('publications')" class="link">Publications</a></li>
+				<li><a href="#" @click.prevent="toggleSection('apps')" class="link">Applications</a></li>
 				<li><a href="#" @click.prevent="toggleSection('sheets')" class="link">Sheets</a></li>
 				<li><a href="#" @click.prevent="toggleSection('objects')" class="link">Objects</a></li>
 				<li><a href="#" @click.prevent="toggleSection('dimensions')" class="link">Dimensions</a></li>
@@ -45,10 +46,13 @@
 
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 			<div v-if="activeSection === 'category'">
-				<CategoryList :activeCategory="activeCategory" @toggleKpi="toggleKpi" />
+				<CategoryList />
 			</div>
 			<div v-if="activeSection === 'publications'">
-				<PublicationsList :activePublication="activePublication" @toggleKpi="toggleKpi" />
+				<PublicationsList />
+			</div>
+			<div v-if="activeSection === 'apps'">
+				<Applications />
 			</div>
 			<div v-if="activeSection === 'sheets'">
 				<Sheets :activeSheet="activeSheet" @toggleKpi="toggleKpi" />
@@ -73,6 +77,7 @@
 <script>
 import { ref } from 'vue';
 import Home from '@/views/Home.vue';
+import Applications from '@/components/applications.vue';
 import Sheets from '@/components/sheets.vue';
 import Objects from '@/components/objects.vue';
 import Dimensions from '@/components/dimensions.vue';
@@ -85,6 +90,7 @@ export default {
 	name: 'Console',
 	components: {
 		Home,
+		Applications,
 		CategoryList,
 		PublicationsList,
 		Sheets,

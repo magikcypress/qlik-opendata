@@ -9,17 +9,19 @@
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else>
 			<div v-if="publications.length > 0">
-				<ul class="publications-list">
+				<ul>
 					<li v-for="publication in publications" :key="publication._id" class="publication-item">
 						<div class="publication-header">
 							<h3>{{ publication.title }}</h3>
 							<div class="buttons">
 								<router-link :to="`/publications/edit/${publication._id}`"
 									class="btn btn-secondary">Edit</router-link>
-								<button @click="deletePublication(publication._id)" class="btn btn-danger">Delete</button>
+								<button @click="deletePublication(publication._id)"
+									class="btn btn-danger">Delete</button>
 							</div>
 						</div>
 						<p>{{ publication.description }}</p>
+						<p><strong>Category:</strong> {{ publication.category }}</p>
 						<p><strong>Author:</strong> {{ publication.author }}</p>
 						<p><strong>Published At:</strong> {{ new Date(publication.publishedAt).toLocaleString() }}</p>
 						<p><strong>Data:</strong> {{ publication.data }}</p>
@@ -80,11 +82,7 @@ onMounted(() => {
 
 <style scoped>
 .publications-list {
-	max-width: 800px;
-	margin: 0 auto;
 	padding: 20px;
-	border-bottom: 1px solid #ddd;
-	border-radius: 5px;
 }
 
 .header {
@@ -94,20 +92,22 @@ onMounted(() => {
 	margin-bottom: 20px;
 }
 
-.publication-item {
-	border-bottom: 1px solid #ddd;
-	padding: 10px 0;
-	position: relative;
-}
-
-.publication-item:last-child {
-	border-bottom: none;
-}
-
 .publication-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+li {
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin: 10px 0;
+	border-radius: 5px;
 }
 
 .buttons {

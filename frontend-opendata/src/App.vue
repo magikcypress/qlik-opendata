@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import Logo from '@/assets/logo-mini.png';
 import { useAuth0 } from '@auth0/auth0-vue';
 
