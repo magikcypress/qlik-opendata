@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h1>Public Sheets</h1>
 		<PublicPublicationsList />
 		<PublicObjects />
 		<PublicSheets />

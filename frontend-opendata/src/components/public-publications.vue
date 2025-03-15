@@ -6,8 +6,7 @@
 			<span class="date"><strong>Author:</strong> {{ publication.author }} • <strong>Published At:</strong>
 				{{ new Date(publication.publishedAt).toLocaleDateString() }}</span>
 			<div class="date"><strong>Category:</strong> {{ publication.category }}</div>
-			<div class="content">{{ publication.description }}</div>
-
+			<div class="content" v-html="publication.description"></div>
 		</div>
 		<div v-else class="loading">Loading...</div>
 	</div>

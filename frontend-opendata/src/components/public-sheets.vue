@@ -32,6 +32,7 @@ onMounted(() => {
 
 <template>
 	<div>
+		<h2>Feuille Publiée</h2>
 		<div v-if="activeSheets.length > 0">
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 			<div v-for="sheet in activeSheets" :key="sheet.qId" class="sheet">

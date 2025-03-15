@@ -13,7 +13,7 @@
 			</div>
 			<div class="form-group">
 				<label for="description">Description</label>
-				<textarea id="description" v-model="description"></textarea>
+				<div ref="quillEditor" class="quill-editor"></div>
 			</div>
 			<div class="form-group">
 				<label for="author">Author</label>
@@ -35,8 +35,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from 'vue-router';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 
 const title = ref("");
 const description = ref("");
@@ -47,6 +49,8 @@ const data = ref("");
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const router = useRouter();
+const quillEditor = ref(null);
+let quillInstance = null;
 
 const fetchCategories = async () => {
 	try {
@@ -75,7 +79,7 @@ const submitPublication = async () => {
 			},
 			body: JSON.stringify({
 				title: title.value,
-				description: description.value,
+				description: quillInstance.root.innerHTML,
 				author: author.value,
 				category: category.value,
 				data: data.value,
@@ -105,6 +109,15 @@ const submitPublication = async () => {
 
 onMounted(() => {
 	fetchCategories();
+	quillInstance = new Quill(quillEditor.value, {
+		theme: 'snow'
+	});
+});
+
+onBeforeUnmount(() => {
+	if (quillInstance) {
+		quillInstance = null;
+	}
 });
 </script>
 
@@ -133,6 +146,10 @@ onMounted(() => {
 	padding: 10px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
+}
+
+.quill-editor {
+	height: 200px;
 }
 
 .header {

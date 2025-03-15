@@ -1,9 +1,36 @@
+<template>
+	<div>
+		<h2>Sheets</h2>
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
+		<div v-else>
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+
+			<div v-for="sheet in sheetsList" :key="sheet.qInfo.qId" class="sheet">
+				<ul>
+					<li class="sheet-item">
+						<a href="#" @click.prevent="toggleKpi(sheet.qInfo.qId)" class="link">{{ sheet.qMeta.title }}</a>
+						<div class="button-container">
+							<button v-if="!sheetsInDatabase.has(sheet.qInfo.qId)" @click="addSheetToMongoDB(sheet)"
+								class="btn btn-primary">Add to Public page</button>
+							<button v-else @click="removeSheetFromMongoDB(sheet)" class="btn btn-danger">Remove from
+								Public page</button>
+						</div>
+					</li>
+				</ul>
+				<div v-if="activeSheet === sheet.qInfo.qId" class="kpi">
+					<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId"
+						:object-id="sheet.qMeta.id"></qlik-embed>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
 <script setup>
 import { ref, onMounted } from "vue";
-import { useJsonRepair } from "@/composables/useJsonRepair";
 import { loadQlikScript } from '@/utils/utils';
-
-import { auth, apps, spaces, qix } from "@qlik/api";
+import { auth, apps, qix } from "@qlik/api";
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
@@ -21,36 +48,6 @@ const sheetsData = ref([]);
 const applicationsData = ref([]);
 const loading = ref(true);
 
-const fetchApplications = async () => {
-	try {
-		auth.setDefaultHostConfig({
-			host: tenantUrl,
-			authType: "Oauth2",
-			clientId: qlikClientId,
-			redirectUri: redirectUrl,
-			accessTokenStorage: "session",
-			autoRedirect: true,
-		});
-
-		for await (const apps of qlikAppsId) {
-			console.log('AppsId:', apps);
-			const AppsId = checkApplicationInDatabase(apps);
-
-			const fetchedApps = [];
-			for await (const appId of AppsId) {
-				const response = await apps.getAppInfo(appId);
-				fetchedApps.push(response.data);
-			}
-			apps.value = fetchedApps;
-		}
-
-	} catch (error) {
-		loadError.value = error.message;
-	} finally {
-		loading.value = false;
-	}
-};
-
 const checkSheetsApplications = async (app) => {
 	try {
 		auth.setDefaultHostConfig({
@@ -64,18 +61,45 @@ const checkSheetsApplications = async (app) => {
 
 		const session = qix.openAppSession({ appId: app });
 		const QlikApp = await session.getDoc();
-		const sheetsList = await QlikApp.getSheetList();
-		console.log('sheetsList:', sheetsList);
+		const sheetsListResponse = await QlikApp.getSheetList();
+
+		if (Array.isArray(sheetsListResponse)) {
+			sheetsList.value = sheetsListResponse;
+		} else {
+			throw new Error('Invalid sheets list format');
+		}
 
 	} catch (error) {
 		console.error('Error fetching sheets from qlik:', error);
 	}
 };
 
+const fetchApplications = async () => {
+	try {
+		auth.setDefaultHostConfig({
+			host: tenantUrl,
+			authType: "Oauth2",
+			clientId: qlikClientId,
+			redirectUri: redirectUrl,
+			accessTokenStorage: "session",
+			autoRedirect: true,
+		});
+		console.log('qlikAppsId:', qlikAppsId);
+		for (const appId of qlikAppsId) {
+			console.log('AppId:', appId);
+			await checkApplicationInDatabase(appId);
+		}
+
+	} catch (error) {
+		loadError.value = error.message;
+	} finally {
+		loading.value = false;
+	}
+};
+
 const toggleKpi = (sheetId) => {
 	activeSheet.value = activeSheet.value === sheetId ? null : sheetId;
 };
-
 
 const checkApplicationInDatabase = async (app) => {
 	try {
@@ -192,52 +216,8 @@ onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl);
 	checkSheetInDatabase();
 	fetchApplications();
-
 });
 </script>
-
-<template>
-	<div>
-		<h2>Sheets</h2>
-		{{ sheetsList }}
-
-
-		<div v-for="application in applicationsData" :key="application.qId">
-
-			<div v-if="jsonError" class="error">{{ jsonError }}</div>
-			<div v-else>
-				<qlik-embed ui="analytics/selections" :app-id="`${application.qId}`"></qlik-embed>
-				<h3>{{ application.name }}</h3>
-
-				<div v-for="sheet in sheetsList" :key="sheet.qInfo.qId" class="sheet">
-					<ul>
-						<li class="sheet-item">
-							<!-- {{sheetsData.some(dbSheet => dbSheet.qId === sheet.qInfo.qId)}} -->
-							<a href="#" @click.prevent="toggleKpi(sheet.qInfo.qId)" class="link">{{ sheet.qMeta.title
-							}}</a>
-							<div class="button-container">
-								<button v-if="!sheetsInDatabase.has(sheet.qInfo.qId)" @click="addSheetToMongoDB(sheet)"
-									class="btn btn-primary">Add to Public page</button>
-								<button v-else @click="removeSheetFromMongoDB(sheet)" class="btn btn-danger">Remove from
-									Public page</button>
-								<!-- <label class="switch" v-if="sheetsInDatabase.has(sheet.qInfo.qId)">
-								<input type="checkbox" @change="toggleSheetActive(sheet)"
-									v-if="sheetsData.some(dbSheet => dbSheet.qId === sheet.qInfo.qId)"
-									checked="{{ sheetsData.active ? false : true }}">
-								<span class="slider round"></span>
-							</label> -->
-							</div>
-						</li>
-					</ul>
-					<div v-if="activeSheet === sheet.qInfo.qId" class="kpi">
-						<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId"
-							:object-id="sheet.qMeta.id"></qlik-embed>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
 
 <style scoped>
 .sheet {

@@ -14,16 +14,21 @@
 						<div class="publication-header">
 							<h3>{{ publication.title }}</h3>
 							<div class="buttons">
+								<div class="details-article">
+									<p><strong>Category:</strong> {{ publication.category }}</p>
+									<p><strong>Author:</strong> {{ publication.author }}</p>
+									<p><strong>Published At:</strong> {{ new
+										Date(publication.publishedAt).toLocaleString()
+									}}</p>
+								</div>
 								<router-link :to="`/publications/edit/${publication._id}`"
 									class="btn btn-secondary">Edit</router-link>
 								<button @click="deletePublication(publication._id)"
 									class="btn btn-danger">Delete</button>
 							</div>
 						</div>
-						<p>{{ publication.description }}</p>
-						<p><strong>Category:</strong> {{ publication.category }}</p>
-						<p><strong>Author:</strong> {{ publication.author }}</p>
-						<p><strong>Published At:</strong> {{ new Date(publication.publishedAt).toLocaleString() }}</p>
+						<p v-html="publication.description"></p>
+
 						<p><strong>Data:</strong> {{ publication.data }}</p>
 					</li>
 				</ul>
@@ -98,6 +103,14 @@ onMounted(() => {
 	align-items: center;
 }
 
+.buttons a {
+	align-content: center;
+}
+
+qlik-embed {
+	width: 400px;
+}
+
 ul {
 	list-style-type: none;
 	padding: 0;
@@ -112,7 +125,7 @@ li {
 
 .buttons {
 	display: flex;
-	gap: 10px;
+	gap: 25px;
 }
 
 .error {

@@ -1,5 +1,5 @@
 <template>
-	<div class="publications-list">
+	<div>
 		<h2>Publications</h2>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else class="publications-container">

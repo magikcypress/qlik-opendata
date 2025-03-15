@@ -1,29 +1,143 @@
+<template>
+	<div>
+		<h2>Objects</h2>
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
+		<div v-else>
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+
+			<div v-for="object in sheetsList" :key="object.qData.name" class="object">
+				<ul>
+					<li>
+						<ul>
+							<li>
+								<h2>{{ object.qMeta.title }}</h2>
+							</li>
+							<li v-for="cell in object.qData.cells" :key="cell.name">
+								<div class="object-item">
+									<a href="#" @click.prevent="toggleKpi(cell.name)" class="link">{{
+										cell.name
+									}} - ({{ cell.type }})</a>
+									<div class="button-container">
+										<button v-if="!objectsInDatabase.has(cell.name)"
+											@click="addObjectToMongoDB(cell)" class="btn btn-primary">Add to Public
+											page</button>
+										<button v-else @click="removeObjectFromMongoDB(cell)"
+											class="btn btn-danger">Remove
+											from
+											Public page</button>
+									</div>
+								</div>
+								<div v-if="activeObject === cell.name" class="kpi">
+									<qlik-embed ref="kpi" ui="analytics/chart" :app-id="qlikAppId"
+										:object-id="cell.name"></qlik-embed>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</template>
+
 <script setup>
 import { ref, onMounted } from "vue";
-import { useJsonRepair } from "@/composables/useJsonRepair";
 import { loadQlikScript } from '@/utils/utils';
+import { auth, apps, qix } from "@qlik/api";
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
 const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI;
 const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
+const qlikAppsId = import.meta.env.VITE_QLIK_APPS_ID.split(',');
 
-const qlikData = ref([]);
 const loadError = ref(null);
 const jsonError = ref(null);
 const activeObject = ref(null);
 const objectsInDatabase = ref(new Set());
+const applicationsInDatabase = ref(new Set());
+const sheetsList = ref([]);
 const objectsData = ref([]);
+const applicationsData = ref([]);
+const loading = ref(true);
 
-const { jsonData, error, validateAndRepairJSON } = useJsonRepair();
+const checkObjectsApplications = async (app) => {
+	try {
+		auth.setDefaultHostConfig({
+			host: tenantUrl,
+			authType: "Oauth2",
+			clientId: qlikClientId,
+			redirectUri: redirectUrl,
+			accessTokenStorage: "session",
+			autoRedirect: true,
+		});
+
+		const session = qix.openAppSession({ appId: app });
+		const QlikApp = await session.getDoc();
+		const sheetsListResponse = await QlikApp.getSheetList();
+
+		if (Array.isArray(sheetsListResponse)) {
+			sheetsList.value = sheetsListResponse;
+		} else {
+			throw new Error('Invalid sheets list format');
+		}
+
+	} catch (error) {
+		console.error('Error fetching objects from qlik:', error);
+	}
+};
+
+const fetchApplications = async () => {
+	try {
+		auth.setDefaultHostConfig({
+			host: tenantUrl,
+			authType: "Oauth2",
+			clientId: qlikClientId,
+			redirectUri: redirectUrl,
+			accessTokenStorage: "session",
+			autoRedirect: true,
+		});
+
+		for (const appId of qlikAppsId) {
+			console.log('AppId:', appId);
+			await checkApplicationInDatabase(appId);
+		}
+
+	} catch (error) {
+		loadError.value = error.message;
+	} finally {
+		loading.value = false;
+	}
+};
 
 const toggleKpi = (objectId) => {
 	activeObject.value = activeObject.value === objectId ? null : objectId;
 };
 
-const addObjectToMongoDB = async (object) => {
+const checkApplicationInDatabase = async (app) => {
 	try {
-		console.log('Adding object to MongoDB:', object);
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
+		if (!response.ok) {
+			throw new Error('Failed to fetch applications from database');
+		}
+		const data = await response.json();
+
+		applicationsData.value = data;
+		data.forEach(application => {
+			applicationsInDatabase.value.add(application.qId);
+			checkObjectsApplications(application.qId);
+		});
+
+	} catch (error) {
+		console.error('Error fetching applications from database:', error);
+	}
+};
+
+const addObjectToMongoDB = async (object) => {
+	console.log('Adding object to MongoDB:', object);
+	try {
+
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/objects`, {
 			method: 'POST',
 			headers: {
@@ -41,7 +155,7 @@ const addObjectToMongoDB = async (object) => {
 				active: true
 			})
 		});
-		console.log('response:', response);
+
 		if (!response.ok) {
 			throw new Error('Failed to add object to MongoDB');
 		}
@@ -76,7 +190,7 @@ const removeObjectFromMongoDB = async (object) => {
 
 const toggleObjectActive = async (object) => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/objects/${object.name}/active`, {
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/objects/${object.qInfo.qId}/active`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
@@ -86,7 +200,7 @@ const toggleObjectActive = async (object) => {
 			throw new Error('Failed to toggle object active state');
 		}
 		const updatedObject = await response.json();
-		object.active = updatedObject.active; // Update the local state
+		object.active = updatedObject.active;
 	} catch (error) {
 		console.error('Error toggling object active state:', error);
 		alert('Error toggling object active state');
@@ -112,60 +226,9 @@ const checkObjectInDatabase = async () => {
 onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl);
 	checkObjectInDatabase();
-
-	// Fetch JSON data from the local file
-	fetch(`${import.meta.env.VITE_BACKEND_URI}/data/objects.json`)
-		.then(response => response.text()) // Ensure the response is treated as text
-		.then(data => {
-			console.log('data:', data);
-			if (validateAndRepairJSON(data)) {
-				console.log('jsonData:', data);
-				qlikData.value = jsonData.value;
-				jsonError.value = null;
-			} else {
-				jsonError.value = error.value;
-			}
-		})
-		.catch(err => {
-			console.error('Error loading JSON file:', err);
-			loadError.value = 'Error loading JSON file';
-		});
+	fetchApplications();
 });
 </script>
-
-<template>
-	<div>
-		<h2>Objects</h2>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
-		<div v-else>
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
-			<div v-for="object in qlikData" :key="object.name" class="object">
-				<ul>
-					<li class="object-item">
-						<a href="#" @click.prevent="toggleKpi(object.name)" class="link">{{ object.type }} • [{{
-							object.name }}]</a>
-						<div class="button-container">
-							<button v-if="!objectsInDatabase.has(object.name)" @click="addObjectToMongoDB(object)"
-								class="btn btn-primary">Add to Public page</button>
-							<button v-else @click="removeObjectFromMongoDB(object)" class="btn btn-danger">Remove from
-								Public page</button>
-							<!-- <label class="switch" v-if="objectsInDatabase.has(object.name)">
-								<input type="checkbox" @change="toggleObjectActive(object)"
-									checked="{{ objectsInDatabase.has(object.name) ? true : false }}">
-								<span class="slider round"></span>
-							</label> -->
-						</div>
-					</li>
-				</ul>
-				<div v-if="activeObject === object.name" class="kpi">
-					<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId"
-						:object-id="object.name"></qlik-embed>
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
 
 <style scoped>
 .object {
@@ -197,6 +260,10 @@ ul {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
 }
 
 .button-container {

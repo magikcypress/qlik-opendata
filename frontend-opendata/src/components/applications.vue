@@ -95,7 +95,7 @@ const checkApplicationInDatabase = async () => {
 		applicationData.value = data;
 
 		data.forEach(application => {
-			applicationInDatabase.value.add(application.id);
+			applicationInDatabase.value.add(application.qId);
 		});
 	} catch (error) {
 		console.error('Error fetching sheets from database:', error);
@@ -119,7 +119,6 @@ onMounted(() => {
 			<ul>
 				<li v-for="app in apps.value" class="app-item">
 					<div class="app-header">
-						{{ applicationInDatabase.has(app.attributes.id) }}
 						<h3>{{ app.attributes.name }}</h3>
 						<!--img :src="`${tenantUrl}${app.attributes.thumbnail}`" alt="thumbnail" /-->
 						<div class="buttons">

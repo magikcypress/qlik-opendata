@@ -14,7 +14,10 @@
 			</div>
 			<div class="form-group">
 				<label for="description">Description</label>
-				<textarea id="description" v-model="description"></textarea>
+				<div class="objects-container">
+					<WidgetObjects @insert-cell="insertCellIntoQuill" />
+				</div>
+				<div ref="quillEditor" class="quill-editor"></div>
 			</div>
 			<div class="form-group">
 				<label for="author">Author</label>
@@ -36,20 +39,53 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter, useRoute } from 'vue-router';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
+
+import WidgetObjects from './widgetsObjects.vue';
+
+// Définir un format personnalisé pour Quill
+const Embed = Quill.import('blots/block/embed');
+
+class QlikEmbed extends Embed {
+	static create(value) {
+		let node = super.create();
+		node.setAttribute('ref', 'kpi');
+		node.setAttribute('ui', 'analytics/chart');
+		node.setAttribute('app-id', value.appId);
+		node.setAttribute('object-id', value.objectId);
+		return node;
+	}
+
+	static value(node) {
+		return {
+			appId: node.getAttribute('app-id'),
+			objectId: node.getAttribute('object-id')
+		};
+	}
+}
+
+// QlikEmbed.blotName = 'qlik-embed';
+QlikEmbed.tagName = 'qlik-embed';
+Quill.register(QlikEmbed);
+
+const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
 
 const title = ref("");
 const description = ref("");
 const author = ref("");
 const category = ref("");
-const categories = ref("");
+const categories = ref([]);
 const data = ref("");
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const loadError = ref(null);
 const router = useRouter();
 const route = useRoute();
+const quillEditor = ref(null);
+let quillInstance = null;
 
 const fetchCategories = async () => {
 	try {
@@ -77,6 +113,9 @@ const fetchPublication = async () => {
 		author.value = publication.author;
 		category.value = publication.category;
 		data.value = publication.data;
+		if (quillInstance) {
+			quillInstance.root.innerHTML = publication.description;
+		}
 	} catch (error) {
 		loadError.value = error.message;
 	}
@@ -90,7 +129,6 @@ const submitPublication = async () => {
 
 	try {
 		const id = route.params.id;
-		console.log(id);
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications/${route.params.id}`, {
 			method: 'PUT',
 			headers: {
@@ -98,7 +136,7 @@ const submitPublication = async () => {
 			},
 			body: JSON.stringify({
 				title: title.value,
-				description: description.value,
+				description: quillInstance.root.innerHTML,
 				author: author.value,
 				category: category.value,
 				data: data.value,
@@ -121,9 +159,55 @@ const submitPublication = async () => {
 	}
 };
 
+// const insertCellIntoQuill = (cellName) => {
+// 	const range = quillInstance.getSelection();
+// 	if (range) {
+// 		quillInstance.insertText(range.index, cellName);
+// 	}
+// };
+
+const insertCellIntoQuill = (cellName) => {
+	const range = quillInstance.getSelection();
+	if (range) {
+		const embedHtml = `<div class="object-kpi"><qlik-embed ref="kpi" ui="analytics/chart" app-id="${qlikAppId}" object-id="${cellName}"></qlik-embed></div>`;
+		quillInstance.clipboard.dangerouslyPasteHTML(range.index, embedHtml);
+	}
+};
+
 onMounted(() => {
 	fetchCategories();
 	fetchPublication();
+
+	const toolbarOptions = [
+		[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+		[{ 'font': [] }],
+		[{ 'align': [] }],
+
+		['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+		['blockquote', 'code-block'],
+		['link', 'image', 'video', 'formula'],
+
+		[{ 'header': 1 }, { 'header': 2 }],               // custom button values
+		[{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+		[{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+		[{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+		[{ 'direction': 'rtl' }],                         // text direction
+
+		['clean']                                         // remove formatting button
+	];
+
+	quillInstance = new Quill(quillEditor.value, {
+		modules: {
+			toolbar: toolbarOptions
+		},
+		theme: 'snow'
+	});
+
+	onBeforeUnmount(() => {
+		if (quillInstance) {
+			quillInstance = null;
+		}
+	});
 });
 </script>
 
@@ -154,11 +238,19 @@ onMounted(() => {
 	border-radius: 4px;
 }
 
+.quill-editor {
+	height: 400px;
+}
+
 .header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 20px;
+}
+
+.object-qlik {
+	height: 400px;
 }
 
 .btn {
