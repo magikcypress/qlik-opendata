@@ -21,8 +21,8 @@ b {
 
 @font-face {
   font-family: "LUI icons";
-  src: url(node_modules/leonardo-ui/dist/lui-icons.woff) format('woff'),
-    url(node_modules/leonardo-ui/dist/lui-icons.ttf) format('truetype');
+  src: url(/node_modules/leonardo-ui/dist/lui-icons.woff) format('woff'),
+    url(/node_modules/leonardo-ui/dist/lui-icons.ttf) format('truetype');
 }
 
 @media (hover: hover) {

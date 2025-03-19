@@ -31,6 +31,7 @@
     "vue-cli-service": "^5.0.10",
     "vue-draggable-next": "^2.2.1",
     "vue-router": "^4.5.0",
+    "vue-tippy": "^6.0.0-alpha.65",
     "vue3-select": "^0.1.2"
   },
   "devDependencies": {

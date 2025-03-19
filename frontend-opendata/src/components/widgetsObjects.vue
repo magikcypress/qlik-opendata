@@ -1,19 +1,27 @@
 <template>
-	<div>
-		<h2>Objects</h2>
-		<div v-for="object in sheetsList" :key="object.qData.name" class="object">
-			<h2>{{ object.qMeta.title }}</h2>
-			<ul class="object-list">
+	<h2>Feuilles</h2>
+	<div class="object">
+		<div v-for="object in sheetsList" :key="object.qData.name">
+			<div class="header">
+				<a href="#" :class="{ 'active-link': activeObject === object.qMeta.title }"
+					@click.prevent="toggleObjects(object.qMeta.title)" class="link-header">
+					{{ object.qMeta.title }}
+				</a>
+			</div>
+			<ul v-if="activeObject === object.qMeta.title">
 				<li v-for="cell in object.qData.cells" :key="cell.name" class="cell-item">
 					<div class="object-item">
-						<a href="#" class="link" @click.prevent="insertCell(cell.name)" ref="tooltip"
-							:data-tippy-content="getTooltipContent(cell.name)">
-							{{ cell.type }}</a>
-						<span class="lui-icon lui-icon--filterpane" aria-hidden="true"></span>
-						<!--div class="button-container">
-							<qlik-embed ref="kpi" ui="analytics/chart" :app-id="qlikAppId"
-								:object-id="cell.name"></qlik-embed>
-						</div-->
+						<Tippy interactive theme="custom-tooltip">
+							<template #content>
+								<div v-html="getTooltipContent(cell.name)"
+									style="width: 200px; height: 100px; padding: 10px;"></div>
+							</template>
+							<a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
+								{{ cell.type }}
+							</a>
+						</Tippy>
+						&nbsp;
+						<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
 					</div>
 				</li>
 			</ul>
@@ -22,11 +30,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, defineProps } from "vue";
 import { loadQlikScript } from '@/utils/utils';
-import { auth, apps, qix } from "@qlik/api";
-import tippy from 'tippy.js';
+import { auth, qix } from "@qlik/api";
+import { Tippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
+
+const props = defineProps({
+	quillInstance: Object
+});
+
+console.log('Props:', props);
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
@@ -35,7 +49,6 @@ const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
 const qlikAppsId = import.meta.env.VITE_QLIK_APPS_ID.split(',');
 
 const loadError = ref(null);
-const jsonError = ref(null);
 const activeObject = ref(null);
 const objectsInDatabase = ref(new Set());
 const applicationsInDatabase = ref(new Set());
@@ -95,7 +108,7 @@ const fetchApplications = async () => {
 	}
 };
 
-const toggleKpi = (objectId) => {
+const toggleObjects = (objectId) => {
 	activeObject.value = activeObject.value === objectId ? null : objectId;
 };
 
@@ -134,8 +147,19 @@ const checkObjectInDatabase = async () => {
 	}
 };
 
-const insertCell = (cellName) => {
-	emit('insert-cell', cellName);
+const insertCellIntoQuill = (cellName) => {
+	if (!props.quillInstance) {
+		console.error('Quill instance is not initialized');
+		return;
+	}
+	console.log('CellName:', cellName);
+	console.log('QuillInstance:', props.quillInstance);
+	const range = props.quillInstance.getSelection();
+	console.log('Range:', range);
+	if (range) {
+		const embedHtml = `<qlik-embed ref="kpi" ui="analytics/chart" app-id="${qlikAppId}" object-id="${cellName}"></qlik-embed>`;
+		props.quillInstance.clipboard.dangerouslyPasteHTML(range.index, embedHtml);
+	}
 };
 
 const getTooltipContent = (cellName) => {
@@ -146,59 +170,72 @@ onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl);
 	checkObjectInDatabase();
 	fetchApplications();
-
-	nextTick(() => {
-		tippy('[ref="tooltip"]', {
-			allowHTML: true,
-			interactive: true,
-			appendTo: document.body,
-		});
-	});
 });
-
 </script>
 
 <style scoped>
-.object {
-	border: 1px solid #ddd;
-	padding: 10px;
-	margin: 10px 0;
-	border-radius: 5px;
+.header {
+	margin: 20px;
 }
 
-.details {
-	padding-left: 20px;
+.object {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1px;
+	padding: 5px;
+	margin: 5px;
+	border-radius: 5px;
 }
 
 .kpi {
 	height: 800px;
 }
 
-.link {
+.link-header {
+	padding: 5px;
 	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin-right: 2px;
+}
+
+.link {
+	align-items: center;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.active-link {
+	background-color: #007bff;
+	color: white;
 }
 
 ul {
 	display: flex;
 	flex-wrap: wrap;
-	/* Permet de passer à la ligne si besoin */
 	gap: 1px;
-	/* Espacement entre les rectangles */
-
 	list-style: none;
 	padding: 0 2px;
+	border: 1px solid #ddd;
+	background-color: #ffffff;
 }
 
 .object-item {
 	padding: 10px;
 	border-radius: 5px;
 	border: 1px solid #ddd;
-	margin-bottom: 10px;
 }
 
 .cell-item {
 	align-items: center;
-	padding: 10px;
+	background-color: #ddd;
+	border-radius: 5px;
+	margin: 5px;
+}
+
+.tippy-box[data-theme~='custom-tooltip'] {
+	max-width: 500px;
+	height: 300px;
 }
 
 .button-container {

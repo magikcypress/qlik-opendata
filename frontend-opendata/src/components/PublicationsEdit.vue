@@ -14,10 +14,10 @@
 			</div>
 			<div class="form-group">
 				<label for="description">Description</label>
-				<div class="objects-container">
-					<WidgetObjects @insert-cell="insertCellIntoQuill" />
+				<div class="editor-container">
+					<div ref="quillEditor" class="quill-editor"></div>
+					<WidgetObjects @insert-cell="insertCellIntoQuill" :quill-instance="quillInstance" />
 				</div>
-				<div ref="quillEditor" class="quill-editor"></div>
 			</div>
 			<div class="form-group">
 				<label for="author">Author</label>
@@ -46,33 +46,6 @@ import 'quill/dist/quill.snow.css';
 
 import WidgetObjects from './widgetsObjects.vue';
 
-// Définir un format personnalisé pour Quill
-const Embed = Quill.import('blots/block/embed');
-
-class QlikEmbed extends Embed {
-	static create(value) {
-		let node = super.create();
-		node.setAttribute('ref', 'kpi');
-		node.setAttribute('ui', 'analytics/chart');
-		node.setAttribute('app-id', value.appId);
-		node.setAttribute('object-id', value.objectId);
-		return node;
-	}
-
-	static value(node) {
-		return {
-			appId: node.getAttribute('app-id'),
-			objectId: node.getAttribute('object-id')
-		};
-	}
-}
-
-// QlikEmbed.blotName = 'qlik-embed';
-QlikEmbed.tagName = 'qlik-embed';
-Quill.register(QlikEmbed);
-
-const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
-
 const title = ref("");
 const description = ref("");
 const author = ref("");
@@ -85,7 +58,7 @@ const loadError = ref(null);
 const router = useRouter();
 const route = useRoute();
 const quillEditor = ref(null);
-let quillInstance = null;
+const quillInstance = ref(null);
 
 const fetchCategories = async () => {
 	try {
@@ -113,8 +86,8 @@ const fetchPublication = async () => {
 		author.value = publication.author;
 		category.value = publication.category;
 		data.value = publication.data;
-		if (quillInstance) {
-			quillInstance.root.innerHTML = publication.description;
+		if (quillInstance.value) {
+			quillInstance.value.root.innerHTML = publication.description;
 		}
 	} catch (error) {
 		loadError.value = error.message;
@@ -136,7 +109,7 @@ const submitPublication = async () => {
 			},
 			body: JSON.stringify({
 				title: title.value,
-				description: quillInstance.root.innerHTML,
+				description: quillInstance.value.root.innerHTML,
 				author: author.value,
 				category: category.value,
 				data: data.value,
@@ -159,18 +132,15 @@ const submitPublication = async () => {
 	}
 };
 
-// const insertCellIntoQuill = (cellName) => {
-// 	const range = quillInstance.getSelection();
-// 	if (range) {
-// 		quillInstance.insertText(range.index, cellName);
-// 	}
-// };
-
 const insertCellIntoQuill = (cellName) => {
-	const range = quillInstance.getSelection();
+	if (!quillInstance.value) {
+		console.error('Quill instance is not initialized');
+		return;
+	}
+	const range = quillInstance.value.getSelection();
 	if (range) {
-		const embedHtml = `<div class="object-kpi"><qlik-embed ref="kpi" ui="analytics/chart" app-id="${qlikAppId}" object-id="${cellName}"></qlik-embed></div>`;
-		quillInstance.clipboard.dangerouslyPasteHTML(range.index, embedHtml);
+		const embedHtml = `<qlik-embed ref="kpi" ui="analytics/chart" app-id="${import.meta.env.VITE_QLIK_APP_ID}" object-id="${cellName}"></qlik-embed>`;
+		quillInstance.value.clipboard.dangerouslyPasteHTML(range.index, embedHtml);
 	}
 };
 
@@ -196,7 +166,7 @@ onMounted(() => {
 		['clean']                                         // remove formatting button
 	];
 
-	quillInstance = new Quill(quillEditor.value, {
+	quillInstance.value = new Quill(quillEditor.value, {
 		modules: {
 			toolbar: toolbarOptions
 		},
@@ -204,8 +174,8 @@ onMounted(() => {
 	});
 
 	onBeforeUnmount(() => {
-		if (quillInstance) {
-			quillInstance = null;
+		if (quillInstance.value) {
+			quillInstance.value = null;
 		}
 	});
 });
@@ -238,6 +208,7 @@ onMounted(() => {
 	border-radius: 4px;
 }
 
+
 .quill-editor {
 	height: 400px;
 }
@@ -247,10 +218,6 @@ onMounted(() => {
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 20px;
-}
-
-.object-qlik {
-	height: 400px;
 }
 
 .btn {
