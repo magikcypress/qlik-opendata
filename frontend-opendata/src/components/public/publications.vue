@@ -6,7 +6,9 @@
 			<span class="date"><strong>Author:</strong> {{ publication.author }} • <strong>Published At:</strong>
 				{{ new Date(publication.publishedAt).toLocaleDateString() }}</span>
 			<div class="date"><strong>Category:</strong> {{ publication.category }}</div>
+
 			<div class="content" v-html="publication.description"></div>
+			<Export />
 		</div>
 		<div v-else class="loading">Loading...</div>
 	</div>
@@ -15,6 +17,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from 'vue-router';
+
+import Export from '@/components/export.vue';
 
 const publication = ref(null);
 const loadError = ref(null);

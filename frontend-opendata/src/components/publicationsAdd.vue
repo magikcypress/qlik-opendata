@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
-		<h2>Create a Publication</h2>
-		<a href="/publications" class="btn btn-secondary">return</a>
+		<h2>Creer une publication</h2>
+		<a href="/publications" class="btn btn-secondary">Retour</a>
 	</div>
 	<div class="publication-form">
 		<div v-if="errorMessage" class="error">{{ errorMessage }}</div>
@@ -16,20 +16,20 @@
 				<div ref="quillEditor" class="quill-editor"></div>
 			</div>
 			<div class="form-group">
-				<label for="author">Author</label>
+				<label for="author">Auteur</label>
 				<input type="text" id="author" v-model="author" required />
 			</div>
 			<div class="form-group">
-				<label for="category">Category</label>
+				<label for="category">Categorie</label>
 				<select id="category" v-model="category" required>
 					<option v-for="cat in categories" :key="cat._id" :value="cat.title">{{ cat.title }}</option>
 				</select>
 			</div>
 			<div class="form-group">
-				<label for="data">Data</label>
+				<label for="data">Donnée</label>
 				<textarea id="data" v-model="data" required></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Envoyer</button>
 		</form>
 	</div>
 </template>

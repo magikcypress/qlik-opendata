@@ -7,13 +7,6 @@
   font-weight: normal;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: rgb(0, 50, 189);
-  transition: 0.4s;
-}
-
 strong,
 b {
   font-weight: bold;
@@ -23,12 +16,6 @@ b {
   font-family: "LUI icons";
   src: url(/node_modules/leonardo-ui/dist/lui-icons.woff) format('woff'),
     url(/node_modules/leonardo-ui/dist/lui-icons.ttf) format('truetype');
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
 }
 
 @media (min-width: 1024px) {

@@ -1,6 +1,7 @@
 <template>
-	<div>
-		<h2>Sheets</h2>
+	<Menu />
+	<div class="wrapper">
+		<h2>Feuilles</h2>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
 		<div v-else>
@@ -9,12 +10,13 @@
 			<div v-for="sheet in sheetsList" :key="sheet.qInfo.qId" class="sheet">
 				<ul>
 					<li class="sheet-item">
-						<a href="#" @click.prevent="toggleKpi(sheet.qInfo.qId)" class="link">{{ sheet.qMeta.title }}</a>
+						<el-link href="#" @click.prevent="toggleKpi(sheet.qInfo.qId)">{{ sheet.qMeta.title
+						}}</el-link>
 						<div class="button-container">
 							<button v-if="!sheetsInDatabase.has(sheet.qInfo.qId)" @click="addSheetToMongoDB(sheet)"
-								class="btn btn-primary">Add to Public page</button>
-							<button v-else @click="removeSheetFromMongoDB(sheet)" class="btn btn-danger">Remove from
-								Public page</button>
+								class="btn btn-primary">Ajouter sur la page publique</button>
+							<button v-else @click="removeSheetFromMongoDB(sheet)" class="btn btn-danger">Supprimer de la
+								page publique</button>
 						</div>
 					</li>
 				</ul>
@@ -30,7 +32,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { loadQlikScript } from '@/utils/utils';
-import { auth, apps, qix } from "@qlik/api";
+import { auth, qix } from "@qlik/api";
+import Menu from "@/views/Menu.vue";
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
@@ -220,6 +223,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.wrapper {
+	margin: 10px;
+}
+
 .sheet {
 	border: 1px solid #ddd;
 	padding: 10px;
@@ -233,11 +240,6 @@ onMounted(() => {
 
 .kpi {
 	height: 800px;
-}
-
-.link {
-	padding: 5px 350px 5px 5px;
-	border-radius: 5px;
 }
 
 ul {

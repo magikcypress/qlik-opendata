@@ -1,9 +1,10 @@
 <template>
-	<div>
+	<Menu />
+	<div class="wrapper">
 		<div class="header">
 			<h2>Publications</h2>
 			<div class="add-new-publication">
-				<router-link to="/publicationsadd" class="btn btn-primary">Add New Publication</router-link>
+				<router-link to="/publicationsadd" class="btn btn-primary">Ajout Publication</router-link>
 			</div>
 		</div>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
@@ -15,16 +16,16 @@
 							<h3>{{ publication.title }}</h3>
 							<div class="buttons">
 								<div class="details-article">
-									<p><strong>Category:</strong> {{ publication.category }}</p>
-									<p><strong>Author:</strong> {{ publication.author }}</p>
-									<p><strong>Published At:</strong> {{ new
+									<p><strong>Categorie:</strong> {{ publication.category }}</p>
+									<p><strong>Auteur:</strong> {{ publication.author }}</p>
+									<p><strong>Publié le:</strong> {{ new
 										Date(publication.publishedAt).toLocaleString()
 									}}</p>
 								</div>
 								<router-link :to="`/publications/edit/${publication._id}`"
-									class="btn btn-secondary">Edit</router-link>
+									class="btn btn-secondary">Edition</router-link>
 								<button @click="deletePublication(publication._id)"
-									class="btn btn-danger">Delete</button>
+									class="btn btn-danger">Supprimer</button>
 							</div>
 						</div>
 						<p v-html="publication.description"></p>
@@ -34,7 +35,7 @@
 				</ul>
 			</div>
 			<div v-else>
-				<p class="info-message">No publication are available.</p>
+				<p class="info-message">Pas de publication pour le moment.</p>
 			</div>
 		</div>
 	</div>
@@ -42,6 +43,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import Menu from "../views/Menu.vue";
 
 const publications = ref([]);
 const loadError = ref(null);
@@ -86,6 +88,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.wrapper {
+	margin: 10px;
+}
+
 .publications-list {
 	padding: 20px;
 }

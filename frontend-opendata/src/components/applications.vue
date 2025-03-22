@@ -1,6 +1,37 @@
+<template>
+	<div>
+		<Menu />
+		<div class="header">
+			<h2>Qlik Sense Applications</h2>
+		</div>
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="loading" class="loading">Chargement...</div>
+		<div v-else>
+			<ul>
+				<li v-for="app in apps.value" class="app-item">
+					<div class="app-header">
+						<h3>{{ app.attributes.name }}</h3>
+						<img :src="`${tenantUrl}${app.attributes.thumbnail}`" alt="thumbnail" />
+						<div class="buttons">
+							<button v-if="!applicationInDatabase.has(app.attributes.id)"
+								@click="addApplicationToMongoDB(app)" class="btn btn-primary">Ajouter une
+								application</button>
+							<button v-else @click="removeApplicationFromMongoDB(app)" class="btn btn-danger">Supprimer
+								application</button>
+						</div>
+					</div>
+					<div class="app-description">{{ app.attributes.description }}</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
-import { auth, apps } from "@qlik/api";
+import { auth, apps, qix } from "@qlik/api";
+
+import Menu from '@/views/Menu.vue';
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
@@ -26,6 +57,10 @@ const fetchApps = async () => {
 		const fetchedApps = [];
 		for await (const appId of qlikAppsId) {
 			const response = await apps.getAppInfo(appId);
+			const r = qix.openAppSession({ appId });
+			const QlikApp = await r.getDoc();
+			const layout = await QlikApp.getAppLayout();
+			console.log('response:', layout);
 			fetchedApps.push(response.data);
 		}
 		apps.value = fetchedApps;
@@ -107,34 +142,6 @@ onMounted(() => {
 	checkApplicationInDatabase();
 });
 </script>
-
-<template>
-	<div>
-		<div class="header">
-			<h2>Qlik Sense Applications</h2>
-		</div>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else-if="loading" class="loading">Loading...</div>
-		<div v-else>
-			<ul>
-				<li v-for="app in apps.value" class="app-item">
-					<div class="app-header">
-						<h3>{{ app.attributes.name }}</h3>
-						<!--img :src="`${tenantUrl}${app.attributes.thumbnail}`" alt="thumbnail" /-->
-						<div class="buttons">
-							<button v-if="!applicationInDatabase.has(app.attributes.id)"
-								@click="addApplicationToMongoDB(app)" class="btn btn-primary">Add
-								application</button>
-							<button v-else @click="removeApplicationFromMongoDB(app)" class="btn btn-danger">Remove
-								application</button>
-						</div>
-					</div>
-					<div class="app-description">{{ app.attributes.description }}</div>
-				</li>
-			</ul>
-		</div>
-	</div>
-</template>
 
 <style scoped>
 .qlik-apps-list {

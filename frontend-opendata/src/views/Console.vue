@@ -1,17 +1,8 @@
 <template>
 	<div class="wrapper" v-if="isAuthenticated">
-		<aside class="sidebar">
-			<h2>Menu</h2>
-			<ul>
-				<li><a href="#" @click.prevent="toggleSection('category')" class="link">Category</a></li>
-				<li><a href="#" @click.prevent="toggleSection('publications')" class="link">Publications</a></li>
-				<li><a href="#" @click.prevent="toggleSection('apps')" class="link">Applications</a></li>
-				<li><a href="#" @click.prevent="toggleSection('sheets')" class="link">Sheets</a></li>
-				<li><a href="#" @click.prevent="toggleSection('objects')" class="link">Objects</a></li>
-				<li><a href="#" @click.prevent="toggleSection('dimensions')" class="link">Dimensions</a></li>
-				<li><a href="#" @click.prevent="toggleSection('measures')" class="link">Measures</a></li>
-			</ul>
-		</aside>
+		<div class="header">
+			<Menu />
+		</div>
 
 		<section class="content">
 			<div v-if="!activeSection">
@@ -44,32 +35,6 @@
 				</div>
 			</div>
 
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
-			<div v-if="activeSection === 'category'">
-				<CategoryList />
-			</div>
-			<div v-if="activeSection === 'publications'">
-				<PublicationsList />
-			</div>
-			<div v-if="activeSection === 'apps'">
-				<Applications />
-			</div>
-			<div v-if="activeSection === 'sheets'">
-				<Sheets :activeSheet="activeSheet" @toggleKpi="toggleKpi" />
-			</div>
-			<div v-if="activeSection === 'objects'">
-				<Objects />
-			</div>
-			<div v-if="activeSection === 'dimensions'">
-				<Dimensions />
-			</div>
-			<div v-if="activeSection === 'measures'">
-				<Measures />
-			</div>
-			<div v-if="activeSheet">
-				<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId" :object-id="activeSheet"></qlik-embed>
-			</div>
-
 		</section>
 	</div>
 </template>
@@ -77,6 +42,7 @@
 <script>
 import { ref } from 'vue';
 import Home from '@/views/Home.vue';
+import Menu from '@/views/Menu.vue';
 import Applications from '@/components/applications.vue';
 import Sheets from '@/components/sheets.vue';
 import Objects from '@/components/objects.vue';
@@ -90,6 +56,7 @@ export default {
 	name: 'Console',
 	components: {
 		Home,
+		Menu,
 		Applications,
 		CategoryList,
 		PublicationsList,
@@ -117,55 +84,11 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
-	display: flex;
-	flex-flow: row wrap;
-}
-
-.sidebar {
-	flex: 0 0 250px;
-	background-color: #343a40;
-	color: white;
-	padding: 1rem;
-}
-
-.sidebar h2 {
-	margin-top: 0;
-}
-
-.sidebar ul {
-	list-style: none;
-	padding: 0;
-}
-
-.sidebar li {
-	margin: 1rem 0;
-}
-
-.sidebar li.clickable {
-	cursor: pointer;
-}
-
-.sidebar a {
-	color: white;
-	text-decoration: none;
-}
-
-.sidebar a:hover {
-	text-decoration: underline;
-}
-
 .content {
-	flex: 1;
-	padding: 1rem;
+	padding: 20px;
 }
 
 .content h1 {
 	margin-top: 0;
-}
-
-.link {
-	padding: 5px 150px 10px 5px;
-	border-radius: 5px;
 }
 </style>

@@ -4,12 +4,14 @@
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else class="publications-container">
 			<div v-for="publication in publications" :key="publication._id" class="publication-item">
-				<a :href="`/publication/${publication._id}`" class="link">
+				<el-link :href="`/publication/${publication._id}`">
 					<img :src="Jacket" alt="Publication Image" class="publication-image" />
+				</el-link>
+				<el-link :href="`/publication/${publication._id}`">
 					<h3>{{ publication.title }}</h3>
-				</a>
-				<span class="date"><strong>Author:</strong> {{ publication.author }} • <strong>Published At:</strong>
-					{{ new Date(publication.publishedAt).toLocaleDateString() }}</span>
+				</el-link>
+				<div class="date"><strong>Author:</strong> {{ publication.author }} • <strong>Published At:</strong>
+					{{ new Date(publication.publishedAt).toLocaleDateString() }}</div>
 				<div class="date"><strong>Category:</strong> {{ publication.category }}</div>
 
 			</div>

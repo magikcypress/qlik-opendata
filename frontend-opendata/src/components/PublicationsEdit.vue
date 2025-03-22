@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
-		<h2>Edit Publication</h2>
-		<a href="/publications" class="btn btn-secondary">return</a>
+		<h2>Publication Edition</h2>
+		<a href="/publications" class="btn btn-secondary">Retour</a>
 	</div>
 	<div class="publication-form">
 		<div v-if="loadError" class="error">{{ loadError }}</div>
@@ -9,7 +9,7 @@
 		<div v-if="successMessage" class="success">{{ successMessage }}</div>
 		<form @submit.prevent="submitPublication">
 			<div class="form-group">
-				<label for="title">Title</label>
+				<label for="title">Titre</label>
 				<input type="text" id="title" v-model="title" required />
 			</div>
 			<div class="form-group">
@@ -20,20 +20,20 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="author">Author</label>
+				<label for="author">Auteur</label>
 				<input type="text" id="author" v-model="author" required />
 			</div>
 			<div class="form-group">
-				<label for="category">Category</label>
+				<label for="category">Categorie</label>
 				<select id="category" v-model="category" required>
 					<option v-for="cat in categories" :key="cat._id" :value="cat.title">{{ cat.title }}</option>
 				</select>
 			</div>
 			<div class="form-group">
-				<label for="data">Data</label>
+				<label for="data">Données</label>
 				<textarea id="data" v-model="data" required></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Envoyer</button>
 		</form>
 	</div>
 </template>

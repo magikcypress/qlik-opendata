@@ -1,10 +1,10 @@
 <template>
-	<div>
-		<h1>Category List</h1>
+	<Menu />
+	<div class="wrapper">
 		<div class="header">
-			<h2>Publications</h2>
+			<h2>Catégorie</h2>
 			<div class="add-new-category">
-				<router-link to="/categoryadd" class="btn btn-primary">Add New Category</router-link>
+				<router-link to="/categoryadd" class="btn btn-primary">Ajouter Catégorie</router-link>
 			</div>
 		</div>
 		<div v-if="categories.length > 0">
@@ -14,18 +14,18 @@
 						<h3>{{ category.title }}</h3>
 						<div class="buttons">
 							<router-link :to="`/category/edit/${category._id}`"
-								class="btn btn-secondary">Edit</router-link>
-							<button @click="deleteCategory(category._id)" class="btn btn-danger">Delete</button>
+								class="btn btn-secondary">Edition</router-link>
+							<button @click="deleteCategory(category._id)" class="btn btn-danger">Supprimer</button>
 						</div>
 					</div>
 					<p>{{ category.description }}</p>
-					<p>Created At: {{ new Date(category.createdAt).toLocaleString() }}</p>
-					<p>Updated At: {{ new Date(category.updatedAt).toLocaleString() }}</p>
+					<p>Crée le: {{ new Date(category.createdAt).toLocaleString() }}</p>
+					<p>Mise à jour le: {{ new Date(category.updatedAt).toLocaleString() }}</p>
 				</li>
 			</ul>
 		</div>
 		<div v-else>
-			<p class="info-message">No categories available.</p>
+			<p class="info-message">Pas de catégorie pour le moment.</p>
 		</div>
 	</div>
 </template>
@@ -33,6 +33,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+
+import Menu from '@/views/Menu.vue';
 
 const categories = ref([]);
 
@@ -72,6 +74,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.wrapper {
+	margin: 10px;
+}
+
 h1 {
 	text-align: center;
 }

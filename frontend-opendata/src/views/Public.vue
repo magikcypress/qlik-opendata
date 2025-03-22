@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import PublicSheets from '@/components/public-sheets.vue';
-import PublicObjects from '@/components/public-objects.vue';
-import PublicPublicationsList from '@/components/public-publicationsList.vue';
+import PublicSheets from '@/components/public/sheets.vue';
+import PublicObjects from '@/components/public/objects.vue';
+import PublicPublicationsList from '@/components/public/publicationsList.vue';
 
 export default {
 	name: 'Public',

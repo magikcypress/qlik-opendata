@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<h2>Edit Category</h2>
+		<h2>Editer une categorie</h2>
 		<a href="/category" class="btn btn-secondary">return</a>
 	</div>
 	<div class="category-form">
@@ -9,14 +9,14 @@
 		<div v-if="successMessage" class="success">{{ successMessage }}</div>
 		<form @submit.prevent="submitCategory">
 			<div class="form-group">
-				<label for="title">Title</label>
+				<label for="title">Titre</label>
 				<input type="text" id="title" v-model="title" required />
 			</div>
 			<div class="form-group">
 				<label for="description">Description</label>
 				<textarea id="description" v-model="description"></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Envoyer</button>
 		</form>
 	</div>
 </template>

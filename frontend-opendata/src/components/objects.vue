@@ -1,12 +1,13 @@
 <template>
-	<div>
-		<h2>Objects</h2>
+	<Menu />
+	<div class="wrapper">
+		<h2>Objets</h2>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
 		<div v-else>
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 
-			<div v-for="object in sheetsList" :key="object.qData.name" class="object">
+			<div v-for="object in sheetsList" :key="object.qData.name">
 				<ul>
 					<li>
 						<ul>
@@ -15,17 +16,15 @@
 							</li>
 							<li v-for="cell in object.qData.cells" :key="cell.name">
 								<div class="object-item">
-									<a href="#" @click.prevent="toggleKpi(cell.name)" class="link">{{
+									<el-link href="#" @click.prevent="toggleKpi(cell.name)" class="link">{{
 										cell.name
-									}} - ({{ cell.type }})</a>
+									}} - ({{ cell.type }})</el-link>
 									<div class="button-container">
 										<button v-if="!objectsInDatabase.has(cell.name)"
-											@click="addObjectToMongoDB(cell)" class="btn btn-primary">Add to Public
-											page</button>
+											@click="addObjectToMongoDB(cell)" class="btn btn-primary">Ajouter un objet
+											sur la page publique</button>
 										<button v-else @click="removeObjectFromMongoDB(cell)"
-											class="btn btn-danger">Remove
-											from
-											Public page</button>
+											class="btn btn-danger">Supprimer de la page publique</button>
 									</div>
 								</div>
 								<div v-if="activeObject === cell.name" class="kpi">
@@ -45,6 +44,7 @@
 import { ref, onMounted } from "vue";
 import { loadQlikScript } from '@/utils/utils';
 import { auth, apps, qix } from "@qlik/api";
+import Menu from "@/views/Menu.vue";
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
@@ -231,6 +231,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.wrapper {
+	margin: 10px;
+}
+
 .object {
 	border: 1px solid #ddd;
 	padding: 10px;

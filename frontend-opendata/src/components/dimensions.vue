@@ -1,7 +1,32 @@
+<template>
+	<Menu />
+	<div class="wrapper">
+		<h2>Dimensions</h2>
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
+		<div v-else>
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+			<div v-for="dimension in qlikData" :key="dimension.qInfo.qId" class="dimension">
+				<ul>
+					<li>
+						<el-link href="#" @click.prevent="toggleKpi(dimension.qMeta.id)">{{ dimension.qMeta.title
+							}}</el-link>
+					</li>
+				</ul>
+				<div v-if="activeDimension === dimension.qMeta.id" class="kpi">
+					<qlik-embed ui="analytics/field" :app-id="qlikAppId" :library-id="dimension.qMeta.id"
+						type="dimension"></qlik-embed>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
 <script setup>
 import { ref, onMounted } from "vue";
 import { useJsonRepair } from "@/composables/useJsonRepair";
 import { loadQlikScript, fetchJsonData } from '@/utils/utils';
+import Menu from '@/views/Menu.vue';
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
@@ -58,29 +83,11 @@ onMounted(() => {
 });
 </script>
 
-
-<template>
-	<div>
-		<h2>Dimensions</h2>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
-		<div v-else>
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
-			<div v-for="dimension in qlikData" :key="dimension.qInfo.qId" class="dimension">
-				<ul>
-					<li><a href="#" @click.prevent="toggleKpi(dimension.qMeta.id)">{{ dimension.qMeta.title }}</a>
-					</li>
-				</ul>
-				<div v-if="activeDimension === dimension.qMeta.id" class="kpi">
-					<qlik-embed ui="analytics/field" :app-id="qlikAppId" :library-id="dimension.qMeta.id"
-						type="dimension"></qlik-embed>
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
-
 <style scoped>
+.wrapper {
+	margin: 10px;
+}
+
 .dimension {
 	border: 1px solid #ddd;
 	padding: 5px;

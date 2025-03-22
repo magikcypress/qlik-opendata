@@ -1,7 +1,27 @@
+<template>
+	<Menu />
+	<div class="wrapper">
+		<h2>Mesures</h2>
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
+		<div v-else>
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+			<div v-for="measure in qlikData" :key="measure.qMeta.id" class="measure">
+				<ul>
+					<li><el-link href="#" @click.prevent="toggleKpi(measure.qMeta.id)">{{
+						measure.qMeta.title }}</el-link>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</template>
+
 <script setup>
 import { ref, onMounted } from "vue";
 import { useJsonRepair } from "@/composables/useJsonRepair";
 import { loadQlikScript } from '@/utils/utils';
+import Menu from '@/views/Menu.vue';
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
@@ -58,26 +78,11 @@ onMounted(() => {
 });
 </script>
 
-
-<template>
-	<div>
-		<h2>Measures</h2>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
-		<div v-else>
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
-			<div v-for="measure in qlikData" :key="measure.qMeta.id" class="measure">
-				<ul>
-					<li><a href="#" @click.prevent="toggleKpi(measure.qMeta.id)">{{
-						measure.qMeta.title }}</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</template>
-
 <style scoped>
+.wrapper {
+	margin: 10px;
+}
+
 .measure {
 	border: 1px solid #ddd;
 	padding: 5px;

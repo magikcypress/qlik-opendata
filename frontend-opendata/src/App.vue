@@ -1,14 +1,19 @@
 <template>
 	<div class="wrapper">
-		<header>
-			<nav>
-				<img :src="Logo" alt="Logo" class="logo" />
+		<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+			<el-menu-item>
 				<RouterLink to="/">Home</RouterLink>
-				<RouterLink v-if="!isAuthenticated" to="/login">Login with Auth0</RouterLink>
-				<RouterLink v-if="isAuthenticated" to="/console">Console</RouterLink>
-				<RouterLink v-if="isAuthenticated" to="/logout">Logout</RouterLink>
-			</nav>
-		</header>
+			</el-menu-item>
+			<el-menu-item v-if="!isAuthenticated" index="2">
+				<RouterLink to="/login">Login with Auth0</RouterLink>
+			</el-menu-item>
+			<el-menu-item v-if="isAuthenticated" index="3">
+				<RouterLink to="/console">Console</RouterLink>
+			</el-menu-item>
+			<el-menu-item v-if="isAuthenticated" index="4">
+				<RouterLink to="/logout">Logout</RouterLink>
+			</el-menu-item>
+		</el-menu>
 
 		<div class="main-content">
 			<section class="content">
@@ -19,11 +24,16 @@
 </template>
 
 <script setup>
-import Logo from '@/assets/logo-mini.png';
+import { ref } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import Logo from '@/assets/logo-mini.png';
 
 const { isAuthenticated } = useAuth0();
+const activeIndex = ref('1');
 
+const handleSelect = (key, keyPath) => {
+	console.log(key, keyPath);
+};
 </script>
 
 <style scoped>
@@ -33,60 +43,15 @@ const { isAuthenticated } = useAuth0();
 	height: 100vh;
 }
 
-header {
-	background-color: #f8f9fa;
-	padding: 1rem;
-	text-align: center;
-}
-
 .logo {
 	display: block;
 	width: 100px;
 	height: auto;
 }
 
-nav {
-	display: flex;
-	justify-content: left;
-	gap: 1rem;
-}
-
 .main-content {
 	display: flex;
 	flex: 1;
-}
-
-.sidebar {
-	flex: 0 0 250px;
-	background-color: #343a40;
-	color: white;
-	padding: 1rem;
-}
-
-.sidebar h2 {
-	margin-top: 0;
-}
-
-.sidebar ul {
-	list-style: none;
-	padding: 0;
-}
-
-.sidebar li {
-	margin: 1rem 0;
-}
-
-.sidebar li.clickable {
-	cursor: pointer;
-}
-
-.sidebar a {
-	color: white;
-	text-decoration: none;
-}
-
-.sidebar a:hover {
-	text-decoration: underline;
 }
 
 .content {

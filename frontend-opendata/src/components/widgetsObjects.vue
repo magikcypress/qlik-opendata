@@ -1,31 +1,26 @@
 <template>
-	<h2>Feuilles</h2>
-	<div class="object">
-		<div v-for="object in sheetsList" :key="object.qData.name">
-			<div class="header">
-				<a href="#" :class="{ 'active-link': activeObject === object.qMeta.title }"
-					@click.prevent="toggleObjects(object.qMeta.title)" class="link-header">
-					{{ object.qMeta.title }}
-				</a>
-			</div>
-			<ul v-if="activeObject === object.qMeta.title">
-				<li v-for="cell in object.qData.cells" :key="cell.name" class="cell-item">
-					<div class="object-item">
-						<Tippy interactive theme="custom-tooltip">
-							<template #content>
-								<div v-html="getTooltipContent(cell.name)"
-									style="width: 200px; height: 100px; padding: 10px;"></div>
-							</template>
-							<a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
-								{{ cell.type }}
-							</a>
-						</Tippy>
-						&nbsp;
-						<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
-					</div>
-				</li>
-			</ul>
-		</div>
+	<div>
+		<h2>Objets</h2>
+		<el-menu :default-active="activeObject" class="el-menu-vertical-demo" mode="vertical" @select="handleSelect">
+			<el-submenu v-for="object in sheetsList" :key="object.qData.name" :index="object.qMeta.title">
+				<template #title>
+					<span>{{ object.qMeta.title }}</span>
+				</template>
+				<el-menu-item v-for="cell in object.qData.cells" :key="cell.name" :index="cell.name">
+					<Tippy interactive theme="custom-tooltip">
+						<template #content>
+							<div v-html="getTooltipContent(cell.name)"
+								style="width: 200px; height: 100px; padding: 10px;"></div>
+						</template>
+						<a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
+							{{ cell.type }}
+						</a>
+					</Tippy>
+					&nbsp;
+					<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
+				</el-menu-item>
+			</el-submenu>
+		</el-menu>
 	</div>
 </template>
 

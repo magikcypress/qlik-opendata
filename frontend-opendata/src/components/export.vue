@@ -1,7 +1,13 @@
 <template>
-	<div>
-		<div id="loader" style="display: none;">Loading...</div>
-		<button id="exportData" @click="exportData">Export Data</button>
+	<h3>Les données</h3>
+	<div class="wrapper">
+		<qlik-embed ui="analytics/chart" :app-id="`${qlikAppId}`" object-id="NYhV" ref="qeData">
+		</qlik-embed>
+
+		<div id="loader" style="display: none;">Chargement...</div>
+		<button id="exportSheet" class="btn btn-primary btn-display" style="text-wrap: nowrap;">Report</button>
+		<button id="exportPNG" class="btn btn-primary btn-display" style="text-wrap: nowrap;">Chart</button>
+		<button id="exportData" class="btn btn-primary btn-display" style="text-wrap: nowrap;">Data</button>
 	</div>
 </template>
 
@@ -14,16 +20,17 @@ import { saveAs } from 'file-saver';
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const oauthClient = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
 const redirectUri = import.meta.env.VITE_QLIK_REDIRECT_URI;
+const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
 
-const vizEl = ref(null);
+const qeData = ref(null);
 const doc = ref(null);
 const theObject = ref(null);
 const objLayout = ref(null);
 
 const initialize = async () => {
-	vizEl.value = document.getElementById("qeData");
-	const appId = vizEl.value.getAttribute("app-id");
-	const refApi = await vizEl.value.getRefApi();
+	const vizEl = qeData.value;
+	const appId = vizEl.getAttribute("app-id");
+	const refApi = await vizEl.getRefApi();
 	doc.value = await refApi.getDoc();
 	theObject.value = await refApi.getObject();
 	objLayout.value = await theObject.value.getLayout();
@@ -36,6 +43,21 @@ const initialize = async () => {
 		accessTokenStorage: "session",
 		autoRedirect: true,
 	});
+
+	document.getElementById("exportData")
+		.addEventListener("click", async function () {
+			exportData(doc, objLayout, '.xlsx');
+		});
+
+	document.getElementById("exportPNG")
+		.addEventListener("click", async function () {
+			exportData(doc, objLayout, '.png');
+		});
+
+	document.getElementById("exportSheet")
+		.addEventListener("click", async function () {
+			exportData(docSheet, objLayoutSheet, '.pdf');
+		});
 };
 
 const exportData = async () => {
@@ -144,7 +166,32 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.wrapper {
+	margin: 10px;
+}
+
 #loader {
 	display: none;
+}
+
+.btn {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn-primary {
+	background-color: #007bff;
+}
+
+.btn-primary:hover {
+	background-color: #0056b3;
+}
+
+.btn-display {
+	margin-right: 20px;
 }
 </style>

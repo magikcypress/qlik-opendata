@@ -1,8 +1,13 @@
 <template>
+	<Menu />
+	<div class="wrapper">
 
+	</div>
 </template>
 
 <script setup>
+import Menu from '@/views/Menu.vue';
+
 nMounted(async () => {
 
 	try {

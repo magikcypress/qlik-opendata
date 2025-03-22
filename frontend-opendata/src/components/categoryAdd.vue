@@ -1,7 +1,8 @@
 <template>
 	<div class="header">
-		<h2>Add Category</h2>
-		<a href="/category" class="btn btn-secondary">return</a>
+		<Menu />
+		<h2>Ajout d'une Categorie</h2>
+		<a href="/category" class="btn btn-secondary">Retour</a>
 	</div>
 	<div class="category-form">
 		<div v-if="loadError" class="error">{{ loadError }}</div>
@@ -9,14 +10,14 @@
 		<div v-if="successMessage" class="success">{{ successMessage }}</div>
 		<form @submit.prevent="submitCategory">
 			<div class="form-group">
-				<label for="title">Title</label>
+				<label for="title">Titre</label>
 				<input type="text" id="title" v-model="title" required />
 			</div>
 			<div class="form-group">
 				<label for="description">Description</label>
 				<textarea id="description" v-model="description"></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Envoyer</button>
 		</form>
 	</div>
 </template>
@@ -24,6 +25,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from 'vue-router';
+
+import Menu from '@/views/Menu.vue';
 
 const title = ref("");
 const description = ref("");
