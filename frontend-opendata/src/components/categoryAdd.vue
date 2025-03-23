@@ -1,6 +1,6 @@
 <template>
+	<Menu />
 	<div class="header">
-		<Menu />
 		<h2>Ajout d'une Categorie</h2>
 		<a href="/category" class="btn btn-secondary">Retour</a>
 	</div>

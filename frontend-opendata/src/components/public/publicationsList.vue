@@ -11,7 +11,7 @@
 					<h3>{{ publication.title }}</h3>
 				</el-link>
 				<div class="date"><strong>Author:</strong> {{ publication.author }} • <strong>Published At:</strong>
-					{{ new Date(publication.publishedAt).toLocaleDateString() }}</div>
+					{{ new Date(publication.publishedAt).toLocaleDateString('fr') }}</div>
 				<div class="date"><strong>Category:</strong> {{ publication.category }}</div>
 
 			</div>

@@ -582,6 +582,15 @@ app.delete('/publications/:id', async (req, res) => {
 	}
 });
 
+app.delete('/publications', async (req, res) => {
+	try {
+		await Publication.deleteMany({});
+		res.json({ message: 'All publications deleted successfully' });
+	} catch (error) {
+		res.status(500).json({ message: 'An error occurred' });
+	}
+});
+
 app.get('/categories', async (req, res) => {
 	try {
 		const categories = await Category.find();

@@ -1,30 +1,32 @@
 <template>
-	<div>
-		<Menu />
-		<div class="header">
-			<h2>Qlik Sense Applications</h2>
-		</div>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else-if="loading" class="loading">Chargement...</div>
-		<div v-else>
-			<ul>
-				<li v-for="app in apps.value" class="app-item">
-					<div class="app-header">
-						<h3>{{ app.attributes.name }}</h3>
-						<img :src="`${tenantUrl}${app.attributes.thumbnail}`" alt="thumbnail" />
-						<div class="buttons">
-							<button v-if="!applicationInDatabase.has(app.attributes.id)"
-								@click="addApplicationToMongoDB(app)" class="btn btn-primary">Ajouter une
-								application</button>
-							<button v-else @click="removeApplicationFromMongoDB(app)" class="btn btn-danger">Supprimer
-								application</button>
-						</div>
-					</div>
-					<div class="app-description">{{ app.attributes.description }}</div>
-				</li>
-			</ul>
-		</div>
-	</div>
+    <div>
+        <Menu />
+        <div class="header">
+            <h2>Qlik Sense Applications</h2>
+        </div>
+        <div v-if="loadError" class="error">{{ loadError }}</div>
+        <div v-else-if="loading" class="loading">Chargement...</div>
+        <div v-else>
+            <ul>
+                <li v-for="app in apps.value" :key="app.attributes.id" class="app-item">
+                    <el-row :gutter="20">
+                        <el-col :span="6">
+                            <img :src="`${tenantUrl}${app.attributes.thumbnail}`" alt="thumbnail" class="thumbnail"/>
+                        </el-col>
+                        <el-col :span="18">
+                            <h3>{{ app.attributes.name }}</h3>
+                            <div class="app-description">{{ app.attributes.description }}</div>
+                            <div class="buttons">
+                                <button v-if="!applicationInDatabase.has(app.attributes.id)"
+                                    @click="addApplicationToMongoDB(app)" class="btn btn-primary">Ajouter une application</button>
+                                <button v-else @click="removeApplicationFromMongoDB(app)" class="btn btn-danger">Supprimer application</button>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </li>
+            </ul>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -210,6 +212,16 @@ li {
 	border-radius: 5px;
 }
 
+.thumbnail {
+	width: 100px;
+	height: auto;
+	border-radius: 5px;
+	margin-left: 20px;
+}
+
+.buttons {
+	text-align: right;
+}
 
 .btn {
 	padding: 10px 20px;

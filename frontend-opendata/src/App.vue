@@ -20,6 +20,10 @@
 				<RouterView />
 			</section>
 		</div>
+
+		<el-footer>
+			Site OpenData avec Qlik Sense Cloud - MIT Licence
+		</el-footer>
 	</div>
 </template>
 

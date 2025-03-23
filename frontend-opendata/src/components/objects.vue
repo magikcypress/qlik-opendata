@@ -1,40 +1,46 @@
 <template>
 	<Menu />
 	<div class="wrapper">
-		<h2>Objets</h2>
+		<h2>Objets par applications</h2>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else-if="jsonError" class="error">{{ jsonError }}</div>
+		<div v-else-if="loading" class="loading">Chargement...</div>
 		<div v-else>
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 
-			<div v-for="object in sheetsList" :key="object.qData.name">
-				<ul>
-					<li>
+            <div v-for="app in applicationsData" :key="app.qId" class="application">
+                <el-link @click.prevent="toggleSheets(app.qId)">{{ app.name }}</el-link>
+				<div  v-if="activeSheet === app.qId">
+					<div v-for="object in app.sheets" :key="object.qData.name" class="object">
 						<ul>
 							<li>
-								<h2>{{ object.qMeta.title }}</h2>
-							</li>
-							<li v-for="cell in object.qData.cells" :key="cell.name">
-								<div class="object-item">
-									<el-link href="#" @click.prevent="toggleKpi(cell.name)" class="link">{{
-										cell.name
-									}} - ({{ cell.type }})</el-link>
-									<div class="button-container">
-										<button v-if="!objectsInDatabase.has(cell.name)"
-											@click="addObjectToMongoDB(cell)" class="btn btn-primary">Ajouter un objet
-											sur la page publique</button>
-										<button v-else @click="removeObjectFromMongoDB(cell)"
-											class="btn btn-danger">Supprimer de la page publique</button>
-									</div>
-								</div>
-								<div v-if="activeObject === cell.name" class="kpi">
-									<qlik-embed ref="kpi" ui="analytics/chart" :app-id="qlikAppId"
-										:object-id="cell.name"></qlik-embed>
-								</div>
+								<ul>
+									<li>
+										<h4>{{ object.qMeta.title }}</h4>
+									</li>
+									<li v-for="cell in object.qData.cells" :key="cell.name">
+										<div class="object-item">
+											<el-link href="#" @click.prevent="toggleKpi(cell.name)" class="link">{{ cell.type }} - ({{ cell.name }}) &nbsp;
+												<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>	
+											</el-link>
+											
+											<div class="button-container">
+												<button v-if="!objectsInDatabase.has(cell.name)"
+													@click="addObjectToMongoDB(cell)" class="btn btn-primary">Ajouter un objet
+													sur la page publique</button>
+												<button v-else @click="removeObjectFromMongoDB(cell)"
+													class="btn btn-danger">Supprimer de la page publique</button>
+											</div>
+										</div>
+										<div v-if="activeObject === cell.name" class="kpi">
+											<qlik-embed ref="kpi" ui="analytics/chart" :app-id="qlikAppId"
+												:object-id="cell.name"></qlik-embed>
+										</div>
+									</li>
+								</ul>
 							</li>
 						</ul>
-					</li>
-				</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -54,6 +60,7 @@ const qlikAppsId = import.meta.env.VITE_QLIK_APPS_ID.split(',');
 
 const loadError = ref(null);
 const jsonError = ref(null);
+const activeSheet = ref(null);
 const activeObject = ref(null);
 const objectsInDatabase = ref(new Set());
 const applicationsInDatabase = ref(new Set());
@@ -83,6 +90,25 @@ const checkObjectsApplications = async (app) => {
 			throw new Error('Invalid sheets list format');
 		}
 
+		const fetchedApplications = [];
+        for (const appId of qlikAppsId) {
+            const session = qix.openAppSession({ appId });
+            const QlikApp = await session.getDoc();
+            const appLayout = await QlikApp.getAppLayout();
+            const sheetsListResponse = await QlikApp.getSheetList();
+
+            if (Array.isArray(sheetsListResponse)) {
+                fetchedApplications.push({
+                    qId: appId,
+                    name: appLayout.qTitle,
+                    sheets: sheetsListResponse
+                });
+            } else {
+                throw new Error('Invalid sheets list format');
+            }
+        }
+        applicationsData.value = fetchedApplications;
+
 	} catch (error) {
 		console.error('Error fetching objects from qlik:', error);
 	}
@@ -109,6 +135,11 @@ const fetchApplications = async () => {
 	} finally {
 		loading.value = false;
 	}
+};
+
+const toggleSheets = (sheetId) => {
+	console.log('Toggling sheets:', sheetId);
+	activeSheet.value = activeSheet.value === sheetId ? null : sheetId;
 };
 
 const toggleKpi = (objectId) => {
@@ -235,11 +266,16 @@ onMounted(() => {
 	margin: 10px;
 }
 
-.object {
+.application {
+	padding: 10px;
+    margin: 10px 0;
 	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.object {
 	padding: 10px;
 	margin: 10px 0;
-	border-radius: 5px;
 }
 
 .details {
@@ -273,6 +309,12 @@ ul {
 .button-container {
 	display: flex;
 	gap: 10px;
+}
+
+.loading {
+	text-align: center;
+	font-size: 1.2em;
+	color: #666;
 }
 
 .btn {
