@@ -1,15 +1,9 @@
 <template>
 	<div>
 		<el-row>
-			<el-col :span="12">
-				<div class="grid-content ep-bg-purple">
-					<h1>Partout où il y a des données, il y a de la <span class="green">puissance</span></h1>
-
-					<div class="title-1">Qlik® vous aide à utiliser vos données pour résoudre des problèmes, atteindre de nouveaux objectifs et répondre aux besoins critiques de l'entreprise. Tout commence ici. Avec le leader du secteur des solutions d'intégration de données et d'analyse qui soutiennent votre stratégie d'IA.</div>
-				</div>
-			</el-col>
-			<el-col :span="12">
-				<img :src="Picture" alt="Design" class="ep-img" />
+			<el-col :span="24">
+				<qlik-embed ref="home" ui="analytics/sheet" :app-id="qlikAppIdHome"
+					object-id="67337df6d74d0eec20159270"></qlik-embed>
 			</el-col>
 		</el-row>
 
@@ -18,10 +12,10 @@
 				<PublicPublicationsList />
 			</el-col>
 		</el-row>
-		<el-row>	
+		<el-row>
 			<el-col :span="24">
 				<PublicSheets />
-			</el-col>	
+			</el-col>
 		</el-row>
 	</div>
 </template>
@@ -30,7 +24,7 @@
 import PublicSheets from '@/components/public/sheets.vue';
 import PublicPublicationsList from '@/components/public/publicationsList.vue';
 
-const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
+const qlikAppIdHome = import.meta.env.VITE_QLIK_APP_ID_HOME;
 
 import Picture from '@/assets/home-design.png';
 
@@ -40,18 +34,18 @@ export default {
 		PublicSheets,
 		PublicPublicationsList
 	},
-    data() {
-        return {
-            Picture
-        };
-    }
+	data() {
+		return {
+			Picture
+		};
+	}
 };
 </script>
 
 <style scoped>
 h1 {
 	font-size: 4rem;
-    letter-spacing: -.2rem;
+	letter-spacing: -.2rem;
 	line-height: 1;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -65,24 +59,24 @@ h1 {
 	font-size: 1.5rem;
 }
 
-.ep-img	{
+.ep-img {
 	width: 100%;
 }
 
 .el-row {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .el-row:last-child {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .el-col {
-  border-radius: 4px;
+	border-radius: 4px;
 }
 
 .grid-content {
-  border-radius: 4px;
-  min-height: 36px;
+	border-radius: 4px;
+	min-height: 36px;
 }
 </style>

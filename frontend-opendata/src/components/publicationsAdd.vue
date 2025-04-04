@@ -8,25 +8,25 @@
 		<div v-if="successMessage" class="success">{{ successMessage }}</div>
 		<form @submit.prevent="submitPublication">
 			<div class="form-group">
-				<label for="title">Title</label>
+				<label for="title">Title <span class="mandatory">*</span></label>
 				<input type="text" id="title" v-model="title" required />
 			</div>
 			<div class="form-group">
-				<label for="description">Description</label>
+				<label for="description">Description <span class="mandatory">*</span></label>
 				<div ref="quillEditor" class="quill-editor"></div>
 			</div>
 			<div class="form-group">
-				<label for="author">Auteur</label>
+				<label for="author">Auteur <span class="mandatory">*</span></label>
 				<input type="text" id="author" v-model="author" required />
 			</div>
 			<div class="form-group">
-				<label for="category">Categorie</label>
+				<label for="category">Categorie <span class="mandatory">*</span></label>
 				<select id="category" v-model="category" required>
 					<option v-for="cat in categories" :key="cat._id" :value="cat.title">{{ cat.title }}</option>
 				</select>
 			</div>
 			<div class="form-group">
-				<label for="data">Donnée</label>
+				<label for="data">Source des données</label>
 				<textarea id="data" v-model="data" required></textarea>
 			</div>
 			<button type="submit" class="btn btn-primary">Envoyer</button>
@@ -187,6 +187,10 @@ onBeforeUnmount(() => {
 .error {
 	color: red;
 	margin-bottom: 15px;
+}
+
+.mandatory {
+	color: red;
 }
 
 .success {

@@ -30,7 +30,7 @@
 						</div>
 						<p v-html="publication.description"></p>
 
-						<p><strong>Data:</strong> {{ publication.data }}</p>
+						<p><strong>Source des données: </strong> {{ publication.data }}</p>
 					</li>
 				</ul>
 			</div>

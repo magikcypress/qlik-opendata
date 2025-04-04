@@ -2,7 +2,7 @@
 	<div>
 		<h2>Publications</h2>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else class="publications-container">
+		<div v-else="activeSheets.length > 0" class="publications-container">
 			<div v-for="publication in publications" :key="publication._id" class="publication-item">
 				<el-link :href="`/publication/${publication._id}`">
 					<img :src="Jacket" alt="Publication Image" class="publication-image" />
@@ -15,6 +15,9 @@
 				<div class="date"><strong>Category:</strong> {{ publication.category }}</div>
 
 			</div>
+		</div>
+		<div v-else>
+			<p class="info-message">Pas de publication pour le moment.</p>
 		</div>
 	</div>
 </template>
@@ -87,5 +90,15 @@ onMounted(() => {
 .error {
 	color: red;
 	margin-bottom: 15px;
+}
+
+.info-message {
+	background-color: #fff3cd;
+	color: #856404;
+	border: 1px solid #ffeeba;
+	padding: 10px;
+	border-radius: 5px;
+	margin: 10px 0;
+	font-weight: bold;
 }
 </style>

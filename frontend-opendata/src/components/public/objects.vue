@@ -48,7 +48,7 @@ onMounted(() => {
 			</div> -->
 		</div>
 		<div v-else>
-			<p class="info-message">No active objects are available.</p>
+			<p class="info-message">Pas d'objets disponible pour le moment.</p>
 		</div>
 	</div>
 </template>

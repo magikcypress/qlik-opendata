@@ -150,7 +150,7 @@ const publicationSchema = new mongoose.Schema({
 	category: { type: String, required: true },
 	publishedAt: { type: Date, default: Date.now },
 	updatedAt: { type: Date, default: Date.now },
-	data: { type: mongoose.Schema.Types.Mixed, required: true },
+	data: { type: mongoose.Schema.Types.Mixed },
 	active: { type: Boolean, default: false }
 });
 

@@ -3,14 +3,14 @@
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else-if="publication">
 			<h2>{{ publication.title }}</h2>
-			<span class="date"><strong>Author:</strong> {{ publication.author }} • <strong>Published At:</strong>
+			<span class="date"><strong>Auteur:</strong> {{ publication.author }} • <strong>Publier le:</strong>
 				{{ new Date(publication.publishedAt).toLocaleDateString() }}</span>
-			<div class="date"><strong>Category:</strong> {{ publication.category }}</div>
+			<div class="date"><strong>Categorie:</strong> {{ publication.category }}</div>
 
 			<div class="content" v-html="publication.description"></div>
 			<Export />
 		</div>
-		<div v-else class="loading">Loading...</div>
+		<div v-else class="loading">Chargement...</div>
 	</div>
 </template>
 

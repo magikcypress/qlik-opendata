@@ -1,3 +1,18 @@
+<template>
+	<div>
+		<h2>Feuille Publiée</h2>
+		<div v-if="activeSheets.length > 0">
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+			<div v-for="sheet in activeSheets" :key="sheet.qId" class="sheet">
+				<qlik-embed ui="analytics/sheet" :app-id="qlikAppId" :object-id="sheet.qId"></qlik-embed>
+			</div>
+		</div>
+		<div v-else>
+			<p class="info-message">Pas de feuille active pour le moment.</p>
+		</div>
+	</div>
+</template>
+
 <script setup>
 import { ref, onMounted } from "vue";
 import { loadQlikScriptAnon } from '@/utils/utils';
@@ -29,21 +44,6 @@ onMounted(() => {
 	fetchSheets();
 });
 </script>
-
-<template>
-	<div>
-		<h2>Feuille Publiée</h2>
-		<div v-if="activeSheets.length > 0">
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
-			<div v-for="sheet in activeSheets" :key="sheet.qId" class="sheet">
-				<qlik-embed ui="analytics/sheet" :app-id="qlikAppId" :object-id="sheet.qId"></qlik-embed>
-			</div>
-		</div>
-		<div v-else>
-			<p class="info-message">No active sheets are available.</p>
-		</div>
-	</div>
-</template>
 
 <style scoped>
 .sheet {
