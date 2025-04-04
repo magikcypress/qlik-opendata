@@ -1,50 +1,38 @@
 <template>
-	<div>
-		<h2>Objets</h2>
-		<div v-for="app in applicationsData" :key="app.qId" class="application">
-			<el-link @click.prevent="toggleSheets(app.qId)">{{ app.name }}</el-link>
-			<div v-if="activeObject === app.qId">
-				<div v-for="object in app.sheets" :key="object.qData.name" class="object">
-					<ul>
-						<li>
-							<ul>
-								<li>
-									<h4>{{ object.qMeta.title }}</h4>
-								</li>
-								<li v-for="cell in object.qData.cells" :key="cell.name">
-									<div class="object-item">
-										<el-link href="#" @click.prevent="toggleKpi(cell.name)" class="link">{{
-											cell.type }} - ({{ cell.name }}) &nbsp;
-											<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
-										</el-link>
-
-										<div class="button-container">
-											<button v-if="!objectsInDatabase.has(cell.name)"
-												@click="addObjectToMongoDB(cell)" class="btn btn-primary">Ajouter un
-												objet
-												sur la page publique</button>
-											<button v-else @click="removeObjectFromMongoDB(cell)"
-												class="btn btn-danger">Supprimer de la page publique</button>
-										</div>
-									</div>
-									<div v-if="activeObject === cell.name" class="kpi">
-										<qlik-embed ref="kpi" ui="analytics/chart" :app-id="qlikAppId"
-											:object-id="cell.name"></qlik-embed>
-									</div>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div>
+        <h2>Objets</h2>
+        <el-menu :default-active="activeObject" class="el-menu-vertical-demo" mode="vertical" @select="handleSelect">
+            <el-submenu v-for="app in applicationsData" :key="app.qId" :index="app.name">
+                <template #title>
+                    <h3>{{ app.name }}</h3>
+                </template>
+            <el-submenu v-for="object in sheetsList" :key="object.qData.name" :index="object.qMeta.title">
+                <el-menu-item>
+                    <h3>{{ object.qMeta.title }}</h3>
+                </el-menu-item>
+                <el-menu-item v-for="object in app.objects" :key="object.qData.name" :index="object.qMeta.title">
+                    <Tippy interactive theme="custom-tooltip">
+                        <template #content>
+                            <div v-html="getTooltipContent(cell.name)"
+                                style="width: 200px; height: 100px; padding: 10px;"></div>
+                        </template>
+                        <a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
+                            {{ cell.type }}
+                        </a>
+                    </Tippy>
+                    &nbsp;
+                    <span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
+                </el-menu-item>
+            </el-submenu>
+        </el-submenu>
+        </el-menu>
+    </div>
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps, defineEmits } from "vue";
+import { ref, onMounted } from "vue";
 import { loadQlikScript } from '@/utils/utils';
-import { auth, qix } from "@qlik/api";
+import { auth, apps, qix } from "@qlik/api";
 import { Tippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 
@@ -59,7 +47,6 @@ const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
 const qlikAppsId = import.meta.env.VITE_QLIK_APPS_ID.split(',');
 
 const loadError = ref(null);
-const activeSheet = ref(null);
 const activeObject = ref(null);
 const objectsInDatabase = ref(new Set());
 const applicationsInDatabase = ref(new Set());
@@ -91,9 +78,9 @@ const checkObjectsApplications = async (app) => {
 			throw new Error('Invalid sheets list format');
 		}
 
-	} catch (error) {
-		console.error('Error fetching objects from qlik:', error);
-	}
+    } catch (error) {
+        console.error('Error fetching objects from qlik:', error);
+    }
 };
 
 const fetchApplications = async () => {
@@ -107,9 +94,10 @@ const fetchApplications = async () => {
 			autoRedirect: true,
 		});
 
-		for (const appId of qlikAppsId) {
-			await checkApplicationInDatabase(appId);
-		}
+        for (const appId of qlikAppsId) {
+            console.log('AppId:', appId);
+            await checkApplicationInDatabase(appId);
+        }
 
 	} catch (error) {
 		loadError.value = error.message;
@@ -128,7 +116,7 @@ const toggleKpi = (objectId) => {
 };
 
 const toggleObjects = (objectId) => {
-	activeObject.value = activeObject.value === objectId ? null : objectId;
+    activeObject.value = activeObject.value === objectId ? null : objectId;
 };
 
 const checkApplicationInDatabase = async (app) => {
@@ -191,19 +179,39 @@ onMounted(() => {
 	fetchApplications();
 });
 </script>
-
 <style scoped>
 .header {
 	margin: 20px;
 }
 
+.application {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    border: #ddd 1px solid;
+}
+
 .object {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1px;
-	padding: 5px;
-	margin: 5px;
-	border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.cell-item {
+    display: flex;
+    flex-direction: column; /* Les éléments internes s'alignent verticalement */
+    align-items: center;
+    justify-content: center;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 10px;
+    width: 150px; /* Largeur fixe pour chaque boîte */
+    height: 100px; /* Hauteur fixe pour chaque boîte */
+    text-align: center;
 }
 
 .kpi {
@@ -230,26 +238,26 @@ onMounted(() => {
 }
 
 ul {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1px;
-	list-style: none;
-	padding: 0 2px;
-	border: 1px solid #ddd;
-	background-color: #ffffff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    list-style: none;
+    padding: 0 2px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
 }
 
 .object-item {
-	padding: 10px;
-	border-radius: 5px;
-	border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
 .cell-item {
-	align-items: center;
-	background-color: #ddd;
-	border-radius: 5px;
-	margin: 5px;
+    align-items: center;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 5px;
 }
 
 .tippy-box[data-theme~='custom-tooltip'] {

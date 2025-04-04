@@ -15,10 +15,10 @@ import FloatingVue from 'floating-vue'
 import 'floating-vue/dist/style.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faMinus, faTrash, faShoppingBasket, faComment, faClose, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faMinus, faTrash, faShoppingBasket, faComment, faClose, faInfoCircle, faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faPlus, faMinus, faTrash, faShoppingBasket, faComment, faClose, faInfoCircle)
+library.add(faPlus, faMinus, faTrash, faShoppingBasket, faComment, faClose, faInfoCircle, faChevronDown, faChevronRight)
 
 const app = createApp(App)
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('qlik-embed')
