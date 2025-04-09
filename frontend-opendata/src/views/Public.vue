@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<el-row>
-			<el-col :span="24">
-				<qlik-embed ref="home" ui="analytics/sheet" :app-id="qlikAppIdHome"
-					object-id="67337df6d74d0eec20159270"></qlik-embed>
+			<el-col :span="24" style="height: 400px;">
+				<qlik-embed ref="home" ui="analytics/sheet" app-id="3ab28c9d-56e6-40d8-8931-8f80fe76dbae"
+					object-id="KZKqMj"></qlik-embed>
 			</el-col>
 		</el-row>
 
@@ -21,10 +21,14 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
 import PublicSheets from '@/components/public/sheets.vue';
 import PublicPublicationsList from '@/components/public/publicationsList.vue';
 
 const qlikAppIdHome = import.meta.env.VITE_QLIK_APP_ID_HOME;
+const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
+const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID;
+const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE;
 
 import Picture from '@/assets/home-design.png';
 
@@ -40,6 +44,10 @@ export default {
 		};
 	}
 };
+
+onMounted(() => {
+	loadQlikScriptAnon(tenantUrl, qlikClientId, 'fa92674c-73ec-4bdd-9b10-32e6b7e4468c.xNpp4XWBwGu8_yEQUuqGYxl2lslghR54l7wjz6TP3io');
+});
 </script>
 
 <style scoped>

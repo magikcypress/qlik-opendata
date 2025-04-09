@@ -7,9 +7,9 @@
 		<div v-else>
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 
-            <div v-for="app in applicationsData" :key="app.qId" class="application">
-                <el-link @click.prevent="toggleSheets(app.qId)">{{ app.name }}</el-link>
-				<div  v-if="activeSheet === app.qId">
+			<div v-for="app in applicationsData" :key="app.qId" class="application">
+				<el-link @click.prevent="toggleSheets(app.qId)">{{ app.name }}</el-link>
+				<div v-if="activeSheet === app.qId">
 					<div v-for="object in app.sheets" :key="object.qData.name" class="object">
 						<ul>
 							<li>
@@ -19,13 +19,16 @@
 									</li>
 									<li v-for="cell in object.qData.cells" :key="cell.name">
 										<div class="object-item">
-											<el-link href="#" @click.prevent="toggleKpi(cell.name)" class="link">{{ cell.type }} - ({{ cell.name }}) &nbsp;
-												<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>	
+											<el-link href="#" @click.prevent="toggleKpi(cell.name)" class="link">
+												{{ formatCellType(cell.type) }} - ({{ cell.name }}) &nbsp;
+												<span :class="`lui-icon lui-icon--${formatCellType(cell.type)}`"
+													aria-hidden="true"></span>
 											</el-link>
-											
+
 											<div class="button-container">
 												<button v-if="!objectsInDatabase.has(cell.name)"
-													@click="addObjectToMongoDB(cell)" class="btn btn-primary">Ajouter un objet
+													@click="addObjectToMongoDB(cell)" class="btn btn-primary">Ajouter un
+													objet
 													sur la page publique</button>
 												<button v-else @click="removeObjectFromMongoDB(cell)"
 													class="btn btn-danger">Supprimer de la page publique</button>
@@ -69,6 +72,15 @@ const objectsData = ref([]);
 const applicationsData = ref([]);
 const loading = ref(true);
 
+const formatCellType = (type) => {
+	if (type === "barchart") return "bar-chart";
+	if (type === "linechart") return "line-chart";
+	if (type === "auto-chart") return "auto-layout";
+	if (type === "piechart") return "pie-chart";
+	if (type === "combochart") return "combo-chart";
+	return type;
+};
+
 const checkObjectsApplications = async (app) => {
 	try {
 		auth.setDefaultHostConfig({
@@ -91,23 +103,23 @@ const checkObjectsApplications = async (app) => {
 		}
 
 		const fetchedApplications = [];
-        for (const appId of qlikAppsId) {
-            const session = qix.openAppSession({ appId });
-            const QlikApp = await session.getDoc();
-            const appLayout = await QlikApp.getAppLayout();
-            const sheetsListResponse = await QlikApp.getSheetList();
+		for (const appId of qlikAppsId) {
+			const session = qix.openAppSession({ appId });
+			const QlikApp = await session.getDoc();
+			const appLayout = await QlikApp.getAppLayout();
+			const sheetsListResponse = await QlikApp.getSheetList();
 
-            if (Array.isArray(sheetsListResponse)) {
-                fetchedApplications.push({
-                    qId: appId,
-                    name: appLayout.qTitle,
-                    sheets: sheetsListResponse
-                });
-            } else {
-                throw new Error('Invalid sheets list format');
-            }
-        }
-        applicationsData.value = fetchedApplications;
+			if (Array.isArray(sheetsListResponse)) {
+				fetchedApplications.push({
+					qId: appId,
+					name: appLayout.qTitle,
+					sheets: sheetsListResponse
+				});
+			} else {
+				throw new Error('Invalid sheets list format');
+			}
+		}
+		applicationsData.value = fetchedApplications;
 
 	} catch (error) {
 		console.error('Error fetching objects from qlik:', error);
@@ -268,7 +280,7 @@ onMounted(() => {
 
 .application {
 	padding: 10px;
-    margin: 10px 0;
+	margin: 10px 0;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 }
