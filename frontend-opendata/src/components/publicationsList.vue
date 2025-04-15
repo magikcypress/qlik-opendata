@@ -30,7 +30,14 @@
 						</div>
 						<p v-html="publication.description"></p>
 
-						<p><strong>Source des données: </strong> {{ publication.data }}</p>
+						<p><strong>Source:</strong>
+							<span v-if="isValidUrl(publication.data)">
+								<a :href="publication.data" target="_blank" rel="noopener noreferrer">{{ publication.data }}</a>
+							</span>
+							<span v-else>
+								{{ publication.data }}
+							</span>
+						</p>
 					</li>
 				</ul>
 			</div>
@@ -47,6 +54,15 @@ import Menu from "../views/Menu.vue";
 
 const publications = ref([]);
 const loadError = ref(null);
+
+const isValidUrl = (string) => {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+};
 
 const fetchPublications = async () => {
 	try {
@@ -127,6 +143,11 @@ li {
 	padding: 10px;
 	margin: 10px 0;
 	border-radius: 5px;
+}
+
+strong {
+	font-weight: bold;
+	padding-right: .2em;
 }
 
 .buttons {

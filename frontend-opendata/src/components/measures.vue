@@ -8,8 +8,11 @@
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 			<div v-for="measure in qlikData" :key="measure.qMeta.id" class="measure">
 				<ul>
-					<li><el-link href="#" @click.prevent="toggleKpi(measure.qMeta.id)">{{
-						measure.qMeta.title }}</el-link>
+					<li><el-link href="#" @click.prevent="toggleKpi(measure.qMeta.id)">
+						<font-awesome-icon :icon="activeMeasure === measure.qMeta.id ? 'chevron-down' : 'chevron-right'" />
+							&nbsp; 
+						{{ measure.qMeta.title }}
+					</el-link>
 					</li>
 				</ul>
 			</div>

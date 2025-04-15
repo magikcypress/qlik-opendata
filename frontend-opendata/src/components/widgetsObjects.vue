@@ -1,32 +1,41 @@
 <template>
-    <div>
-        <h2>Objets</h2>
-        <el-menu :default-active="activeObject" class="el-menu-vertical-demo" mode="vertical" @select="handleSelect">
-            <el-submenu v-for="app in applicationsData" :key="app.qId" :index="app.name">
-                <template #title>
-                    <h3>{{ app.name }}</h3>
-                </template>
-            <el-submenu v-for="object in sheetsList" :key="object.qData.name" :index="object.qMeta.title">
-                <el-menu-item>
-                    <h3>{{ object.qMeta.title }}</h3>
-                </el-menu-item>
-                <el-menu-item v-for="object in app.objects" :key="object.qData.name" :index="object.qMeta.title">
-                    <Tippy interactive theme="custom-tooltip">
-                        <template #content>
-                            <div v-html="getTooltipContent(cell.name)"
-                                style="width: 200px; height: 100px; padding: 10px;"></div>
-                        </template>
-                        <a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
-                            {{ cell.type }}
-                        </a>
-                    </Tippy>
-                    &nbsp;
-                    <span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
-                </el-menu-item>
-            </el-submenu>
-        </el-submenu>
-        </el-menu>
-    </div>
+        <h2>Objets par applications</h2>
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="loading" class="loading">Chargement...</div>
+		<div v-else>
+
+            <div v-for="app in applicationsData" :key="app.qId" class="application">
+                <el-link @click.prevent="toggleSheets(app.qId)">
+                    <font-awesome-icon :icon="activeSheet === app.qId ? 'chevron-down' : 'chevron-right'" />
+                    &nbsp;{{ app.name }}
+                </el-link>
+				<div  v-if="activeSheet === app.qId">
+					<div v-for="object in app.sheets" :key="object.qData.name" class="object">
+						<ul>
+							<li>
+								<ul>
+									<li class="cell-item btn">
+										<h4>{{ object.qMeta.title }}</h4>
+									</li>
+									<li v-for="cell in object.qData.cells" :key="cell.name" class="cell-item">
+                                        <Tippy interactive theme="custom-tooltip">
+                                            <template #content>
+                                                <div v-html="getTooltipContent(cell.name)"
+                                                    style="width: 200px; height: 100px; padding: 10px;"></div>
+                                            </template>
+                                            <a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
+                                                {{ cell.type }} <span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
+                                            </a>
+                                        </Tippy>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	
 </template>
 
 <script setup>
@@ -56,6 +65,15 @@ const applicationsData = ref([]);
 const loading = ref(true);
 
 const emit = defineEmits(['insert-cell']);
+
+const formatCellType = (type) => {
+    if (type === "barchart") return "bar-chart";
+    if (type === "linechart") return "line-chart";
+    if (type === "auto-chart") return "auto-layout";
+    if (type === "piechart") return "pie-chart";
+    if (type === "combochart") return "combo-chart";
+    return type;
+};
 
 const checkObjectsApplications = async (app) => {
 	try {

@@ -7,9 +7,11 @@
 		<div v-else>
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 
-			<div v-for="app in applicationsData" :key="app.qId" class="application">
-				<el-link @click.prevent="toggleSheets(app.qId)">{{ app.name }}</el-link>
-				<div v-if="activeSheet === app.qId">
+            <div v-for="app in applicationsData" :key="app.qId" class="application">
+                <el-link @click.prevent="toggleSheets(app.qId)">
+					<font-awesome-icon :icon="activeSheet === app.qId ? 'chevron-down' : 'chevron-right'" />
+                    &nbsp;{{ app.name }}</el-link>
+				<div  v-if="activeSheet === app.qId">
 					<div v-for="object in app.sheets" :key="object.qData.name" class="object">
 						<ul>
 							<li>
@@ -21,8 +23,8 @@
 										<div class="object-item">
 											<el-link href="#" @click.prevent="toggleKpi(cell.name)" class="link">
 												{{ formatCellType(cell.type) }} - ({{ cell.name }}) &nbsp;
-												<span :class="`lui-icon lui-icon--${formatCellType(cell.type)}`"
-													aria-hidden="true"></span>
+                                                <span :class="`lui-icon lui-icon--${formatCellType(cell.type)}`"
+                                                    aria-hidden="true"></span>
 											</el-link>
 
 											<div class="button-container">

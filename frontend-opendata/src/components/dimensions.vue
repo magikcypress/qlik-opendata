@@ -9,8 +9,11 @@
 			<div v-for="dimension in qlikData" :key="dimension.qInfo.qId" class="dimension">
 				<ul>
 					<li>
-						<el-link href="#" @click.prevent="toggleKpi(dimension.qMeta.id)">{{ dimension.qMeta.title
-							}}</el-link>
+						<el-link href="#" @click.prevent="toggleKpi(dimension.qMeta.id)">
+							<font-awesome-icon :icon="activeDimension === dimension.qMeta.id ? 'chevron-down' : 'chevron-right'" />
+							&nbsp; 
+							{{ dimension.qMeta.title}}
+						</el-link>
 					</li>
 				</ul>
 				<div v-if="activeDimension === dimension.qMeta.id" class="kpi">
