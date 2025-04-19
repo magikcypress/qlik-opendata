@@ -22,7 +22,8 @@
 				<label for="description">Description <span class="mandatory">*</span></label>
 				<div class="editor-container">
 					<div ref="quillEditor" class="quill-editor"></div>
-					<WidgetObjects @insert-cell="insertCellIntoQuill" :quill-instance="quillInstance" />
+					<WidgetObjects @insert-cell="insertCellIntoQuill" :quill-instance="quillInstance"
+						:application="application" />
 				</div>
 			</div>
 			<div class="form-group">

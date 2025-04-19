@@ -1,49 +1,13 @@
 <template>
-<<<<<<< HEAD
-        <h2>Objets par applications</h2>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else-if="loading" class="loading">Chargement...</div>
-		<div v-else>
-
-            <div v-for="app in applicationsData" :key="app.qId" class="application">
-                <el-link @click.prevent="toggleSheets(app.qId)">
-                    <font-awesome-icon :icon="activeSheet === app.qId ? 'chevron-down' : 'chevron-right'" />
-                    &nbsp;{{ app.name }}
-                </el-link>
-				<div  v-if="activeSheet === app.qId">
-					<div v-for="object in app.sheets" :key="object.qData.name" class="object">
-						<ul>
-							<li>
-								<ul>
-									<li class="cell-item btn">
-										<h4>{{ object.qMeta.title }}</h4>
-									</li>
-									<li v-for="cell in object.qData.cells" :key="cell.name" class="cell-item">
-                                        <Tippy interactive theme="custom-tooltip">
-                                            <template #content>
-                                                <div v-html="getTooltipContent(cell.name)"
-                                                    style="width: 200px; height: 100px; padding: 10px;"></div>
-                                            </template>
-                                            <a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
-                                                {{ cell.type }} <span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
-                                            </a>
-                                        </Tippy>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-=======
 	<h2>Objets par applications</h2>
 	<div v-if="loadError" class="error">{{ loadError }}</div>
 	<div v-else-if="loading" class="loading">Chargement...</div>
 	<div v-else>
-
-		<div v-for="app in applicationsData" :key="app.qId" class="application">
+		{{ filteredApplications }}
+		<div v-if="filteredApplications.length === 0" class="no-application">
+			Aucune application correspondante trouvée.
+		</div>
+		<div v-for="app in filteredApplications" :key="app.qId" class="application">
 			<el-link @click.prevent="toggleSheets(app.qId)">
 				<font-awesome-icon :icon="activeSheet === app.qId ? 'chevron-down' : 'chevron-right'" />
 				&nbsp;{{ app.name }}
@@ -75,19 +39,18 @@
 			</div>
 		</div>
 	</div>
-
->>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { loadQlikScript } from '@/utils/utils';
 import { auth, apps, qix } from "@qlik/api";
 import { Tippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 
 const props = defineProps({
-	quillInstance: Object
+	quillInstance: Object,
+	application: String
 });
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
@@ -108,22 +71,19 @@ const loading = ref(true);
 const emit = defineEmits(['insert-cell']);
 
 const formatCellType = (type) => {
-<<<<<<< HEAD
-    if (type === "barchart") return "bar-chart";
-    if (type === "linechart") return "line-chart";
-    if (type === "auto-chart") return "auto-layout";
-    if (type === "piechart") return "pie-chart";
-    if (type === "combochart") return "combo-chart";
-    return type;
-=======
 	if (type === "barchart") return "bar-chart";
 	if (type === "linechart") return "line-chart";
 	if (type === "auto-chart") return "auto-layout";
 	if (type === "piechart") return "pie-chart";
 	if (type === "combochart") return "combo-chart";
 	return type;
->>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 };
+
+const filteredApplications = computed(() => {
+	console.log('Filtered applications:', applicationsData.value);
+	console.log('Application prop:', props);
+	return applicationsData.value.filter(app => app.qId === props.application);
+});
 
 const checkObjectsApplications = async (app) => {
 	try {
@@ -146,9 +106,9 @@ const checkObjectsApplications = async (app) => {
 			throw new Error('Invalid sheets list format');
 		}
 
-    } catch (error) {
-        console.error('Error fetching objects from qlik:', error);
-    }
+	} catch (error) {
+		console.error('Error fetching objects from qlik:', error);
+	}
 };
 
 const fetchApplications = async () => {
@@ -162,17 +122,9 @@ const fetchApplications = async () => {
 			autoRedirect: true,
 		});
 
-<<<<<<< HEAD
-        for (const appId of qlikAppsId) {
-            console.log('AppId:', appId);
-            await checkApplicationInDatabase(appId);
-        }
-=======
 		for (const appId of qlikAppsId) {
-			console.log('AppId:', appId);
 			await checkApplicationInDatabase(appId);
 		}
->>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 
 	} catch (error) {
 		loadError.value = error.message;
@@ -182,7 +134,6 @@ const fetchApplications = async () => {
 };
 
 const toggleSheets = (sheetId) => {
-	console.log('Toggling sheets:', sheetId);
 	activeSheet.value = activeSheet.value === sheetId ? null : sheetId;
 };
 
@@ -191,7 +142,7 @@ const toggleKpi = (objectId) => {
 };
 
 const toggleObjects = (objectId) => {
-    activeObject.value = activeObject.value === objectId ? null : objectId;
+	activeObject.value = activeObject.value === objectId ? null : objectId;
 };
 
 const checkApplicationInDatabase = async (app) => {
@@ -252,6 +203,10 @@ onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl);
 	checkObjectInDatabase();
 	fetchApplications();
+	console.log("Application reçue dans WidgetObjects :", props.application);
+	if (props.application) {
+		checkObjectsApplications(props.application);
+	}
 });
 </script>
 <style scoped>
@@ -260,40 +215,36 @@ onMounted(() => {
 }
 
 .application {
-<<<<<<< HEAD
-    padding: 5px;
-    margin: 5px;
-    border-radius: 5px;
-    border: #ddd 1px solid;
-=======
 	padding: 5px;
 	margin: 5px;
 	border-radius: 5px;
 	border: #ddd 1px solid;
->>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 }
 
 .object {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1px;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 5px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1px;
+	padding: 5px;
+	margin: 5px;
+	border-radius: 5px;
 }
 
 .cell-item {
-    display: flex;
-    flex-direction: column; /* Les éléments internes s'alignent verticalement */
-    align-items: center;
-    justify-content: center;
-    background-color: #ddd;
-    border-radius: 5px;
-    margin: 5px;
-    padding: 10px;
-    width: 150px; /* Largeur fixe pour chaque boîte */
-    height: 100px; /* Hauteur fixe pour chaque boîte */
-    text-align: center;
+	display: flex;
+	flex-direction: column;
+	/* Les éléments internes s'alignent verticalement */
+	align-items: center;
+	justify-content: center;
+	background-color: #ddd;
+	border-radius: 5px;
+	margin: 5px;
+	padding: 10px;
+	width: 150px;
+	/* Largeur fixe pour chaque boîte */
+	height: 100px;
+	/* Hauteur fixe pour chaque boîte */
+	text-align: center;
 }
 
 .cell-item {
@@ -337,26 +288,26 @@ onMounted(() => {
 }
 
 ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1px;
-    list-style: none;
-    padding: 0 2px;
-    border: 1px solid #ddd;
-    background-color: #ffffff;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1px;
+	list-style: none;
+	padding: 0 2px;
+	border: 1px solid #ddd;
+	background-color: #ffffff;
 }
 
 .object-item {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
 }
 
 .cell-item {
-    align-items: center;
-    background-color: #ddd;
-    border-radius: 5px;
-    margin: 5px;
+	align-items: center;
+	background-color: #ddd;
+	border-radius: 5px;
+	margin: 5px;
 }
 
 .tippy-box[data-theme~='custom-tooltip'] {

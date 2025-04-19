@@ -31,17 +31,11 @@
 						</div>
 						<p v-html="publication.description"></p>
 
-<<<<<<< HEAD
-						<p><strong>Source:</strong>
-							<span v-if="isValidUrl(publication.data)">
-								<a :href="publication.data" target="_blank" rel="noopener noreferrer">{{ publication.data }}</a>
-=======
 
 						<p><strong>Source: &nbsp;</strong>
 							<span v-if="isValidUrl(publication.data)">
 								<a :href="publication.data" target="_blank" rel="noopener noreferrer">{{
 									publication.data }}</a>
->>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 							</span>
 							<span v-else>
 								{{ publication.data }}
@@ -65,21 +59,12 @@ const publications = ref([]);
 const loadError = ref(null);
 
 const isValidUrl = (string) => {
-<<<<<<< HEAD
-    try {
-        new URL(string);
-        return true;
-    } catch (_) {
-        return false;
-    }
-=======
 	try {
 		new URL(string);
 		return true;
 	} catch (_) {
 		return false;
 	}
->>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 };
 
 const fetchPublications = async () => {
