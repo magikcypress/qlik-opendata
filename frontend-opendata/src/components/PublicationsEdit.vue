@@ -1,45 +1,60 @@
 <template>
 	<div class="header">
-		<h2>Publication Edition</h2>
+		<h2>Publication Editions</h2>
 		<a href="/publications" class="btn btn-secondary">Retour</a>
 	</div>
 	<div class="publication-form">
+
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-if="errorMessage" class="error">{{ errorMessage }}</div>
 		<div v-if="successMessage" class="success">{{ successMessage }}</div>
 		<form @submit.prevent="submitPublication">
+			<!-- Application -->
 			<div class="form-group">
 				<label for="application">Application <span class="mandatory">*</span></label>
 				<select id="application" v-model="application" required>
 					<option v-for="app in applications" :key="app._id" :value="app.name">{{ app.name }}</option>
 				</select>
 			</div>
+
+			<!-- Title -->
 			<div class="form-group">
 				<label for="title">Titre <span class="mandatory">*</span></label>
 				<input type="text" id="title" v-model="title" required />
 			</div>
+
+			<!-- Description -->
 			<div class="form-group">
 				<label for="description">Description <span class="mandatory">*</span></label>
 				<div class="editor-container">
 					<div ref="quillEditor" class="quill-editor"></div>
+
 					<WidgetObjects @insert-cell="insertCellIntoQuill" :quill-instance="quillInstance"
 						:application="application" />
 				</div>
 			</div>
+
+			<!-- Author -->
 			<div class="form-group">
 				<label for="author">Auteur <span class="mandatory">*</span></label>
 				<input type="text" id="author" v-model="author" required />
 			</div>
+
+			<!-- Category -->
 			<div class="form-group">
 				<label for="category">Categorie <span class="mandatory">*</span></label>
 				<select id="category" v-model="category" required>
 					<option v-for="cat in categories" :key="cat._id" :value="cat.title">{{ cat.title }}</option>
 				</select>
 			</div>
+
+			<!-- Data -->
 			<div class="form-group">
 				<label for="data">Source des données</label>
 				<textarea id="data" v-model="data" required></textarea>
 			</div>
+
+			<!-- Submit -->
 			<button type="submit" class="btn btn-primary">Envoyer</button>
 		</form>
 	</div>
@@ -47,13 +62,14 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { useRouter, useRoute } from 'vue-router';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
+import { useRouter, useRoute } from "vue-router";
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
 
-import { loadQlikScriptAnon } from '@/utils/utils';
-import WidgetObjects from './widgetsObjects.vue';
+import { loadQlikScriptAnon } from "@/utils/utils";
+import WidgetObjects from "./widgetsObjects.vue";
 
+// Reactive variables
 const title = ref("");
 const description = ref("");
 const author = ref("");
@@ -65,47 +81,46 @@ const data = ref("");
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const loadError = ref(null);
-const router = useRouter();
-const route = useRoute();
 const quillEditor = ref(null);
 const quillInstance = ref(null);
 
+console.log("Valeur de application dans le parent :", application);
+
+// Router and route
+const router = useRouter();
+const route = useRoute();
+
+// Environment variables
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID;
 
+// Fetch categories
 const fetchCategories = async () => {
 	try {
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/categories`);
-		if (!response.ok) {
-			throw new Error('Failed to fetch categories');
-		}
-		const data = await response.json();
-		categories.value = data;
+		if (!response.ok) throw new Error("Failed to fetch categories");
+		categories.value = await response.json();
 	} catch (error) {
 		errorMessage.value = error.message;
 	}
 };
 
+// Fetch applications
 const fetchApplications = async () => {
 	try {
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
-		if (!response.ok) {
-			throw new Error('Failed to fetch applications');
-		}
-		const data = await response.json();
-		applications.value = data;
+		if (!response.ok) throw new Error("Failed to fetch applications");
+		applications.value = await response.json();
 	} catch (error) {
 		errorMessage.value = error.message;
 	}
 };
 
+// Fetch publication
 const fetchPublication = async () => {
-	const id = route.params.id;
 	try {
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications/${route.params.id}`);
-		if (!response.ok) {
-			throw new Error('Failed to fetch publication');
-		}
+		if (!response.ok) throw new Error("Failed to fetch publication");
 		const publication = await response.json();
 		title.value = publication.title;
 		description.value = publication.description;
@@ -121,6 +136,7 @@ const fetchPublication = async () => {
 	}
 };
 
+// Submit publication
 const submitPublication = async () => {
 	if (!title.value || !author.value || !category.value || !data.value) {
 		errorMessage.value = "Title, Author, and Data fields are required.";
@@ -128,12 +144,9 @@ const submitPublication = async () => {
 	}
 
 	try {
-		const id = route.params.id;
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications/${route.params.id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json'
-			},
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
 				title: title.value,
 				description: quillInstance.value.root.innerHTML,
@@ -141,28 +154,25 @@ const submitPublication = async () => {
 				category: category.value,
 				application: application.value,
 				data: data.value,
-				active: true
-			})
+				active: true,
+			}),
 		});
 
-		if (!response.ok) {
-			throw new Error('Failed to update publication');
-		}
+		if (!response.ok) throw new Error("Failed to update publication");
 
 		successMessage.value = "Publication updated successfully!";
 		errorMessage.value = null;
-
-		// Redirect to the publications list page
-		router.push('/publications');
+		router.push("/publications");
 	} catch (error) {
 		errorMessage.value = error.message;
 		successMessage.value = null;
 	}
 };
 
+// Insert cell into Quill editor
 const insertCellIntoQuill = (cellName) => {
 	if (!quillInstance.value) {
-		console.error('Quill instance is not initialized');
+		console.error("Quill instance is not initialized");
 		return;
 	}
 	const range = quillInstance.value.getSelection();
@@ -172,43 +182,21 @@ const insertCellIntoQuill = (cellName) => {
 	}
 };
 
+// Lifecycle hooks
 onMounted(() => {
 	fetchCategories();
 	fetchApplications();
 	fetchPublication();
-	loadQlikScriptAnon(tenantUrl, qlikClientId, applications.eac);
-	console.log('applications:', applications.eac);
-
-	const toolbarOptions = [
-		[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-		[{ 'font': [] }],
-		[{ 'align': [] }],
-
-		['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-		['blockquote', 'code-block'],
-		['link', 'image', 'video', 'formula'],
-
-		[{ 'header': 1 }, { 'header': 2 }],               // custom button values
-		[{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-		[{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-		[{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-		[{ 'direction': 'rtl' }],                         // text direction
-
-		['clean']                                         // remove formatting button
-	];
+	loadQlikScriptAnon(tenantUrl, qlikClientId);
 
 	quillInstance.value = new Quill(quillEditor.value, {
-		modules: {
-			toolbar: toolbarOptions
-		},
-		theme: 'snow'
+		modules: { toolbar: [["bold", "italic", "underline"], ["link", "image"]] },
+		theme: "snow",
 	});
+});
 
-	onBeforeUnmount(() => {
-		if (quillInstance.value) {
-			quillInstance.value = null;
-		}
-	});
+onBeforeUnmount(() => {
+	if (quillInstance.value) quillInstance.value = null;
 });
 </script>
 
@@ -239,7 +227,6 @@ onMounted(() => {
 	border-radius: 4px;
 }
 
-
 .quill-editor {
 	height: 400px;
 }
@@ -260,29 +247,13 @@ onMounted(() => {
 	cursor: pointer;
 }
 
-.btn-primary {
-	background-color: #007bff;
-}
-
 .btn-primary:hover {
 	background-color: #0056b3;
-}
-
-.btn-secondary {
-	background-color: #6c757d;
-}
-
-.btn-secondary:hover {
-	background-color: #5a6268;
 }
 
 .error {
 	color: red;
 	margin-bottom: 15px;
-}
-
-.mandatory {
-	color: red;
 }
 
 .success {

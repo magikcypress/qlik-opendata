@@ -3,7 +3,6 @@
 	<div v-if="loadError" class="error">{{ loadError }}</div>
 	<div v-else-if="loading" class="loading">Chargement...</div>
 	<div v-else>
-		{{ filteredApplications }}
 		<div v-if="filteredApplications.length === 0" class="no-application">
 			Aucune application correspondante trouvée.
 		</div>
@@ -23,12 +22,11 @@
 								<li v-for="cell in object.qData.cells" :key="cell.name" class="cell-item">
 									<Tippy interactive theme="custom-tooltip">
 										<template #content>
-											<div v-html="getTooltipContent(cell.name)"
-												style="width: 200px; height: 100px; padding: 10px;"></div>
+											<div v-html="getTooltipContent(cell.name)" class="tooltip-content"></div>
 										</template>
 										<a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
-											{{ cell.type }} <span :class="`lui-icon lui-icon--${cell.type}`"
-												aria-hidden="true"></span>
+											{{ cell.type }}
+											<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
 										</a>
 									</Tippy>
 								</li>
@@ -44,88 +42,62 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { loadQlikScript } from '@/utils/utils';
-import { auth, apps, qix } from "@qlik/api";
+import { auth, qix } from "@qlik/api";
 import { Tippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 
+// Props
 const props = defineProps({
 	quillInstance: Object,
 	application: String
 });
 
-const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
-const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID;
-const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI;
-const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
-const qlikAppsId = import.meta.env.VITE_QLIK_APPS_ID.split(',');
+const emits = defineEmits(["insert-cell"]);
 
+// Reactive variables
 const loadError = ref(null);
-const activeObject = ref(null);
-const objectsInDatabase = ref(new Set());
-const applicationsInDatabase = ref(new Set());
-const sheetsList = ref([]);
-const objectsData = ref([]);
-const applicationsData = ref([]);
 const loading = ref(true);
+const activeSheet = ref(null);
+const applicationsData = ref([]);
 
-const emit = defineEmits(['insert-cell']);
+const filteredApplications = computed(() =>
+	applicationsData.value.filter(app => app.name === props.application)
+);
 
-const formatCellType = (type) => {
-	if (type === "barchart") return "bar-chart";
-	if (type === "linechart") return "line-chart";
-	if (type === "auto-chart") return "auto-layout";
-	if (type === "piechart") return "pie-chart";
-	if (type === "combochart") return "combo-chart";
-	return type;
+console.log(filteredApplications);
+
+// Methods
+const toggleSheets = (sheetId) => {
+	activeSheet.value = activeSheet.value === sheetId ? null : sheetId;
 };
 
-const filteredApplications = computed(() => {
-	console.log('Filtered applications:', applicationsData.value);
-	console.log('Application prop:', props);
-	return applicationsData.value.filter(app => app.qId === props.application);
-});
-
-const checkObjectsApplications = async (app) => {
-	try {
-		auth.setDefaultHostConfig({
-			host: tenantUrl,
-			authType: "Oauth2",
-			clientId: qlikClientId,
-			redirectUri: redirectUrl,
-			accessTokenStorage: "session",
-			autoRedirect: true,
-		});
-
-		const session = qix.openAppSession({ appId: app });
-		const QlikApp = await session.getDoc();
-		const sheetsListResponse = await QlikApp.getSheetList();
-
-		if (Array.isArray(sheetsListResponse)) {
-			sheetsList.value = sheetsListResponse;
-		} else {
-			throw new Error('Invalid sheets list format');
-		}
-
-	} catch (error) {
-		console.error('Error fetching objects from qlik:', error);
+const insertCellIntoQuill = (cellName) => {
+	if (!props.quillInstance) {
+		console.error("Quill instance is not initialized");
+		return;
 	}
+	emits("insert-cell", cellName); // Émet l'événement avec le nom de la cellule
+};
+
+const getTooltipContent = (cellName) => {
+	return `<qlik-embed ref="kpi" ui="analytics/chart" app-id="${props.application}" object-id="${cellName}"></qlik-embed>`;
 };
 
 const fetchApplications = async () => {
 	try {
 		auth.setDefaultHostConfig({
-			host: tenantUrl,
+			host: import.meta.env.VITE_QLIK_TENANT_URL,
 			authType: "Oauth2",
-			clientId: qlikClientId,
-			redirectUri: redirectUrl,
+			clientId: import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID,
+			redirectUri: import.meta.env.VITE_QLIK_REDIRECT_URI,
 			accessTokenStorage: "session",
 			autoRedirect: true,
 		});
 
-		for (const appId of qlikAppsId) {
-			await checkApplicationInDatabase(appId);
-		}
-
+		// Fetch applications from the backend
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
+		if (!response.ok) throw new Error('Failed to fetch applications');
+		applicationsData.value = await response.json();
 	} catch (error) {
 		loadError.value = error.message;
 	} finally {
@@ -133,82 +105,13 @@ const fetchApplications = async () => {
 	}
 };
 
-const toggleSheets = (sheetId) => {
-	activeSheet.value = activeSheet.value === sheetId ? null : sheetId;
-};
-
-const toggleKpi = (objectId) => {
-	activeObject.value = activeObject.value === objectId ? null : objectId;
-};
-
-const toggleObjects = (objectId) => {
-	activeObject.value = activeObject.value === objectId ? null : objectId;
-};
-
-const checkApplicationInDatabase = async (app) => {
-	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
-		if (!response.ok) {
-			throw new Error('Failed to fetch applications from database');
-		}
-		const data = await response.json();
-
-		applicationsData.value = data;
-		data.forEach(application => {
-			applicationsInDatabase.value.add(application.qId);
-			checkObjectsApplications(application.qId);
-		});
-
-	} catch (error) {
-		console.error('Error fetching applications from database:', error);
-	}
-};
-
-const checkObjectInDatabase = async () => {
-	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/objects`);
-		if (!response.ok) {
-			throw new Error('Failed to fetch objects from database');
-		}
-		const data = await response.json();
-		objectsData.value = data;
-		data.forEach(object => {
-			objectsInDatabase.value.add(object.name);
-		});
-	} catch (error) {
-		console.error('Error fetching objects from database:', error);
-	}
-};
-
-const insertCellIntoQuill = (cellName) => {
-	if (!props.quillInstance) {
-		console.error('Quill instance is not initialized');
-		return;
-	}
-	console.log('CellName:', cellName);
-	console.log('QuillInstance:', props.quillInstance);
-	const range = props.quillInstance.getSelection();
-	console.log('Range:', range);
-	if (range) {
-		const embedHtml = `<qlik-embed ref="kpi" ui="analytics/chart" app-id="${qlikAppId}" object-id="${cellName}"></qlik-embed>`;
-		props.quillInstance.clipboard.dangerouslyPasteHTML(range.index, embedHtml);
-	}
-};
-
-const getTooltipContent = (cellName) => {
-	return `<qlik-embed ref="kpi" ui="analytics/chart" app-id="${qlikAppId}" object-id="${cellName}"></qlik-embed>`;
-};
-
+// Lifecycle hooks
 onMounted(() => {
-	loadQlikScript(tenantUrl, qlikClientId, redirectUrl);
-	checkObjectInDatabase();
+	loadQlikScript(import.meta.env.VITE_QLIK_TENANT_URL, import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID, import.meta.env.VITE_QLIK_REDIRECT_URI);
 	fetchApplications();
-	console.log("Application reçue dans WidgetObjects :", props.application);
-	if (props.application) {
-		checkObjectsApplications(props.application);
-	}
 });
 </script>
+
 <style scoped>
 .header {
 	margin: 20px;
@@ -233,7 +136,6 @@ onMounted(() => {
 .cell-item {
 	display: flex;
 	flex-direction: column;
-	/* Les éléments internes s'alignent verticalement */
 	align-items: center;
 	justify-content: center;
 	background-color: #ddd;
@@ -241,87 +143,19 @@ onMounted(() => {
 	margin: 5px;
 	padding: 10px;
 	width: 150px;
-	/* Largeur fixe pour chaque boîte */
 	height: 100px;
-	/* Hauteur fixe pour chaque boîte */
 	text-align: center;
 }
 
-.cell-item {
-	display: flex;
-	flex-direction: column;
-	/* Les éléments internes s'alignent verticalement */
-	align-items: center;
-	justify-content: center;
-	background-color: #ddd;
-	border-radius: 5px;
-	margin: 5px;
-	padding: 10px;
-	width: 150px;
-	/* Largeur fixe pour chaque boîte */
+.tooltip-content {
+	width: 200px;
 	height: 100px;
-	/* Hauteur fixe pour chaque boîte */
-	text-align: center;
-}
-
-.kpi {
-	height: 800px;
-}
-
-.link-header {
-	padding: 5px;
-	border-radius: 5px;
-	border: 1px solid #ddd;
 	padding: 10px;
-	margin-right: 2px;
 }
 
-.link {
-	align-items: center;
-	padding: 10px;
-	border-radius: 5px;
-}
-
-.active-link {
-	background-color: #007bff;
-	color: white;
-}
-
-ul {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1px;
-	list-style: none;
-	padding: 0 2px;
-	border: 1px solid #ddd;
-	background-color: #ffffff;
-}
-
-.object-item {
-	padding: 10px;
-	border-radius: 5px;
-	border: 1px solid #ddd;
-}
-
-.cell-item {
-	align-items: center;
-	background-color: #ddd;
-	border-radius: 5px;
-	margin: 5px;
-}
-
-.tippy-box[data-theme~='custom-tooltip'] {
-	max-width: 500px;
-	height: 300px;
-}
-
-.button-container {
-	display: none;
-}
-
-.btn {
-	padding: 10px 20px;
-	background-color: #007bff;
-	color: white;
+.no-application {
+	color: #ff0000;
+	margin: 10px 0;
+	border-bottom: #ddd 1px solid;
 }
 </style>

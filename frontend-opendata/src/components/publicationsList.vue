@@ -19,23 +19,23 @@
 									<p><strong>Application:</strong> {{ publication.application }}</p>
 									<p><strong>Categorie:</strong> {{ publication.category }}</p>
 									<p><strong>Auteur:</strong> {{ publication.author }}</p>
-									<p><strong>Publié le:</strong> {{ new
-										Date(publication.publishedAt).toLocaleString()
-									}}</p>
+									<p><strong>Publié le:</strong> {{ formatDate(publication.publishedAt) }}</p>
 								</div>
-								<router-link :to="`/publications/edit/${publication._id}`"
-									class="btn btn-secondary">Edition</router-link>
-								<button @click="deletePublication(publication._id)"
-									class="btn btn-danger">Supprimer</button>
+								<router-link :to="`/publications/edit/${publication._id}`" class="btn btn-secondary">
+									Edition
+								</router-link>
+								<button @click="deletePublication(publication._id)" class="btn btn-danger">
+									Supprimer
+								</button>
 							</div>
 						</div>
 						<p v-html="publication.description"></p>
-
-
-						<p><strong>Source: &nbsp;</strong>
+						<p>
+							<strong>Source: &nbsp;</strong>
 							<span v-if="isValidUrl(publication.data)">
-								<a :href="publication.data" target="_blank" rel="noopener noreferrer">{{
-									publication.data }}</a>
+								<a :href="publication.data" target="_blank" rel="noopener noreferrer">
+									{{ publication.data }}
+								</a>
 							</span>
 							<span v-else>
 								{{ publication.data }}
@@ -55,9 +55,11 @@
 import { ref, onMounted } from "vue";
 import Menu from "../views/Menu.vue";
 
+// Reactive variables
 const publications = ref([]);
 const loadError = ref(null);
 
+// Utility functions
 const isValidUrl = (string) => {
 	try {
 		new URL(string);
@@ -67,40 +69,39 @@ const isValidUrl = (string) => {
 	}
 };
 
+const formatDate = (dateString) => {
+	return new Date(dateString).toLocaleString();
+};
+
+// Fetch publications
 const fetchPublications = async () => {
 	try {
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications`);
-		if (!response.ok) {
-			throw new Error('Failed to fetch publications');
-		}
-		const data = await response.json();
-		publications.value = data;
+		if (!response.ok) throw new Error("Failed to fetch publications");
+		publications.value = await response.json();
 	} catch (error) {
 		loadError.value = error.message;
 	}
 };
 
+// Delete publication
 const deletePublication = async (id) => {
-	if (!confirm('Are you sure you want to delete this publication?')) {
-		return;
-	}
+	if (!confirm("Êtes-vous sûr de vouloir supprimer cette publication ?")) return;
 
 	try {
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications/${id}`, {
-			method: 'DELETE'
+			method: "DELETE",
 		});
-
-		if (!response.ok) {
-			throw new Error('Failed to delete publication');
-		}
+		if (!response.ok) throw new Error("Failed to delete publication");
 
 		// Remove the deleted publication from the list
-		publications.value = publications.value.filter(publication => publication._id !== id);
+		publications.value = publications.value.filter((publication) => publication._id !== id);
 	} catch (error) {
 		alert(error.message);
 	}
 };
 
+// Lifecycle hook
 onMounted(() => {
 	fetchPublications();
 });
@@ -128,12 +129,13 @@ onMounted(() => {
 	align-items: center;
 }
 
-.buttons a {
-	align-content: center;
+.details-article p {
+	margin: 5px 0;
 }
 
-qlik-embed {
-	width: 400px;
+.buttons {
+	display: flex;
+	gap: 25px;
 }
 
 ul {
@@ -150,17 +152,22 @@ li {
 
 strong {
 	font-weight: bold;
-	padding-right: .2em;
-}
-
-.buttons {
-	display: flex;
-	gap: 25px;
+	padding-right: 0.2em;
 }
 
 .error {
 	color: red;
 	margin-bottom: 15px;
+}
+
+.info-message {
+	background-color: #fff3cd;
+	color: #856404;
+	border: 1px solid #ffeeba;
+	padding: 10px;
+	border-radius: 5px;
+	margin: 10px 0;
+	font-weight: bold;
 }
 
 .btn {
@@ -171,6 +178,7 @@ strong {
 	border-radius: 4px;
 	cursor: pointer;
 	margin-right: 10px;
+	height: 50px;
 }
 
 .btn-primary {
@@ -195,15 +203,5 @@ strong {
 
 .btn-danger:hover {
 	background-color: #c82333;
-}
-
-.info-message {
-	background-color: #fff3cd;
-	color: #856404;
-	border: 1px solid #ffeeba;
-	padding: 10px;
-	border-radius: 5px;
-	margin: 10px 0;
-	font-weight: bold;
 }
 </style>
