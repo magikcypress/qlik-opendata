@@ -1,32 +1,39 @@
 <template>
-    <div>
-        <Menu />
-        <div class="header">
-            <h2>Qlik Sense Applications</h2>
-        </div>
-        <div v-if="loadError" class="error">{{ loadError }}</div>
-        <div v-else-if="loading" class="loading">Chargement...</div>
-        <div v-else>
-            <ul>
-                <li v-for="app in apps.value" :key="app.attributes.id" class="app-item">
-                    <el-row :gutter="20">
-                        <el-col :span="6">
-                            <img :src="`${tenantUrl}${app.attributes.thumbnail}`" alt="thumbnail" class="thumbnail"/>
-                        </el-col>
-                        <el-col :span="18">
-                            <h3>{{ app.attributes.name }}</h3>
-                            <div class="app-description">{{ app.attributes.description }}</div>
-                            <div class="buttons">
-                                <button v-if="!applicationInDatabase.has(app.attributes.id)"
-                                    @click="addApplicationToMongoDB(app)" class="btn btn-primary">Ajouter une application</button>
-                                <button v-else @click="removeApplicationFromMongoDB(app)" class="btn btn-danger">Supprimer application</button>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </li>
-            </ul>
-        </div>
-    </div>
+	<div>
+		<Menu />
+		<div class="header">
+			<h2>Qlik Sense Applications</h2>
+		</div>
+		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-else-if="loading" class="loading">Chargement...</div>
+		<div v-else>
+			<ul>
+				<li v-for="app in apps.value" :key="app.attributes.id" class="app-item">
+					<el-row :gutter="20">
+						<el-col :span="6">
+							<img :src="`${tenantUrl}${app.attributes.thumbnail}`" alt="thumbnail" class="thumbnail" />
+						</el-col>
+						<el-col :span="18">
+							<h3>{{ app.attributes.name }}</h3>
+							<div class="app-description">{{ app.attributes.description }}</div>
+							<div class="form-group">
+								<label for="eac-{{ app.attributes.id }}">Anonymous access key</label>
+								<input type="text" :id="'eac-' + app.attributes.id" v-model="app.eac" />
+								<div class="info-message">L'EAC est une clé d'accès anonyme pour l'application.</div>
+							</div>
+							<div class="buttons">
+								<button v-if="!applicationInDatabase.has(app.attributes.id)"
+									@click="addApplicationToMongoDB(app)" class="btn btn-primary">Ajouter une
+									application</button>
+								<button v-else @click="removeApplicationFromMongoDB(app)"
+									class="btn btn-danger">Supprimer application</button>
+							</div>
+						</el-col>
+					</el-row>
+				</li>
+			</ul>
+		</div>
+	</div>
 </template>
 
 <script setup>
@@ -44,6 +51,7 @@ const loadError = ref(null);
 const loading = ref(true);
 const applicationInDatabase = ref(new Set());
 const applicationData = ref([]);
+const eac = ref("");
 
 const fetchApps = async () => {
 	try {
@@ -86,6 +94,7 @@ const addApplicationToMongoDB = async (app) => {
 				qId: app.attributes.id,
 				name: app.attributes.name,
 				description: app.attributes.description,
+				eac: app.eac,
 				active: true
 			})
 		});
@@ -210,6 +219,23 @@ li {
 	padding: 10px;
 	margin: 10px 0;
 	border-radius: 5px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 
 .thumbnail {

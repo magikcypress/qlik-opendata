@@ -8,6 +8,12 @@
 		<div v-if="successMessage" class="success">{{ successMessage }}</div>
 		<form @submit.prevent="submitPublication">
 			<div class="form-group">
+				<label for="application">Application <span class="mandatory">*</span></label>
+				<select id="application" v-model="application" required>
+					<option v-for="app in applications" :key="app._id" :value="app.name">{{ app.name }}</option>
+				</select>
+			</div>
+			<div class="form-group">
 				<label for="title">Title <span class="mandatory">*</span></label>
 				<input type="text" id="title" v-model="title" required />
 			</div>
@@ -45,6 +51,8 @@ const description = ref("");
 const author = ref("");
 const category = ref("");
 const categories = ref("");
+const application = ref("");
+const applications = ref([]);
 const data = ref("");
 const errorMessage = ref(null);
 const successMessage = ref(null);
@@ -60,6 +68,19 @@ const fetchCategories = async () => {
 		}
 		const data = await response.json();
 		categories.value = data;
+	} catch (error) {
+		errorMessage.value = error.message;
+	}
+};
+
+const fetchApplications = async () => {
+	try {
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
+		if (!response.ok) {
+			throw new Error('Failed to fetch applications');
+		}
+		const data = await response.json();
+		applications.value = data;
 	} catch (error) {
 		errorMessage.value = error.message;
 	}
@@ -109,6 +130,7 @@ const submitPublication = async () => {
 
 onMounted(() => {
 	fetchCategories();
+	fetchApplications();
 	quillInstance = new Quill(quillEditor.value, {
 		theme: 'snow'
 	});

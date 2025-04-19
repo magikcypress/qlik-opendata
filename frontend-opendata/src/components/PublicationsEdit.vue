@@ -9,6 +9,12 @@
 		<div v-if="successMessage" class="success">{{ successMessage }}</div>
 		<form @submit.prevent="submitPublication">
 			<div class="form-group">
+				<label for="application">Application <span class="mandatory">*</span></label>
+				<select id="application" v-model="application" required>
+					<option v-for="app in applications" :key="app._id" :value="app.name">{{ app.name }}</option>
+				</select>
+			</div>
+			<div class="form-group">
 				<label for="title">Titre <span class="mandatory">*</span></label>
 				<input type="text" id="title" v-model="title" required />
 			</div>
@@ -44,6 +50,7 @@ import { useRouter, useRoute } from 'vue-router';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
+import { loadQlikScriptAnon } from '@/utils/utils';
 import WidgetObjects from './widgetsObjects.vue';
 
 const title = ref("");
@@ -51,6 +58,8 @@ const description = ref("");
 const author = ref("");
 const category = ref("");
 const categories = ref([]);
+const application = ref("");
+const applications = ref([]);
 const data = ref("");
 const errorMessage = ref(null);
 const successMessage = ref(null);
@@ -60,6 +69,9 @@ const route = useRoute();
 const quillEditor = ref(null);
 const quillInstance = ref(null);
 
+const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
+const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID;
+
 const fetchCategories = async () => {
 	try {
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/categories`);
@@ -68,6 +80,19 @@ const fetchCategories = async () => {
 		}
 		const data = await response.json();
 		categories.value = data;
+	} catch (error) {
+		errorMessage.value = error.message;
+	}
+};
+
+const fetchApplications = async () => {
+	try {
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
+		if (!response.ok) {
+			throw new Error('Failed to fetch applications');
+		}
+		const data = await response.json();
+		applications.value = data;
 	} catch (error) {
 		errorMessage.value = error.message;
 	}
@@ -85,6 +110,7 @@ const fetchPublication = async () => {
 		description.value = publication.description;
 		author.value = publication.author;
 		category.value = publication.category;
+		application.value = publication.application;
 		data.value = publication.data;
 		if (quillInstance.value) {
 			quillInstance.value.root.innerHTML = publication.description;
@@ -112,6 +138,7 @@ const submitPublication = async () => {
 				description: quillInstance.value.root.innerHTML,
 				author: author.value,
 				category: category.value,
+				application: application.value,
 				data: data.value,
 				active: true
 			})
@@ -146,7 +173,10 @@ const insertCellIntoQuill = (cellName) => {
 
 onMounted(() => {
 	fetchCategories();
+	fetchApplications();
 	fetchPublication();
+	loadQlikScriptAnon(tenantUrl, qlikClientId, applications.eac);
+	console.log('applications:', applications.eac);
 
 	const toolbarOptions = [
 		[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme

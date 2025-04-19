@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
         <h2>Objets par applications</h2>
 		<div v-if="loadError" class="error">{{ loadError }}</div>
 		<div v-else-if="loading" class="loading">Chargement...</div>
@@ -36,6 +37,46 @@
 			</div>
 		</div>
 	
+=======
+	<h2>Objets par applications</h2>
+	<div v-if="loadError" class="error">{{ loadError }}</div>
+	<div v-else-if="loading" class="loading">Chargement...</div>
+	<div v-else>
+
+		<div v-for="app in applicationsData" :key="app.qId" class="application">
+			<el-link @click.prevent="toggleSheets(app.qId)">
+				<font-awesome-icon :icon="activeSheet === app.qId ? 'chevron-down' : 'chevron-right'" />
+				&nbsp;{{ app.name }}
+			</el-link>
+			<div v-if="activeSheet === app.qId">
+				<div v-for="object in app.sheets" :key="object.qData.name" class="object">
+					<ul>
+						<li>
+							<ul>
+								<li class="cell-item btn">
+									<h4>{{ object.qMeta.title }}</h4>
+								</li>
+								<li v-for="cell in object.qData.cells" :key="cell.name" class="cell-item">
+									<Tippy interactive theme="custom-tooltip">
+										<template #content>
+											<div v-html="getTooltipContent(cell.name)"
+												style="width: 200px; height: 100px; padding: 10px;"></div>
+										</template>
+										<a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
+											{{ cell.type }} <span :class="`lui-icon lui-icon--${cell.type}`"
+												aria-hidden="true"></span>
+										</a>
+									</Tippy>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+>>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 </template>
 
 <script setup>
@@ -67,12 +108,21 @@ const loading = ref(true);
 const emit = defineEmits(['insert-cell']);
 
 const formatCellType = (type) => {
+<<<<<<< HEAD
     if (type === "barchart") return "bar-chart";
     if (type === "linechart") return "line-chart";
     if (type === "auto-chart") return "auto-layout";
     if (type === "piechart") return "pie-chart";
     if (type === "combochart") return "combo-chart";
     return type;
+=======
+	if (type === "barchart") return "bar-chart";
+	if (type === "linechart") return "line-chart";
+	if (type === "auto-chart") return "auto-layout";
+	if (type === "piechart") return "pie-chart";
+	if (type === "combochart") return "combo-chart";
+	return type;
+>>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 };
 
 const checkObjectsApplications = async (app) => {
@@ -112,10 +162,17 @@ const fetchApplications = async () => {
 			autoRedirect: true,
 		});
 
+<<<<<<< HEAD
         for (const appId of qlikAppsId) {
             console.log('AppId:', appId);
             await checkApplicationInDatabase(appId);
         }
+=======
+		for (const appId of qlikAppsId) {
+			console.log('AppId:', appId);
+			await checkApplicationInDatabase(appId);
+		}
+>>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 
 	} catch (error) {
 		loadError.value = error.message;
@@ -203,10 +260,17 @@ onMounted(() => {
 }
 
 .application {
+<<<<<<< HEAD
     padding: 5px;
     margin: 5px;
     border-radius: 5px;
     border: #ddd 1px solid;
+=======
+	padding: 5px;
+	margin: 5px;
+	border-radius: 5px;
+	border: #ddd 1px solid;
+>>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 }
 
 .object {
@@ -230,6 +294,23 @@ onMounted(() => {
     width: 150px; /* Largeur fixe pour chaque boîte */
     height: 100px; /* Hauteur fixe pour chaque boîte */
     text-align: center;
+}
+
+.cell-item {
+	display: flex;
+	flex-direction: column;
+	/* Les éléments internes s'alignent verticalement */
+	align-items: center;
+	justify-content: center;
+	background-color: #ddd;
+	border-radius: 5px;
+	margin: 5px;
+	padding: 10px;
+	width: 150px;
+	/* Largeur fixe pour chaque boîte */
+	height: 100px;
+	/* Hauteur fixe pour chaque boîte */
+	text-align: center;
 }
 
 .kpi {

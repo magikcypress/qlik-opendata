@@ -59,6 +59,7 @@ const applicationSchema = new mongoose.Schema({
 	qId: { type: String, required: true, unique: true },
 	name: { type: String, required: true },
 	description: { type: String },
+	eac: { type: String, required: true },
 	publishedAt: { type: Date, default: Date.now },
 	updatedAt: { type: Date, default: Date.now },
 	active: { type: Boolean, default: false }
@@ -148,6 +149,7 @@ const publicationSchema = new mongoose.Schema({
 	description: { type: String },
 	author: { type: String, required: true },
 	category: { type: String, required: true },
+	application: { type: String, required: true },
 	publishedAt: { type: Date, default: Date.now },
 	updatedAt: { type: Date, default: Date.now },
 	data: { type: mongoose.Schema.Types.Mixed },
@@ -225,7 +227,7 @@ app.post('/applications', async (req, res) => {
 app.delete('/applications/:id', async (req, res) => {
 	try {
 		const application = await Application.findOneAndDelete({ qId: req.params.id });
-		console.log(application);
+
 		if (!application) {
 			return res.status(404).json({ message: 'Application not found' });
 		}
@@ -540,10 +542,10 @@ app.get('/publications/:id', async (req, res) => {
 app.put('/publications/:id', async (req, res) => {
 	console.log(req.params.id);
 	try {
-		const { title, description, author, category, data, active } = req.body;
+		const { application, title, description, author, category, data, active } = req.body;
 		const publication = await Publication.findByIdAndUpdate(
 			req.params.id,
-			{ title, description, author, category, data, active, updatedAt: Date.now() },
+			{ application, title, description, author, category, data, active, updatedAt: Date.now() },
 			{ new: true }
 		);
 		if (!publication) {

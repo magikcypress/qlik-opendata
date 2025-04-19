@@ -7,11 +7,19 @@
 		<div v-else>
 			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
 
+<<<<<<< HEAD
             <div v-for="app in applicationsData" :key="app.qId" class="application">
                 <el-link @click.prevent="toggleSheets(app.qId)">
 					<font-awesome-icon :icon="activeSheet === app.qId ? 'chevron-down' : 'chevron-right'" />
                     &nbsp;{{ app.name }}</el-link>
 				<div  v-if="activeSheet === app.qId">
+=======
+			<div v-for="app in applicationsData" :key="app.qId" class="application">
+				<el-link @click.prevent="toggleSheets(app.qId)">
+					<font-awesome-icon :icon="activeSheet === app.qId ? 'chevron-down' : 'chevron-right'" />
+					&nbsp;{{ app.name }}</el-link>
+				<div v-if="activeSheet === app.qId">
+>>>>>>> 1c635f67 (Add application field to schemas, enhance publications forms with application selection, and improve UI elements across components)
 					<div v-for="object in app.sheets" :key="object.qData.name" class="object">
 						<ul>
 							<li>

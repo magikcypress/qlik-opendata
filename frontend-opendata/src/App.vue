@@ -22,7 +22,7 @@
 		</div>
 
 		<el-footer>
-			Site OpenData avec Qlik Sense Cloud - MIT Licence
+			Site OpenData avec Qlik Cloud - MIT Licence
 		</el-footer>
 	</div>
 </template>
