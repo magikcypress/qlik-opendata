@@ -4,72 +4,82 @@
 		<a href="/category" class="btn btn-secondary">return</a>
 	</div>
 	<div class="category-form">
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-if="errorMessage" class="error">{{ errorMessage }}</div>
-		<div v-if="successMessage" class="success">{{ successMessage }}</div>
+		<div v-if="loadError" class="error">
+			{{ loadError }}
+		</div>
+		<div v-if="errorMessage" class="error">
+			{{ errorMessage }}
+		</div>
+		<div v-if="successMessage" class="success">
+			{{ successMessage }}
+		</div>
 		<form @submit.prevent="submitCategory">
 			<div class="form-group">
 				<label for="title">Titre</label>
-				<input type="text" id="title" v-model="title" required />
+				<input id="title" v-model="title" type="text" required>
 			</div>
 			<div class="form-group">
 				<label for="description">Description</label>
-				<textarea id="description" v-model="description"></textarea>
+				<textarea id="description" v-model="description" />
 			</div>
-			<button type="submit" class="btn btn-primary">Envoyer</button>
+			<button type="submit" class="btn btn-primary">
+				Envoyer
+			</button>
 		</form>
 	</div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter, useRoute } from 'vue-router';
+import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
-const title = ref("");
-const description = ref("");
-const errorMessage = ref(null);
-const successMessage = ref(null);
-const loadError = ref(null);
-const router = useRouter();
-const route = useRoute();
+const title = ref('')
+const description = ref('')
+const errorMessage = ref(null)
+const successMessage = ref(null)
+const loadError = ref(null)
+const router = useRouter()
+const route = useRoute()
 
 const submitCategory = async () => {
 	if (!title.value) {
-		errorMessage.value = "Title field is required.";
-		return;
+		errorMessage.value = 'Title field is required.'
+		return
 	}
 
 	try {
-		const id = route.params.id;
-		console.log(id);
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/categories/${id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json'
+		const id = route.params.id
+		console.log(id)
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/categories/${id}`,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					title: title.value,
+					description: description.value,
+					updatedAt: new Date(),
+					active: true,
+				}),
 			},
-			body: JSON.stringify({
-				title: title.value,
-				description: description.value,
-				updatedAt: new Date(),
-				active: true
-			})
-		});
+		)
 
 		if (!response.ok) {
-			throw new Error('Failed to update category');
+			throw new Error('Failed to update category')
 		}
 
-		successMessage.value = "Category updated successfully!";
-		errorMessage.value = null;
+		successMessage.value = 'Category updated successfully!'
+		errorMessage.value = null
 
 		// Redirect to the categories list page
-		router.push('/category');
+		router.push('/category')
 	} catch (error) {
-		errorMessage.value = error.message;
-		successMessage.value = null;
+		errorMessage.value = error.message
+		successMessage.value = null
 	}
-};
-
+}
 </script>
 
 <style scoped>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -8,14 +8,15 @@
 <body>
   <script type="module">
     // Créer le script et définir les attributs
-    const script = document.createElement('script');
-    script.crossOrigin = 'anonymous';
-    script.type = 'application/javascript';
-    script.src = 'https://cdn.jsdelivr.net/npm/@qlik/embed-web-components@0/dist/oauth-callback.js';
-    script.setAttribute('data-host', 'https://qfpanon.se.qlikcloud.com');
+    const script = document.createElement('script')
+    script.crossOrigin = 'anonymous'
+    script.type = 'application/javascript'
+    script.src =
+      'https://cdn.jsdelivr.net/npm/@qlik/embed-web-components@0/dist/oauth-callback.js'
+    script.setAttribute('data-host', 'https://qfpanon.se.qlikcloud.com')
 
     // Ajouter le script au document
-    document.head.appendChild(script);
+    document.head.appendChild(script)
   </script>
 </body>
 

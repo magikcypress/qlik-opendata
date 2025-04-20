@@ -4,10 +4,14 @@
 		<div class="header">
 			<h2>Publications</h2>
 			<div class="add-new-publication">
-				<router-link to="/publicationsadd" class="btn btn-primary">Ajout Publication</router-link>
+				<router-link to="/publicationsadd" class="btn btn-primary">
+					Ajout Publication
+				</router-link>
 			</div>
 		</div>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
+		<div v-if="loadError" class="error">
+			{{ loadError }}
+		</div>
 		<div v-else>
 			<div v-if="publications.length > 0">
 				<ul>
@@ -16,20 +20,34 @@
 							<h3>{{ publication.title }}</h3>
 							<div class="buttons">
 								<div class="details-article">
-									<p><strong>Application:</strong> {{ publication.application }}</p>
-									<p><strong>Categorie:</strong> {{ publication.category }}</p>
-									<p><strong>Auteur:</strong> {{ publication.author }}</p>
-									<p><strong>Publié le:</strong> {{ formatDate(publication.publishedAt) }}</p>
+									<p>
+										<strong>Application:</strong>
+										{{ publication.application }}
+									</p>
+									<p>
+										<strong>Categorie:</strong>
+										{{ publication.category }}
+									</p>
+									<p>
+										<strong>Auteur:</strong>
+										{{ publication.author }}
+									</p>
+									<p>
+										<strong>Publié le:</strong>
+										{{
+											formatDate(publication.publishedAt)
+										}}
+									</p>
 								</div>
 								<router-link :to="`/publications/edit/${publication._id}`" class="btn btn-secondary">
 									Edition
 								</router-link>
-								<button @click="deletePublication(publication._id)" class="btn btn-danger">
+								<button class="btn btn-danger" @click="deletePublication(publication._id)">
 									Supprimer
 								</button>
 							</div>
 						</div>
-						<p v-html="publication.description"></p>
+						<p v-html="publication.description" />
 						<p>
 							<strong>Source: &nbsp;</strong>
 							<span v-if="isValidUrl(publication.data)">
@@ -45,66 +63,76 @@
 				</ul>
 			</div>
 			<div v-else>
-				<p class="info-message">Pas de publication pour le moment.</p>
+				<p class="info-message">
+					Pas de publication pour le moment.
+				</p>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import Menu from "../views/Menu.vue";
+import { ref, onMounted } from 'vue'
+import Menu from '../views/menuNav.vue'
 
 // Reactive variables
-const publications = ref([]);
-const loadError = ref(null);
+const publications = ref([])
+const loadError = ref(null)
 
 // Utility functions
-const isValidUrl = (string) => {
+const isValidUrl = string => {
 	try {
-		new URL(string);
-		return true;
+		new URL(string)
+		return true
 	} catch (_) {
-		return false;
+		return false
 	}
-};
+}
 
-const formatDate = (dateString) => {
-	return new Date(dateString).toLocaleString();
-};
+const formatDate = dateString => {
+	return new Date(dateString).toLocaleString()
+}
 
 // Fetch publications
 const fetchPublications = async () => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications`);
-		if (!response.ok) throw new Error("Failed to fetch publications");
-		publications.value = await response.json();
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/publications`,
+		)
+		if (!response.ok) throw new Error('Failed to fetch publications')
+		publications.value = await response.json()
 	} catch (error) {
-		loadError.value = error.message;
+		loadError.value = error.message
 	}
-};
+}
 
 // Delete publication
-const deletePublication = async (id) => {
-	if (!confirm("Êtes-vous sûr de vouloir supprimer cette publication ?")) return;
+const deletePublication = async id => {
+	if (!confirm('Êtes-vous sûr de vouloir supprimer cette publication ?'))
+		return
 
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications/${id}`, {
-			method: "DELETE",
-		});
-		if (!response.ok) throw new Error("Failed to delete publication");
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/publications/${id}`,
+			{
+				method: 'DELETE',
+			},
+		)
+		if (!response.ok) throw new Error('Failed to delete publication')
 
 		// Remove the deleted publication from the list
-		publications.value = publications.value.filter((publication) => publication._id !== id);
+		publications.value = publications.value.filter(
+			publication => publication._id !== id,
+		)
 	} catch (error) {
-		alert(error.message);
+		alert(error.message)
 	}
-};
+}
 
 // Lifecycle hook
 onMounted(() => {
-	fetchPublications();
-});
+	fetchPublications()
+})
 </script>
 
 <style scoped>

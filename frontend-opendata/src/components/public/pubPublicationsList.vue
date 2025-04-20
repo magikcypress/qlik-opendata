@@ -1,50 +1,64 @@
 <template>
 	<div>
 		<h2>Publications</h2>
-		<div v-if="loadError" class="error">{{ loadError }}</div>
-		<div v-else="activeSheets.length > 0" class="publications-container">
+		<div v-if="loadError" class="error">
+			{{ loadError }}
+		</div>
+		<div v-else class="publications-container">
 			<div v-for="publication in publications" :key="publication._id" class="publication-item">
 				<el-link :href="`/publication/${publication._id}`">
-					<img :src="Jacket" alt="Publication Image" class="publication-image" />
+					<img :src="Jacket" alt="Publication Image" class="publication-image">
 				</el-link>
 				<el-link :href="`/publication/${publication._id}`">
 					<h3>{{ publication.title }}</h3>
 				</el-link>
-				<div class="date"><strong>Author:</strong> {{ publication.author }} • <strong>Published At:</strong>
-					{{ new Date(publication.publishedAt).toLocaleDateString('fr') }}</div>
-				<div class="date"><strong>Category:</strong> {{ publication.category }}</div>
-
+				<div class="date">
+					<strong>Author:</strong> {{ publication.author }} •
+					<strong>Published At:</strong>
+					{{
+						new Date(publication.publishedAt).toLocaleDateString(
+							'fr',
+						)
+					}}
+				</div>
+				<div class="date">
+					<strong>Category:</strong> {{ publication.category }}
+				</div>
 			</div>
 		</div>
 		<div v-else>
-			<p class="info-message">Pas de publication pour le moment.</p>
+			<p class="info-message">
+				Pas de publication pour le moment.
+			</p>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import Jacket from '@/assets/data-template.jpg';
+import { ref, onMounted } from 'vue'
+import Jacket from '@/assets/data-template.jpg'
 
-const publications = ref([]);
-const loadError = ref(null);
+const publications = ref([])
+const loadError = ref(null)
 
 const fetchPublications = async () => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications`);
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/publications`,
+		)
 		if (!response.ok) {
-			throw new Error('Failed to fetch publications');
+			throw new Error('Failed to fetch publications')
 		}
-		const data = await response.json();
-		publications.value = data;
+		const data = await response.json()
+		publications.value = data
 	} catch (error) {
-		loadError.value = error.message;
+		loadError.value = error.message
 	}
-};
+}
 
 onMounted(() => {
-	fetchPublications();
-});
+	fetchPublications()
+})
 </script>
 
 <style scoped>

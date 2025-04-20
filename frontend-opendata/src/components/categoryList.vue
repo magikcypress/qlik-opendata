@@ -4,7 +4,9 @@
 		<div class="header">
 			<h2>Catégorie</h2>
 			<div class="add-new-category">
-				<router-link to="/categoryadd" class="btn btn-primary">Ajouter Catégorie</router-link>
+				<router-link to="/categoryadd" class="btn btn-primary">
+					Ajouter Catégorie
+				</router-link>
 			</div>
 		</div>
 		<div v-if="categories.length > 0">
@@ -13,64 +15,81 @@
 					<div class="category-header">
 						<h3>{{ category.title }}</h3>
 						<div class="buttons">
-							<router-link :to="`/category/edit/${category._id}`"
-								class="btn btn-secondary">Edition</router-link>
-							<button @click="deleteCategory(category._id)" class="btn btn-danger">Supprimer</button>
+							<router-link :to="`/category/edit/${category._id}`" class="btn btn-secondary">
+								Edition
+							</router-link>
+							<button class="btn btn-danger" @click="deleteCategory(category._id)">
+								Supprimer
+							</button>
 						</div>
 					</div>
 					<p>{{ category.description }}</p>
-					<p>Crée le: {{ new Date(category.createdAt).toLocaleString() }}</p>
-					<p>Mise à jour le: {{ new Date(category.updatedAt).toLocaleString() }}</p>
+					<p>
+						Crée le:
+						{{ new Date(category.createdAt).toLocaleString() }}
+					</p>
+					<p>
+						Mise à jour le:
+						{{ new Date(category.updatedAt).toLocaleString() }}
+					</p>
 				</li>
 			</ul>
 		</div>
 		<div v-else>
-			<p class="info-message">Pas de catégorie pour le moment.</p>
+			<p class="info-message">
+				Pas de catégorie pour le moment.
+			</p>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
-import Menu from '@/views/Menu.vue';
+import Menu from '@/views/menuNav.vue'
 
-const categories = ref([]);
+const categories = ref([])
 
 const fetchCategories = async () => {
 	try {
-		const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/categories`);
-		categories.value = response.data;
+		const response = await axios.get(
+			`${import.meta.env.VITE_BACKEND_URI}/categories`,
+		)
+		categories.value = response.data
 	} catch (error) {
-		console.error('Error fetching categories:', error);
+		console.error('Error fetching categories:', error)
 	}
-};
+}
 
-const toggleActive = async (id) => {
+const toggleActive = async id => {
 	try {
-		const category = categories.value.find(cat => cat._id === id);
+		const category = categories.value.find(cat => cat._id === id)
 		if (category) {
-			await axios.put(`${import.meta.env.VITE_BACKEND_URI}/categories/${id}/active`);
-			category.active = !category.active;
+			await axios.put(
+				`${import.meta.env.VITE_BACKEND_URI}/categories/${id}/active`,
+			)
+			category.active = !category.active
 		}
 	} catch (error) {
-		console.error('Error toggling active state:', error);
+		console.error('Error toggling active state:', error)
 	}
-};
+}
 
-const deleteCategory = async (id) => {
+const deleteCategory = async id => {
 	try {
-		await axios.delete(`${import.meta.env.VITE_BACKEND_URI}/categories/${id}`);
-		categories.value = categories.value.filter(cat => cat._id !== id);
+		await axios.delete(
+			`${import.meta.env.VITE_BACKEND_URI}/categories/${id}`,
+		)
+		categories.value = categories.value.filter(cat => cat._id !== id)
 	} catch (error) {
-		console.error('Error deleting category:', error);
+		console.error('Error deleting category:', error)
 	}
-};
+}
 
 onMounted(() => {
-	fetchCategories();
-});
+	fetchCategories()
+})
 </script>
 
 <style scoped>

@@ -1,14 +1,14 @@
 <template>
 	<div class="home">
 		<qlik-embed ref="console" ui="analytics/sheet" app-id="3ab28c9d-56e6-40d8-8931-8f80fe76dbae"
-			object-id="CMUJpN"></qlik-embed>
+			object-id="CMUJpN" />
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'Home'
-};
+	name: 'HomePage',
+}
 </script>
 
 <style scoped>

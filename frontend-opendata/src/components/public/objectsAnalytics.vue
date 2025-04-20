@@ -1,45 +1,45 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { loadQlikScriptAnon } from '@/utils/utils';
-import { VueDraggableNext } from 'vue-draggable-next';
+import { ref, onMounted } from 'vue'
+import { loadQlikScriptAnon } from '@/utils/utils'
+import { VueDraggableNext } from 'vue-draggable-next'
 
-const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL;
-const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID;
-const qlikAppId = import.meta.env.VITE_QLIK_APP_ID;
-const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE;
+const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
+const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID
+const qlikAppId = import.meta.env.VITE_QLIK_APP_ID
+const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE
 
-const objects = ref([]);
-const activeObjects = ref([]);
+const objects = ref([])
+const activeObjects = ref([])
 
 const fetchObjects = async () => {
 	try {
-		const response = await fetch('http://localhost:3000/objects');
+		const response = await fetch('http://localhost:3000/objects')
 		if (!response.ok) {
-			throw new Error('Failed to fetch objects');
+			throw new Error('Failed to fetch objects')
 		}
-		const data = await response.json();
-		objects.value = data;
-		activeObjects.value = data.filter(object => object.active);
+		const data = await response.json()
+		objects.value = data
+		activeObjects.value = data.filter(object => object.active)
 	} catch (error) {
-		console.error('Error fetching objects:', error);
+		console.error('Error fetching objects:', error)
 	}
-};
+}
 
 onMounted(() => {
-	loadQlikScriptAnon(tenantUrl, qlikClientId, qlikEmbedAccessCode);
-	fetchObjects();
-});
+	loadQlikScriptAnon(tenantUrl, qlikClientId, qlikEmbedAccessCode)
+	fetchObjects()
+})
 </script>
 
 <template>
 	<div>
 		<div v-if="activeObjects.length > 0">
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId"></qlik-embed>
+			<qlik-embed ui="analytics/selections" :app-id="qlikAppId" />
 
 			<vue-draggable-next v-model="activeObjects">
 				<template v-for="element in activeObjects" :key="element.name">
 					<div class="object">
-						<qlik-embed ui="analytics/chart" :app-id="qlikAppId" :object-id="element.name"></qlik-embed>
+						<qlik-embed ui="analytics/chart" :app-id="qlikAppId" :object-id="element.name" />
 					</div>
 				</template>
 			</vue-draggable-next>
@@ -48,7 +48,9 @@ onMounted(() => {
 			</div> -->
 		</div>
 		<div v-else>
-			<p class="info-message">Pas d'objets disponible pour le moment.</p>
+			<p class="info-message">
+				Pas d'objets disponible pour le moment.
+			</p>
 		</div>
 	</div>
 </template>

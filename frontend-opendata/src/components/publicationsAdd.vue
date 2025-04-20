@@ -4,143 +4,160 @@
 		<a href="/publications" class="btn btn-secondary">Retour</a>
 	</div>
 	<div class="publication-form">
-		<div v-if="errorMessage" class="error">{{ errorMessage }}</div>
-		<div v-if="successMessage" class="success">{{ successMessage }}</div>
+		<div v-if="errorMessage" class="error">
+			{{ errorMessage }}
+		</div>
+		<div v-if="successMessage" class="success">
+			{{ successMessage }}
+		</div>
 		<form @submit.prevent="submitPublication">
 			<div class="form-group">
 				<label for="application">Application <span class="mandatory">*</span></label>
 				<select id="application" v-model="application" required>
-					<option v-for="app in applications" :key="app._id" :value="app.name">{{ app.name }}</option>
+					<option v-for="app in applications" :key="app._id" :value="app.name">
+						{{ app.name }}
+					</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="title">Title <span class="mandatory">*</span></label>
-				<input type="text" id="title" v-model="title" required />
+				<input id="title" v-model="title" type="text" required>
 			</div>
 			<div class="form-group">
 				<label for="description">Description <span class="mandatory">*</span></label>
-				<div ref="quillEditor" class="quill-editor"></div>
+				<div ref="quillEditor" class="quill-editor" />
 			</div>
 			<div class="form-group">
 				<label for="author">Auteur <span class="mandatory">*</span></label>
-				<input type="text" id="author" v-model="author" required />
+				<input id="author" v-model="author" type="text" required>
 			</div>
 			<div class="form-group">
 				<label for="category">Categorie <span class="mandatory">*</span></label>
 				<select id="category" v-model="category" required>
-					<option v-for="cat in categories" :key="cat._id" :value="cat.title">{{ cat.title }}</option>
+					<option v-for="cat in categories" :key="cat._id" :value="cat.title">
+						{{ cat.title }}
+					</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="data">Source des données</label>
-				<textarea id="data" v-model="data" required></textarea>
+				<textarea id="data" v-model="data" required />
 			</div>
-			<button type="submit" class="btn btn-primary">Envoyer</button>
+			<button type="submit" class="btn btn-primary">
+				Envoyer
+			</button>
 		</form>
 	</div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from 'vue-router';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import Quill from 'quill'
+import 'quill/dist/quill.snow.css'
 
-const title = ref("");
-const description = ref("");
-const author = ref("");
-const category = ref("");
-const categories = ref("");
-const application = ref("");
-const applications = ref([]);
-const data = ref("");
-const errorMessage = ref(null);
-const successMessage = ref(null);
-const router = useRouter();
-const quillEditor = ref(null);
-let quillInstance = null;
+const title = ref('')
+const description = ref('')
+const author = ref('')
+const category = ref('')
+const categories = ref('')
+const application = ref('')
+const applications = ref([])
+const data = ref('')
+const errorMessage = ref(null)
+const successMessage = ref(null)
+const router = useRouter()
+const quillEditor = ref(null)
+let quillInstance = null
 
 const fetchCategories = async () => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/categories`);
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/categories`,
+		)
 		if (!response.ok) {
-			throw new Error('Failed to fetch categories');
+			throw new Error('Failed to fetch categories')
 		}
-		const data = await response.json();
-		categories.value = data;
+		const data = await response.json()
+		categories.value = data
 	} catch (error) {
-		errorMessage.value = error.message;
+		errorMessage.value = error.message
 	}
-};
+}
 
 const fetchApplications = async () => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/applications`,
+		)
 		if (!response.ok) {
-			throw new Error('Failed to fetch applications');
+			throw new Error('Failed to fetch applications')
 		}
-		const data = await response.json();
-		applications.value = data;
+		const data = await response.json()
+		applications.value = data
 	} catch (error) {
-		errorMessage.value = error.message;
+		errorMessage.value = error.message
 	}
-};
+}
 
 const submitPublication = async () => {
 	if (!title.value || !author.value || !data.value) {
-		errorMessage.value = "Title, Author, and Data fields are required.";
-		return;
+		errorMessage.value = 'Title, Author, and Data fields are required.'
+		return
 	}
 
 	try {
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/publications`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/publications`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					title: title.value,
+					description: quillInstance.root.innerHTML,
+					author: author.value,
+					category: category.value,
+					data: data.value,
+					active: true,
+				}),
 			},
-			body: JSON.stringify({
-				title: title.value,
-				description: quillInstance.root.innerHTML,
-				author: author.value,
-				category: category.value,
-				data: data.value,
-				active: true
-			})
-		});
+		)
 
 		if (!response.ok) {
-			throw new Error('Failed to create publication');
+			throw new Error('Failed to create publication')
 		}
 
-		successMessage.value = "Publication created successfully!";
-		errorMessage.value = null;
-		title.value = "";
-		description.value = "";
-		author.value = "";
-		category.value = "";
-		data.value = "";
+		successMessage.value = 'Publication created successfully!'
+		errorMessage.value = null
+		title.value = ''
+		description.value = ''
+		author.value = ''
+		category.value = ''
+		data.value = ''
 
 		// Redirect to the publications list page
-		router.push('/publications');
+		router.push('/publications')
 	} catch (error) {
-		errorMessage.value = error.message;
-		successMessage.value = null;
+		errorMessage.value = error.message
+		successMessage.value = null
 	}
-};
+}
 
 onMounted(() => {
-	fetchCategories();
-	fetchApplications();
+	fetchCategories()
+	fetchApplications()
 	quillInstance = new Quill(quillEditor.value, {
-		theme: 'snow'
-	});
-});
+		theme: 'snow',
+	})
+})
 
 onBeforeUnmount(() => {
 	if (quillInstance) {
-		quillInstance = null;
+		quillInstance = null
 	}
-});
+})
 </script>
 
 <style scoped>
