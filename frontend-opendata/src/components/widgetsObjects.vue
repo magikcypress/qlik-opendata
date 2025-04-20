@@ -4,7 +4,8 @@
 	<div v-else-if="loading" class="loading">Chargement...</div>
 	<div v-else>
 		<div v-if="filteredApplications.length === 0" class="no-application">
-			Aucune application correspondante trouvée.
+			Aucune application correspondante trouvée. Veuillez vérifier que vous avez bien
+			choisi une application dans la liste déroulante.
 		</div>
 		<div v-for="app in filteredApplications" :key="app.qId" class="application">
 			<el-link @click.prevent="toggleSheets(app.qId)">
@@ -12,27 +13,34 @@
 				&nbsp;{{ app.name }}
 			</el-link>
 			<div v-if="activeSheet === app.qId">
-				<div v-for="object in app.sheets" :key="object.qData.name" class="object">
-					<ul>
-						<li>
-							<ul>
-								<li class="cell-item btn">
-									<h4>{{ object.qMeta.title }}</h4>
-								</li>
-								<li v-for="cell in object.qData.cells" :key="cell.name" class="cell-item">
-									<Tippy interactive theme="custom-tooltip">
-										<template #content>
-											<div v-html="getTooltipContent(cell.name)" class="tooltip-content"></div>
-										</template>
-										<a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
-											{{ cell.type }}
-											<span :class="`lui-icon lui-icon--${cell.type}`" aria-hidden="true"></span>
-										</a>
-									</Tippy>
-								</li>
-							</ul>
-						</li>
-					</ul>
+				<div v-if="Array.isArray(app.sheets) && app.sheets.length > 0">
+					<div v-for="sheet in app.sheets" :key="sheet.qData.name" class="object">
+						<ul>
+							<li>
+								<ul>
+									<li class="cell-item btn">
+										<h4>{{ sheet.qMeta.title }}</h4>
+									</li>
+									<li v-for="cell in sheet.qData.cells" :key="cell.name" class="cell-item">
+										<Tippy interactive theme="custom-tooltip">
+											<template #content>
+												<div v-html="getTooltipContent(cell.name)" class="tooltip-content">
+												</div>
+											</template>
+											<a href="#" class="link" @click.prevent="insertCellIntoQuill(cell.name)">
+												{{ cell.type }}
+												<span :class="`lui-icon lui-icon--${cell.type}`"
+													aria-hidden="true"></span>
+											</a>
+										</Tippy>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div v-else>
+					<p>Aucune feuille disponible pour cette application.</p>
 				</div>
 			</div>
 		</div>
@@ -41,10 +49,10 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { loadQlikScript } from '@/utils/utils';
-import { auth, qix } from "@qlik/api";
-import { Tippy } from 'vue-tippy';
-import 'tippy.js/dist/tippy.css';
+import { loadQlikScript } from "@/utils/utils";
+import { auth } from "@qlik/api";
+import { Tippy } from "vue-tippy";
+import "tippy.js/dist/tippy.css";
 
 // Props
 const props = defineProps({
@@ -52,6 +60,7 @@ const props = defineProps({
 	application: String
 });
 
+// Emits
 const emits = defineEmits(["insert-cell"]);
 
 // Reactive variables
@@ -60,11 +69,10 @@ const loading = ref(true);
 const activeSheet = ref(null);
 const applicationsData = ref([]);
 
+// Computed property to filter applications
 const filteredApplications = computed(() =>
 	applicationsData.value.filter(app => app.name === props.application)
 );
-
-console.log(filteredApplications);
 
 // Methods
 const toggleSheets = (sheetId) => {
@@ -76,7 +84,7 @@ const insertCellIntoQuill = (cellName) => {
 		console.error("Quill instance is not initialized");
 		return;
 	}
-	emits("insert-cell", cellName); // Émet l'événement avec le nom de la cellule
+	emits("insert-cell", cellName); // Emit the event with the cell name
 };
 
 const getTooltipContent = (cellName) => {
@@ -96,8 +104,14 @@ const fetchApplications = async () => {
 
 		// Fetch applications from the backend
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/applications`);
-		if (!response.ok) throw new Error('Failed to fetch applications');
-		applicationsData.value = await response.json();
+		if (!response.ok) throw new Error("Failed to fetch applications");
+		const data = await response.json();
+
+		// Ensure each application has a `sheets` property
+		applicationsData.value = data.map(app => ({
+			...app,
+			sheets: app.sheets || []
+		}));
 	} catch (error) {
 		loadError.value = error.message;
 	} finally {
@@ -107,7 +121,11 @@ const fetchApplications = async () => {
 
 // Lifecycle hooks
 onMounted(() => {
-	loadQlikScript(import.meta.env.VITE_QLIK_TENANT_URL, import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID, import.meta.env.VITE_QLIK_REDIRECT_URI);
+	loadQlikScript(
+		import.meta.env.VITE_QLIK_TENANT_URL,
+		import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID,
+		import.meta.env.VITE_QLIK_REDIRECT_URI
+	);
 	fetchApplications();
 });
 </script>

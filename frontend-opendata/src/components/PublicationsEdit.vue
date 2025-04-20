@@ -84,8 +84,6 @@ const loadError = ref(null);
 const quillEditor = ref(null);
 const quillInstance = ref(null);
 
-console.log("Valeur de application dans le parent :", application);
-
 // Router and route
 const router = useRouter();
 const route = useRoute();
