@@ -2,7 +2,7 @@
 	<div>
 		<el-row>
 			<el-col :span="24" style="height: 400px">
-				<qlik-embed ref="home" ui="analytics/sheet" app-id="3ab28c9d-56e6-40d8-8931-8f80fe76dbae"
+				<qlik-embed ref="home" ui="classic/app" app-id="3ab28c9d-56e6-40d8-8931-8f80fe76dbae"
 					object-id="KZKqMj" />
 			</el-col>
 		</el-row>
