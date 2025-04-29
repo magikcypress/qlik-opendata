@@ -190,7 +190,7 @@ app.get('/profile', async (req, res) => {
 	}
 });
 
-app.get('/applications', async (req, res) => {
+app.get('/backend/applications', async (req, res) => {
 	try {
 		const applications = await Application.find();
 		res.json(applications);
@@ -199,7 +199,7 @@ app.get('/applications', async (req, res) => {
 	}
 });
 
-app.get('/applications/:id', async (req, res) => {
+app.get('/backend/applications/:id', async (req, res) => {
 	try {
 		const application = await Application.findOne({ qId: req.params.id });
 		if (!application) {
@@ -211,7 +211,7 @@ app.get('/applications/:id', async (req, res) => {
 	}
 });
 
-app.post('/applications', async (req, res) => {
+app.post('/backend/applications', async (req, res) => {
 	try {
 		const newApplication = new Application(req.body);
 		await newApplication.save();
@@ -225,7 +225,7 @@ app.post('/applications', async (req, res) => {
 	}
 });
 
-app.delete('/applications/:id', async (req, res) => {
+app.delete('/backend/applications/:id', async (req, res) => {
 	try {
 		const application = await Application.findOneAndDelete({ qId: req.params.id });
 
@@ -238,7 +238,7 @@ app.delete('/applications/:id', async (req, res) => {
 	}
 });
 
-app.get('/sheets', async (req, res) => {
+app.get('/backend/sheets', async (req, res) => {
 	try {
 		const sheets = await Sheet.find();
 		res.json(sheets);
@@ -247,7 +247,7 @@ app.get('/sheets', async (req, res) => {
 	}
 });
 
-app.get('/sheets/:id', async (req, res) => {
+app.get('/backend/sheets/:id', async (req, res) => {
 	try {
 		const sheet = await Sheet.findOne({ qId: req.params.id });
 		if (!sheet) {
@@ -259,7 +259,7 @@ app.get('/sheets/:id', async (req, res) => {
 	}
 });
 
-app.post('/sheets', async (req, res) => {
+app.post('/backend/sheets', async (req, res) => {
 	try {
 		const newSheet = new Sheet(req.body);
 		await newSheet.save();
@@ -273,7 +273,7 @@ app.post('/sheets', async (req, res) => {
 	}
 });
 
-app.put('/sheets/:id/active', async (req, res) => {
+app.put('/backend/sheets/:id/active', async (req, res) => {
 	try {
 		const sheet = await Sheet.findOne({ qId: req.params.id });
 		if (!sheet) {
@@ -287,7 +287,7 @@ app.put('/sheets/:id/active', async (req, res) => {
 	}
 });
 
-app.delete('/sheets', async (req, res) => {
+app.delete('/backend/sheets', async (req, res) => {
 	try {
 		await Sheet.deleteMany({});
 		res.json({ message: 'All sheets deleted successfully' });
@@ -296,7 +296,7 @@ app.delete('/sheets', async (req, res) => {
 	}
 });
 
-app.delete('/sheets/:id', async (req, res) => {
+app.delete('/backend/sheets/:id', async (req, res) => {
 	try {
 		const sheet = await Sheet.findOneAndDelete({ qId: req.params.id });
 		if (!sheet) {
@@ -308,7 +308,7 @@ app.delete('/sheets/:id', async (req, res) => {
 	}
 });
 
-app.get('/objects', async (req, res) => {
+app.get('/backend/objects', async (req, res) => {
 	try {
 		const objects = await Object.find();
 		res.json(objects);
@@ -317,7 +317,7 @@ app.get('/objects', async (req, res) => {
 	}
 });
 
-app.get('/objects/:id', async (req, res) => {
+app.get('/backend/objects/:id', async (req, res) => {
 	try {
 		const objects = await Object.findOne({ name: req.params.name });
 		if (!objects) {
@@ -329,7 +329,7 @@ app.get('/objects/:id', async (req, res) => {
 	}
 });
 
-app.post('/objects', async (req, res) => {
+app.post('/backend/objects', async (req, res) => {
 	try {
 		const newObject = new Object(req.body);
 		await newObject.save();
@@ -343,7 +343,7 @@ app.post('/objects', async (req, res) => {
 	}
 });
 
-app.put('/objects/:id/active', async (req, res) => {
+app.put('/backend/objects/:id/active', async (req, res) => {
 	try {
 		const object = await Object.findOne({ name: req.params.id });
 		if (!object) {
@@ -357,7 +357,7 @@ app.put('/objects/:id/active', async (req, res) => {
 	}
 });
 
-app.delete('/objects', async (req, res) => {
+app.delete('/backend/objects', async (req, res) => {
 	try {
 		await Object.deleteMany({});
 		res.json({ message: 'All objects deleted successfully' });
@@ -366,7 +366,7 @@ app.delete('/objects', async (req, res) => {
 	}
 });
 
-app.delete('/objects/:id', async (req, res) => {
+app.delete('/backend/objects/:id', async (req, res) => {
 	try {
 		const object = await Object.findOneAndDelete({ name: req.params.id });
 		if (!object) {
@@ -378,7 +378,7 @@ app.delete('/objects/:id', async (req, res) => {
 	}
 });
 
-app.get('/dimensions', async (req, res) => {
+app.get('/backend/dimensions', async (req, res) => {
 	try {
 		const dimensions = await Dimension.find();
 		res.json(dimensions);
@@ -387,7 +387,7 @@ app.get('/dimensions', async (req, res) => {
 	}
 });
 
-app.get('/dimensions/:id', async (req, res) => {
+app.get('/backend/dimensions/:id', async (req, res) => {
 	try {
 		const dimensions = await Dimensions.findOne({ qId: req.params.id });
 		if (!dimensions) {
@@ -399,7 +399,7 @@ app.get('/dimensions/:id', async (req, res) => {
 	}
 });
 
-app.post('/dimensions', async (req, res) => {
+app.post('/backend/dimensions', async (req, res) => {
 	try {
 		const newDimension = new Dimension(req.body);
 		await newDimension.save();
@@ -413,7 +413,7 @@ app.post('/dimensions', async (req, res) => {
 	}
 });
 
-app.delete('/dimensions/:id', async (req, res) => {
+app.delete('/backend/dimensions/:id', async (req, res) => {
 	try {
 		const dimension = await Dimension.findOneAndDelete({ qId: req.params.id });
 		if (!dimension) {
@@ -425,7 +425,7 @@ app.delete('/dimensions/:id', async (req, res) => {
 	}
 });
 
-app.get('/measures', async (req, res) => {
+app.get('/backend/measures', async (req, res) => {
 	try {
 		const measures = await Measure.find();
 		res.json(measures);
@@ -434,7 +434,7 @@ app.get('/measures', async (req, res) => {
 	}
 });
 
-app.get('/measures/:id', async (req, res) => {
+app.get('/backend/measures/:id', async (req, res) => {
 	try {
 		const measures = await Measure.findOne({ qId: req.params.id });
 		if (!measures) {
@@ -446,7 +446,7 @@ app.get('/measures/:id', async (req, res) => {
 	}
 });
 
-app.post('/measures', async (req, res) => {
+app.post('/backend/measures', async (req, res) => {
 	try {
 		const newMeasure = new Measure(req.body);
 		await newMeasure.save();
@@ -460,7 +460,7 @@ app.post('/measures', async (req, res) => {
 	}
 });
 
-app.delete('/measures/:id', async (req, res) => {
+app.delete('/backend/measures/:id', async (req, res) => {
 	try {
 		const measure = await Measure.findOneAndDelete({ qId: req.params.id });
 		if (!measure) {
@@ -472,7 +472,7 @@ app.delete('/measures/:id', async (req, res) => {
 	}
 });
 
-app.get('/metadata', async (req, res) => {
+app.get('/backend/metadata', async (req, res) => {
 	try {
 		const metadata = await Metadata.find();
 		res.json(metadata);
@@ -481,7 +481,7 @@ app.get('/metadata', async (req, res) => {
 	}
 });
 
-app.get('/metadata/:id', async (req, res) => {
+app.get('/backend/metadata/:id', async (req, res) => {
 	try {
 		const metadatas = await Metadata.findOne({ qId: req.params.id });
 		if (!metadatas) {
@@ -493,7 +493,7 @@ app.get('/metadata/:id', async (req, res) => {
 	}
 });
 
-app.post('/metadata', async (req, res) => {
+app.post('/backend/metadata', async (req, res) => {
 	try {
 		const newMetadata = new Metadata(req.body);
 		await newMetadata.save();
@@ -507,7 +507,7 @@ app.post('/metadata', async (req, res) => {
 	}
 });
 
-app.delete('/metadata/:id', async (req, res) => {
+app.delete('/backend/metadata/:id', async (req, res) => {
 	try {
 		const metadata = await Metadata.findOneAndDelete({ datasetId: req.params.id });
 		if (!metadata) {
@@ -519,7 +519,7 @@ app.delete('/metadata/:id', async (req, res) => {
 	}
 });
 
-app.get('/publications', async (req, res) => {
+app.get('/backend/publications', async (req, res) => {
 	try {
 		const publications = await Publication.find();
 		res.json(publications);
@@ -528,7 +528,7 @@ app.get('/publications', async (req, res) => {
 	}
 });
 
-app.get('/publications/:id', async (req, res) => {
+app.get('/backend/publications/:id', async (req, res) => {
 	try {
 		const publications = await Publication.findOne({ _id: req.params.id });
 		if (!publications) {
@@ -540,7 +540,7 @@ app.get('/publications/:id', async (req, res) => {
 	}
 });
 
-app.put('/publications/:id', async (req, res) => {
+app.put('/backend/publications/:id', async (req, res) => {
 	console.log(req.params.id);
 	try {
 		const { application, title, description, author, category, data, active } = req.body;
@@ -558,7 +558,7 @@ app.put('/publications/:id', async (req, res) => {
 	}
 });
 
-app.post('/publications', async (req, res) => {
+app.post('/backend/publications', async (req, res) => {
 	try {
 		const newPublication = new Publication(req.body);
 		await newPublication.save();
@@ -572,7 +572,7 @@ app.post('/publications', async (req, res) => {
 	}
 });
 
-app.delete('/publications/:id', async (req, res) => {
+app.delete('/backend/publications/:id', async (req, res) => {
 	console.log(req.params.id);
 	try {
 		const publication = await Publication.findOneAndDelete({ _id: req.params.id });
@@ -585,7 +585,7 @@ app.delete('/publications/:id', async (req, res) => {
 	}
 });
 
-app.delete('/publications', async (req, res) => {
+app.delete('/backend/publications', async (req, res) => {
 	try {
 		await Publication.deleteMany({});
 		res.json({ message: 'All publications deleted successfully' });
@@ -594,7 +594,7 @@ app.delete('/publications', async (req, res) => {
 	}
 });
 
-app.get('/categories', async (req, res) => {
+app.get('/cbackend/ategories', async (req, res) => {
 	try {
 		const categories = await Category.find();
 		res.json(categories);
@@ -603,7 +603,7 @@ app.get('/categories', async (req, res) => {
 	}
 });
 
-app.get('/categories/:id', async (req, res) => {
+app.get('/backend/categories/:id', async (req, res) => {
 	try {
 		const categories = await Category.findOne({ _id: req.params.id });
 		if (!categories) {
@@ -615,7 +615,7 @@ app.get('/categories/:id', async (req, res) => {
 	}
 });
 
-app.put('/categories/:id', async (req, res) => {
+app.put('/backend/categories/:id', async (req, res) => {
 	try {
 		const { title, description, active } = req.body;
 		const categorie = await Category.findByIdAndUpdate(
@@ -632,7 +632,7 @@ app.put('/categories/:id', async (req, res) => {
 	}
 });
 
-app.post('/categories', async (req, res) => {
+app.post('/backend/categories', async (req, res) => {
 	try {
 		console.log(req.body);
 		const newCategory = new Category(req.body);
@@ -648,7 +648,7 @@ app.post('/categories', async (req, res) => {
 	}
 });
 
-app.delete('/categories', async (req, res) => {
+app.delete('/backend/categories', async (req, res) => {
 	try {
 		await Category.deleteMany({});
 		res.json({ message: 'All categories deleted successfully' });
@@ -657,7 +657,7 @@ app.delete('/categories', async (req, res) => {
 	}
 });
 
-app.delete('/categories/:id', async (req, res) => {
+app.delete('/backend/categories/:id', async (req, res) => {
 	try {
 		const category = await Category.findOneAndDelete({ _id: req.params.id });
 		if (!category) {
@@ -669,7 +669,7 @@ app.delete('/categories/:id', async (req, res) => {
 	}
 });
 
-app.get('/comments', async (req, res) => {
+app.get('/backend/comments', async (req, res) => {
 	try {
 		const comments = await Comment.find();
 		res.json(comments);
@@ -678,7 +678,7 @@ app.get('/comments', async (req, res) => {
 	}
 });
 
-app.get('/comments/:id', async (req, res) => {
+app.get('/backend/comments/:id', async (req, res) => {
 	try {
 		const comments = await Comment.findOne({ qId: req.params.id });
 		if (!comments) {
@@ -690,7 +690,7 @@ app.get('/comments/:id', async (req, res) => {
 	}
 });
 
-app.post('/comments', async (req, res) => {
+app.post('/backend/comments', async (req, res) => {
 	try {
 		const newComment = new Comment(req.body);
 		await newComment.save();
@@ -704,7 +704,7 @@ app.post('/comments', async (req, res) => {
 	}
 });
 
-app.delete('/comments/:id', async (req, res) => {
+app.delete('/backend/comments/:id', async (req, res) => {
 	try {
 		const comment = await Comment.findOneAndDelete({ _id: req.params.id });
 		if (!comment) {
