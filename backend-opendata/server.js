@@ -25,7 +25,8 @@ const config = {
 };
 
 app.use(auth(config));
-app.use(cors());
+app.use(cors({ origin: '*' }));
+
 app.use(bodyParser.json());
 
 // Connect to MongoDB
