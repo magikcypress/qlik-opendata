@@ -2,7 +2,7 @@
 	<div>
 		<el-row>
 			<el-col :span="24" style="height: 400px">
-				<qlik-embed ref="home" ui="classic/app" app-id="3ab28c9d-56e6-40d8-8931-8f80fe76dbae"
+				<qlik-embed ref="home" ui="analytics/sheet" app-id="3ab28c9d-56e6-40d8-8931-8f80fe76dbae"
 					object-id="KZKqMj" />
 			</el-col>
 		</el-row>
@@ -26,7 +26,6 @@ import { loadQlikScriptAnon } from '@/utils/utils'
 // import PublicSheets from '@/components/public/pubSheets.vue'
 import PublicPublicationsList from '@/components/public/pubPublicationsList.vue'
 
-const qlikAppIdHome = import.meta.env.VITE_QLIK_APP_ID_HOME
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID
 const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE_HOME
