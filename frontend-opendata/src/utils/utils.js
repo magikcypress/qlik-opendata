@@ -24,6 +24,7 @@ export function loadQlikScriptAnon(
 	qlikClientId,
 	qlikEmbedAccessCode,
 ) {
+	console.log('loadQlikScriptAnon', tenantUrl, qlikClientId, qlikEmbedAccessCode)
 	if (
 		!document.querySelector(
 			'script[src="https://cdn.jsdelivr.net/npm/@qlik/embed-web-components"]',

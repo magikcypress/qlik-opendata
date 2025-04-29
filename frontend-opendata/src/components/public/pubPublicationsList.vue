@@ -1,10 +1,12 @@
 <template>
 	<div>
 		<h2>Publications</h2>
+		{{ publications.length }} publication(s) trouvée(s)
 		<div v-if="loadError" class="error">
 			{{ loadError }}
 		</div>
-		<div v-else class="publications-container">
+		<div v-else-if="publications.length > 0" class="publications-container">
+			
 			<div v-for="publication in publications" :key="publication._id" class="publication-item">
 				<el-link :href="`/publication/${publication._id}`">
 					<img :src="Jacket" alt="Publication Image" class="publication-image">

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { loadQlikScriptAnon } from '@/utils/utils'
 // import PublicSheets from '@/components/public/pubSheets.vue'
 import PublicPublicationsList from '@/components/public/pubPublicationsList.vue'
@@ -29,7 +29,7 @@ import PublicPublicationsList from '@/components/public/pubPublicationsList.vue'
 const qlikAppIdHome = import.meta.env.VITE_QLIK_APP_ID_HOME
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID
-const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE
+const qlikEmbedAccessCode = import.meta.env.VITE_QLIK_EMBEDDED_CODE_HOME
 
 import Picture from '@/assets/home-design.png'
 
@@ -43,15 +43,18 @@ export default {
 			Picture,
 		}
 	},
+	methods: {
+        initializeQlik() {
+            // Appel direct à la fonction loadQlikScriptAnon
+            loadQlikScriptAnon(tenantUrl, qlikClientId, qlikEmbedAccessCode)
+        },
+    },
+    created() {
+        // Appel automatique lors de la création du composant
+        this.initializeQlik()
+    },
 }
 
-onMounted(() => {
-	loadQlikScriptAnon(
-		tenantUrl,
-		qlikClientId,
-		'fa92674c-73ec-4bdd-9b10-32e6b7e4468c.xNpp4XWBwGu8_yEQUuqGYxl2lslghR54l7wjz6TP3io',
-	)
-})
 </script>
 
 <style scoped>
