@@ -49,7 +49,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 import exportData from '@/components/exportData.vue'
-import onTheFly from '@/components/onTheFly.vue'
+import onTheFly from '@/components/onthefly.vue'
 
 const publication = ref(null)
 const publications = ref([])
