@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-vue'
 // Import des vues et composants
 import ConsoleAdmin from '@/views/consoleAdmin.vue'
 import PublicSite from '@/views/publicSite.vue'
+import PublicArticle from '@/views/publicArticle.vue'
 import ApplicationsAnalytics from '@/components/applicationsAnalytics.vue'
 import PublicationsList from '@/components/publicationsList.vue'
 import PublicationsAdd from '@/components/publicationsAdd.vue'
@@ -26,6 +27,11 @@ const router = createRouter({
 			path: '/',
 			name: 'public',
 			component: PublicSite,
+		},
+		{
+			path: '/publication/:id',
+			name: 'publication',
+			component: PublicArticle,
 		},
 		{
 			path: '/console',
@@ -110,10 +116,6 @@ const router = createRouter({
 				logout({ returnTo: window.location.origin })
 			},
 		},
-
-		// Redirections
-		{ path: '/publication/:id', redirect: '/publications' },
-		{ path: '/', redirect: '/publications' },
 	],
 })
 
