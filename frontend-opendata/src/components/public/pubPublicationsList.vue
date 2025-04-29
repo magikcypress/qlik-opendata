@@ -51,6 +51,7 @@ const fetchPublications = async () => {
 		}
 		const data = await response.json()
 		publications.value = data
+		console.log('Publications:', publications.value)
 	} catch (error) {
 		loadError.value = error.message
 	}

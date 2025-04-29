@@ -12,17 +12,18 @@
 				<PublicPublicationsList />
 			</el-col>
 		</el-row>
-		<el-row>
+		<!-- <el-row>
 			<el-col :span="24">
 				<PublicSheets />
 			</el-col>
-		</el-row>
+		</el-row> -->
 	</div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
-import PublicSheets from '@/components/public/pubSheets.vue'
+import { loadQlikScriptAnon } from '@/utils/utils'
+// import PublicSheets from '@/components/public/pubSheets.vue'
 import PublicPublicationsList from '@/components/public/pubPublicationsList.vue'
 
 const qlikAppIdHome = import.meta.env.VITE_QLIK_APP_ID_HOME
@@ -35,7 +36,6 @@ import Picture from '@/assets/home-design.png'
 export default {
 	name: 'PublicSite',
 	components: {
-		PublicSheets,
 		PublicPublicationsList,
 	},
 	data() {
