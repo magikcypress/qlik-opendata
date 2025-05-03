@@ -116,7 +116,6 @@ const router = createRouter({
 				logout({ returnTo: window.location.origin })
 			},
 		},
-		{ path: '/publication/:id', redirect: '/publication/:id' },
 	],
 })
 
