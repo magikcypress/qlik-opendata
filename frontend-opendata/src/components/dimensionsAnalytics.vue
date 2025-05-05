@@ -9,8 +9,9 @@
 			{{ jsonError }}
 		</div>
 		<div v-else>
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId" />
-			<div v-for="dimension in qlikData" :key="dimension.qInfo.qId" class="dimension">
+			{{ applicationsDimensions }}
+			<!--qlik-embed ui="analytics/selections" :app-id="qlikAppsId" /-->
+			<div v-for="dimension in applicationsDimensions" :key="dimension.qInfo.qId" class="dimension">
 				<ul>
 					<li>
 						<el-link href="#" @click.prevent="toggleKpi(dimension.qMeta.id)">
@@ -37,21 +38,63 @@ import { ref, onMounted } from 'vue'
 import { useJsonRepair } from '@/composables/useJsonRepair'
 import { loadQlikScript, fetchJsonData } from '@/utils/utils'
 import Menu from '@/views/menuNav.vue'
+import { auth, qix } from '@qlik/api'
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID
 const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI
-const qlikAppId = import.meta.env.VITE_QLIK_APP_ID
+const qlikAppsId = import.meta.env.VITE_QLIK_APPS_ID.split(',')
 
 const { jsonData, error, validateAndRepairJSON } = useJsonRepair()
 const qlikData = ref([])
 const loadError = ref(null)
 const jsonError = ref(null)
 const activeDimension = ref(null)
+const loading = ref(true)
+const applicationsDimensions = ref([])
 
 const toggleKpi = dimensionId => {
 	activeDimension.value =
 		activeDimension.value === dimensionId ? null : dimensionId
+}
+
+const fetchApplicationsAndDimensions = async () => {
+	try {
+		auth.setDefaultHostConfig({
+			host: tenantUrl,
+			authType: 'Oauth2',
+			clientId: qlikClientId,
+			redirectUri: redirectUrl,
+			accessTokenStorage: 'session',
+			autoRedirect: true,
+		})
+
+		const fetchedDimensions = []
+		for (const appId of qlikAppsId) {
+			console.log('appId:', appId)
+			const session = qix.openAppSession({ appId })
+			const QlikApp = await session.getDoc()
+			const appLayout = await QlikApp.getAppLayout()
+			console.log('appLayout:', appLayout)
+			const dimensionsListResponse = await QlikApp.getDimensionList()
+			console.log('dimensionsListResponse:', dimensionsListResponse)
+
+			if (Array.isArray(dimensionsListResponse)) {
+				fetchedDimensions.push({
+					qId: appId,
+					name: appLayout.qTitle,
+					dimensions: dimensionsListResponse,
+				})
+			} else {
+				throw new Error('Invalid dimensions applciations')
+			}
+		}
+		applicationsDimensions.value = fetchedDimensions
+	} catch (error) {
+		loadError.value = error.message
+	} finally {
+		loading.value = false
+	}
 }
 
 const checkDimensionsInDatabase = async () => {
@@ -75,24 +118,25 @@ const checkDimensionsInDatabase = async () => {
 onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl)
 	checkDimensionsInDatabase()
+	fetchApplicationsAndDimensions()
 
 	// Fetch JSON data from the local file
-	fetch(`${import.meta.env.VITE_BACKEND_URI}/data/dimensions.json`)
-		.then(response => response.text()) // Ensure the response is treated as text
-		.then(data => {
-			console.log('data:', data)
-			if (validateAndRepairJSON(data)) {
-				console.log('jsonData:', data)
-				qlikData.value = jsonData.value
-				jsonError.value = null
-			} else {
-				jsonError.value = error.value
-			}
-		})
-		.catch(err => {
-			console.error('Error loading JSON file:', err)
-			loadError.value = 'Error loading JSON file'
-		})
+	// fetch(`${import.meta.env.VITE_BACKEND_URI}/data/dimensions.json`)
+	// 	.then(response => response.text()) // Ensure the response is treated as text
+	// 	.then(data => {
+	// 		console.log('data:', data)
+	// 		if (validateAndRepairJSON(data)) {
+	// 			console.log('jsonData:', data)
+	// 			qlikData.value = jsonData.value
+	// 			jsonError.value = null
+	// 		} else {
+	// 			jsonError.value = error.value
+	// 		}
+	// 	})
+	// 	.catch(err => {
+	// 		console.error('Error loading JSON file:', err)
+	// 		loadError.value = 'Error loading JSON file'
+	// 	})
 })
 </script>
 

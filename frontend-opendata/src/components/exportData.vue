@@ -1,7 +1,7 @@
 <template>
 	<h3>Les données</h3>
 	<div class="wrapper">
-		<qlik-embed ref="qeData" ui="analytics/chart" :app-id="`${qlikAppId}`" object-id="NYhV" />
+		<qlik-embed ref="qeData" ui="analytics/chart" :app-id="`${publication.qId}`" object-id="NYhV" />
 
 		<div id="loader" style="display: none">
 			Chargement...
@@ -27,12 +27,35 @@ import { saveAs } from 'file-saver'
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const oauthClient = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID
 const redirectUri = import.meta.env.VITE_QLIK_REDIRECT_URI
-const qlikAppId = import.meta.env.VITE_QLIK_APP_ID
 
 const qeData = ref(null)
 const doc = ref(null)
 const theObject = ref(null)
 const objLayout = ref(null)
+//const publication = ref(null)
+
+const props = defineProps({
+	publication: {
+		type: Object,
+		required: true,
+	},
+})
+
+const fetchPublication = async () => {
+	const id = route.params.id
+	try {
+		const response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URI}/publications/${id}`,
+		)
+		if (!response.ok) {
+			throw new Error('Failed to fetch publication')
+		}
+		const data = await response.json()
+		publication.value = data
+	} catch (error) {
+		loadError.value = error.message
+	}
+}
 
 const initialize = async () => {
 	const vizEl = qeData.value
@@ -42,14 +65,14 @@ const initialize = async () => {
 	theObject.value = await refApi.getObject()
 	objLayout.value = await theObject.value.getLayout()
 
-	auth.setDefaultHostConfig({
-		host: tenantUrl,
-		authType: 'Oauth2',
-		clientId: oauthClient,
-		redirectUri: redirectUri,
-		accessTokenStorage: 'session',
-		autoRedirect: true,
-	})
+	// auth.setDefaultHostConfig({
+	// 	host: tenantUrl,
+	// 	authType: 'Oauth2',
+	// 	clientId: oauthClient,
+	// 	redirectUri: redirectUri,
+	// 	accessTokenStorage: 'session',
+	// 	autoRedirect: true,
+	// })
 
 	document
 		.getElementById('exportData')
@@ -68,6 +91,9 @@ const initialize = async () => {
 		.addEventListener('click', async function () {
 			exportData(docSheet, objLayoutSheet, '.pdf')
 		})
+
+	await fetchPublication()
+
 }
 
 const exportData = async () => {

@@ -14,8 +14,8 @@
 		<div v-for="app in filteredApplications" :key="app.qId" class="application">
 			<el-link @click.prevent="toggleSheets(app.qId)">
 				<font-awesome-icon :icon="activeSheet === app.qId
-						? 'chevron-down'
-						: 'chevron-right'
+					? 'chevron-down'
+					: 'chevron-right'
 					" />
 				&nbsp;{{ app.name }}
 			</el-link>
@@ -52,7 +52,8 @@
 					</div>
 				</div>
 				<div v-else>
-					<p>Aucune feuille disponible pour cette application.</p>
+					<p class="no-application">Aucune application correspondante trouvée.<br /> Veuillez vérifier que
+						vous avez bien choisi une application dans la liste déroulante.</p>
 				</div>
 			</div>
 		</div>
@@ -61,7 +62,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { loadQlikScript } from '@/utils/utils'
+import { loadQlikScriptAnon } from '@/utils/utils'
 import { auth } from '@qlik/api'
 import { Tippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
@@ -80,6 +81,11 @@ const loadError = ref(null)
 const loading = ref(true)
 const activeSheet = ref(null)
 const applicationsData = ref([])
+
+// Environnement Variables
+const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
+const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID
+const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI
 
 // Computed property to filter applications
 const filteredApplications = computed(() =>
@@ -106,10 +112,10 @@ const getTooltipContent = cellName => {
 const fetchApplications = async () => {
 	try {
 		auth.setDefaultHostConfig({
-			host: import.meta.env.VITE_QLIK_TENANT_URL,
+			host: tenantUrl,
 			authType: 'Oauth2',
-			clientId: import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID,
-			redirectUri: import.meta.env.VITE_QLIK_REDIRECT_URI,
+			clientId: qlikClientId,
+			redirectUri: redirectUrl,
 			accessTokenStorage: 'session',
 			autoRedirect: true,
 		})
@@ -126,6 +132,7 @@ const fetchApplications = async () => {
 			...app,
 			sheets: app.sheets || [],
 		}))
+		console.log(applicationsData.value)
 	} catch (error) {
 		loadError.value = error.message
 	} finally {
@@ -135,11 +142,8 @@ const fetchApplications = async () => {
 
 // Lifecycle hooks
 onMounted(() => {
-	loadQlikScript(
-		import.meta.env.VITE_QLIK_TENANT_URL,
-		import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID,
-		import.meta.env.VITE_QLIK_REDIRECT_URI,
-	)
+	console.log(applicationsData)
+	loadQlikScriptAnon(tenantUrl, qlikClientId, applicationsData.value.eac)
 	fetchApplications()
 })
 </script>

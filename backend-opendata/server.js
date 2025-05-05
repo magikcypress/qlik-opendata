@@ -151,6 +151,8 @@ const publicationSchema = new mongoose.Schema({
 	author: { type: String, required: true },
 	category: { type: String, required: true },
 	application: { type: String, required: true },
+	qId: { type: String, required: true },
+	aec: { type: String, required: true },
 	publishedAt: { type: Date, default: Date.now },
 	updatedAt: { type: Date, default: Date.now },
 	data: { type: mongoose.Schema.Types.Mixed },
@@ -541,12 +543,13 @@ app.get('/backend/publications/:id', async (req, res) => {
 });
 
 app.put('/backend/publications/:id', async (req, res) => {
-	console.log(req.params.id);
 	try {
-		const { application, title, description, author, category, data, active } = req.body;
+
+		console.log(req.body);
+		const { application, aec, qId, title, description, author, category, data, active } = req.body;
 		const publication = await Publication.findByIdAndUpdate(
 			req.params.id,
-			{ application, title, description, author, category, data, active, updatedAt: Date.now() },
+			{ application, aec, qId, title, description, author, category, data, active, updatedAt: Date.now() },
 			{ new: true }
 		);
 		if (!publication) {
@@ -594,7 +597,7 @@ app.delete('/backend/publications', async (req, res) => {
 	}
 });
 
-app.get('/cbackend/ategories', async (req, res) => {
+app.get('/backend/categories', async (req, res) => {
 	try {
 		const categories = await Category.find();
 		res.json(categories);

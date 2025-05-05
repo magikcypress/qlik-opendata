@@ -4,6 +4,7 @@
 			<div v-if="loadError" class="error">
 				{{ loadError }}
 			</div>
+			<div v-else-if="isLoading" class="loading">Chargement...</div>
 			<div v-else-if="publication">
 				<h2>{{ publication.title }}</h2>
 				<span class="date"><strong>Author:</strong> {{ publication.author }} •
@@ -16,6 +17,7 @@
 				</div>
 
 				<div class="content" v-html="publication.description" />
+
 				<p class="source">
 					<strong>Source:</strong>
 					<span v-if="isValidUrl(publication.data)">
@@ -25,8 +27,9 @@
 						{{ publication.data }}
 					</span>
 				</p>
-				<onTheFly />
-				<exportData />
+
+				<onTheFly v-if="publication && Object.keys(publication).length > 0" :publication="publication" />
+				<!--exportData v-if="publication && Object.keys(publication).length > 0" :publication="publication" /-->
 			</div>
 			<div v-else class="loading">
 				Loading...
@@ -47,12 +50,17 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { loadQlikScriptAnon } from '@/utils/utils'
 
 import exportData from '@/components/exportData.vue'
 import onTheFly from '@/components/onthefly.vue'
 
+const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
+const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID
+
 const publication = ref(null)
 const publications = ref([])
+const isLoading = ref(true)
 const loadError = ref(null)
 const route = useRoute()
 
@@ -101,9 +109,16 @@ const filteredPublications = computed(() => {
 	return publications.value.filter(pub => pub._id !== route.params.id)
 })
 
-onMounted(() => {
-	fetchPublication()
-	fetchPublications()
+onMounted(async () => {
+	await fetchPublication()
+	await fetchPublications()
+	isLoading.value = false
+
+	if (publication.value && publication.value.aec) {
+		loadQlikScriptAnon(tenantUrl, qlikClientId, publication.value.aec)
+	} else {
+		console.error('Publication ou AEC non défini')
+	}
 })
 </script>
 
