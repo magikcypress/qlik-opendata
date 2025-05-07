@@ -25,6 +25,7 @@ import {
 	faInfoCircle,
 	faChevronDown,
 	faChevronRight,
+	faClipboard,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -38,6 +39,7 @@ library.add(
 	faInfoCircle,
 	faChevronDown,
 	faChevronRight,
+	faClipboard
 )
 
 const app = createApp(App)

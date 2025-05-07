@@ -1,6 +1,7 @@
 <template>
-	<div>
-		<Menu />
+<div class="container">
+	<menuVertical class="menu" />
+	<div class="wrapper">
 		<div class="header">
 			<h2>Qlik Sense Applications</h2>
 		</div>
@@ -48,13 +49,14 @@
 			</ul>
 		</div>
 	</div>
+	</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { auth, apps, qix } from '@qlik/api'
 
-import Menu from '@/views/menuNav.vue'
+import menuVertical from '@/views/menuVertical.vue'
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID
@@ -176,6 +178,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+.wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
 .qlik-apps-list {
 	max-width: 1200px;
 	margin: 0 auto;

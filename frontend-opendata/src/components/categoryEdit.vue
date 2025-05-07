@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
 		<h2>Editer une categorie</h2>
-		<a href="/category" class="btn btn-secondary">return</a>
+		<a href="/category" class="btn btn-secondary">Retour</a>
 	</div>
 	<div class="category-form">
 		<div v-if="loadError" class="error">
@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 const title = ref('')
@@ -40,6 +40,19 @@ const successMessage = ref(null)
 const loadError = ref(null)
 const router = useRouter()
 const route = useRoute()
+
+const fetchCategory = async () => {
+	try {
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/categories/${route.params.id}`)
+		if (!response.ok) throw new Error('Failed to fetch categorie')
+		const categorie = await response.json()
+		title.value = categorie.title
+		description.value = categorie.description
+	} catch (error) {
+		loadError.value = error.message
+	}
+}
+
 
 const submitCategory = async () => {
 	if (!title.value) {
@@ -80,9 +93,29 @@ const submitCategory = async () => {
 		successMessage.value = null
 	}
 }
+
+onMounted(() => {
+	fetchCategory()
+})
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+.wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
 .category-form {
 	margin: 0 auto;
 	padding: 20px;

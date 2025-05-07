@@ -1,5 +1,6 @@
 <template>
-	<Menu />
+<div class="container">
+	<menuVertical class="menu" />
 	<div class="wrapper">
 		<h2>Applications et Feuilles</h2>
 		<div v-if="loadError" class="error">
@@ -9,12 +10,13 @@
 			Chargement...
 		</div>
 		<div v-else>
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId" />
 			<div v-for="app in applicationsData" :key="app.qId" class="application">
 				<h3>{{ app.name }}</h3>
+				<qlik-embed ui="analytics/selections" :app-id="app.qId" />
 				<div v-for="sheet in app.sheets" :key="sheet.qInfo.qId" class="sheet">
 					<ul>
 						<li class="sheet-item">
+							
 							<el-link @click.prevent="toggleKpi(sheet.qInfo.qId)">
 								<font-awesome-icon :icon="activeSheet === sheet.qInfo.qId
 									? 'chevron-down'
@@ -22,7 +24,11 @@
 									" />
 								&nbsp;{{ sheet.qMeta.title }}
 							</el-link>
+                           
 							<div class="button-container">
+								<button class="btn-copy" @click="handleCopy(sheet.qInfo.qId, $event)">
+									<font-awesome-icon icon="clipboard" aria-hidden="true" title="Copier ID de la feuille" />
+								</button>
 								<button v-if="
 									!sheetsInDatabase.has(sheet.qInfo.qId)
 								" class="btn btn-primary" @click="addSheetToMongoDB(sheet)">
@@ -35,19 +41,21 @@
 						</li>
 					</ul>
 					<div v-if="activeSheet === sheet.qInfo.qId" class="kpi">
-						<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="qlikAppId" :object-id="sheet.qMeta.id" />
+						<qlik-embed ref="kpi" ui="analytics/sheet" :app-id="app.qId" :object-id="sheet.qInfo.qId" />
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { loadQlikScript } from '@/utils/utils'
+import { loadQlikScript, copyToClipboard } from '@/utils/utils'
 import { auth, qix } from '@qlik/api'
 import Menu from '@/views/menuNav.vue'
+import menuVertical from '@/views/menuVertical.vue'
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID
@@ -159,6 +167,11 @@ const removeSheetFromMongoDB = async sheet => {
 	}
 }
 
+const handleCopy = (text, event) => {
+    const targetElement = event.target.parentElement;
+    copyToClipboard(text, targetElement);
+};
+
 onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl)
 	fetchApplicationsAndSheets()
@@ -166,8 +179,20 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
 .wrapper {
-	margin: 10px;
+    flex: 1;
+    padding: 20px;
 }
 
 .application {
@@ -240,6 +265,26 @@ ul {
 
 .btn-danger:hover {
 	background-color: #bf0a1c;
+}
+
+.copy-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn-copy {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.btn-copy:hover {
+    background-color: #0056b3;
 }
 
 .error {

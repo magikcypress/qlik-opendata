@@ -62,8 +62,8 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { loadQlikScriptAnon } from '@/utils/utils'
-import { auth } from '@qlik/api'
+import { loadQlikScript } from '@/utils/utils'
+import { auth, qix } from '@qlik/api'
 import { Tippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
 
@@ -111,15 +111,6 @@ const getTooltipContent = cellName => {
 
 const fetchApplications = async () => {
 	try {
-		auth.setDefaultHostConfig({
-			host: tenantUrl,
-			authType: 'Oauth2',
-			clientId: qlikClientId,
-			redirectUri: redirectUrl,
-			accessTokenStorage: 'session',
-			autoRedirect: true,
-		})
-
 		// Fetch applications from the backend
 		const response = await fetch(
 			`${import.meta.env.VITE_BACKEND_URI}/applications`,
@@ -140,10 +131,53 @@ const fetchApplications = async () => {
 	}
 }
 
+const checkObjectsApplications = async app => {
+	try {
+		auth.setDefaultHostConfig({
+			host: tenantUrl,
+			authType: 'Oauth2',
+			clientId: qlikClientId,
+			redirectUri: redirectUrl,
+			accessTokenStorage: 'session',
+			autoRedirect: true,
+		})
+
+		const session = qix.openAppSession({ appId: app })
+		const QlikApp = await session.getDoc()
+		const sheetsListResponse = await QlikApp.getSheetList()
+
+		if (Array.isArray(sheetsListResponse)) {
+			sheetsList.value = sheetsListResponse
+		} else {
+			throw new Error('Invalid sheets list format')
+		}
+
+		const fetchedApplications = []
+		for (const appId of qlikAppsId) {
+			const session = qix.openAppSession({ appId })
+			const QlikApp = await session.getDoc()
+			const appLayout = await QlikApp.getAppLayout()
+			const sheetsListResponse = await QlikApp.getSheetList()
+
+			if (Array.isArray(sheetsListResponse)) {
+				fetchedApplications.push({
+					qId: appId,
+					name: appLayout.qTitle,
+					sheets: sheetsListResponse,
+				})
+			} else {
+				throw new Error('Invalid sheets list format')
+			}
+		}
+		applicationsData.value = fetchedApplications
+	} catch (error) {
+		console.error('Error fetching objects from qlik:', error)
+	}
+}
+
 // Lifecycle hooks
 onMounted(() => {
-	console.log(applicationsData)
-	loadQlikScriptAnon(tenantUrl, qlikClientId, applicationsData.value.eac)
+	loadQlikScript(tenantUrl, qlikClientId, redirectUrl)
 	fetchApplications()
 })
 </script>

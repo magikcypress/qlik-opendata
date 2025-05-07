@@ -1,5 +1,6 @@
 <template>
-	<Menu />
+<div class="container">
+	<menuVertical class="menu" />
 	<div class="wrapper">
 		<div class="header">
 			<h2>Publications</h2>
@@ -69,11 +70,12 @@
 			</div>
 		</div>
 	</div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import Menu from '../views/menuNav.vue'
+import menuVertical from '../views/menuVertical.vue'
 
 // Reactive variables
 const publications = ref([])
@@ -136,8 +138,20 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
 .wrapper {
-	margin: 10px;
+    flex: 1;
+    padding: 20px;
 }
 
 .publications-list {

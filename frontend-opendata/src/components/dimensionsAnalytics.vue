@@ -1,5 +1,6 @@
 <template>
-	<Menu />
+<div class="container">
+	<menuVertical class="menu" />
 	<div class="wrapper">
 		<h2>Dimensions</h2>
 		<div v-if="loadError" class="error">
@@ -8,36 +9,48 @@
 		<div v-else-if="jsonError" class="error">
 			{{ jsonError }}
 		</div>
-		<div v-else>
-			{{ applicationsDimensions }}
+		<div v-else>							
 			<!--qlik-embed ui="analytics/selections" :app-id="qlikAppsId" /-->
-			<div v-for="dimension in applicationsDimensions" :key="dimension.qInfo.qId" class="dimension">
+			<div v-for="app in applicationsDimensions" :key="app.qId" class="dimension">
 				<ul>
 					<li>
-						<el-link href="#" @click.prevent="toggleKpi(dimension.qMeta.id)">
-							<font-awesome-icon :icon="activeDimension === dimension.qMeta.id
+						<el-link href="#" @click.prevent="toggleKpi(app.qId)">
+							<font-awesome-icon :icon="activeApplication === app.qId
 								? 'chevron-down'
 								: 'chevron-right'
 								" />
 							&nbsp;
-							{{ dimension.qMeta.title }}
+							{{ app.name }}
 						</el-link>
 					</li>
 				</ul>
-				<div v-if="activeDimension === dimension.qMeta.id" class="kpi">
-					<qlik-embed ui="analytics/field" :app-id="qlikAppId" :library-id="dimension.qMeta.id"
-						type="dimension" />
+				<div v-if="activeApplication === app.qId" class="kpi">
+					<div v-for="dimension in applicationsDimensions" :key="dimension.qId">
+						<div v-if="app.qId === dimension.qId" v-for="dim in dimension.dimensions" :key="dimension.qId" class="dimension selection">
+							{{ dim.qData.title }}
+							<button class="btn-copy" @click="handleCopy(dim.qInfo.qId, $event)">
+								<font-awesome-icon icon="clipboard" aria-hidden="true" title="Copier ID de la feuille" />
+							</button>
+							<qlik-embed
+								ui="analytics/field"
+								:app-id="app.qId"
+								:library-id="dim.qInfo.qId"
+								type="dimension"
+							></qlik-embed>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useJsonRepair } from '@/composables/useJsonRepair'
-import { loadQlikScript, fetchJsonData } from '@/utils/utils'
-import Menu from '@/views/menuNav.vue'
+import { loadQlikScript, copyToClipboard } from '@/utils/utils'
+import menuVertical from '@/views/menuVertical.vue'
 import { auth, qix } from '@qlik/api'
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
@@ -45,17 +58,15 @@ const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID
 const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI
 const qlikAppsId = import.meta.env.VITE_QLIK_APPS_ID.split(',')
 
-const { jsonData, error, validateAndRepairJSON } = useJsonRepair()
-const qlikData = ref([])
 const loadError = ref(null)
 const jsonError = ref(null)
-const activeDimension = ref(null)
+const activeApplication = ref(null)
 const loading = ref(true)
 const applicationsDimensions = ref([])
 
-const toggleKpi = dimensionId => {
-	activeDimension.value =
-		activeDimension.value === dimensionId ? null : dimensionId
+const toggleKpi = appId => {
+	activeApplication.value =
+		activeApplication.value === appId ? null : appId
 }
 
 const fetchApplicationsAndDimensions = async () => {
@@ -75,9 +86,7 @@ const fetchApplicationsAndDimensions = async () => {
 			const session = qix.openAppSession({ appId })
 			const QlikApp = await session.getDoc()
 			const appLayout = await QlikApp.getAppLayout()
-			console.log('appLayout:', appLayout)
 			const dimensionsListResponse = await QlikApp.getDimensionList()
-			console.log('dimensionsListResponse:', dimensionsListResponse)
 
 			if (Array.isArray(dimensionsListResponse)) {
 				fetchedDimensions.push({
@@ -115,6 +124,11 @@ const checkDimensionsInDatabase = async () => {
 	}
 }
 
+const handleCopy = (text, event) => {
+    const targetElement = event.target.parentElement;
+    copyToClipboard(text, targetElement);
+};
+
 onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl)
 	checkDimensionsInDatabase()
@@ -141,8 +155,20 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
 .wrapper {
-	margin: 10px;
+    flex: 1;
+    padding: 20px;
 }
 
 .dimension {
@@ -150,6 +176,13 @@ onMounted(() => {
 	padding: 5px;
 	margin: 8px 0;
 	border-radius: 5px;
+	background-color: #f9f9f9;
+}
+
+.selection {
+	height: 400px;
+	display: block;
+	overflow: auto;
 }
 
 ul {
@@ -157,8 +190,17 @@ ul {
 	padding: 0 2px;
 }
 
-.kpi {
-	height: 800px;
+.btn-copy {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.btn-copy:hover {
+    background-color: #0056b3;
 }
 
 .error {

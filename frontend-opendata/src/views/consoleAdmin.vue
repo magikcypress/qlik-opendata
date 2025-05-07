@@ -1,17 +1,20 @@
 <template>
-	<div v-if="isAuthenticated" class="wrapper">
+<div class="container" v-if="isAuthenticated" >
+	<menuVertical class="menu" />
+	<div class="wrapper">
 		<div class="header">
-			<menuNav />
+			<h2>Console</h2>
 		</div>
 		<section class="content">
 			<qlik-embed ref="console" ui="analytics/sheet" :app-id="qlikAppIdHome" object-id="CMUJpN" />
 		</section>
 	</div>
+</div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
-import menuNav from '@/views/menuNav.vue'
+import menuVertical from '@/views/menuVertical.vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 import { loadQlikScript } from '@/utils/utils'
 
@@ -23,7 +26,7 @@ const redirectUrl = import.meta.env.VITE_QLIK_REDIRECT_URI
 export default {
 	name: 'ConsoleAdmin',
 	components: {
-		menuNav,
+		menuVertical,
 	},
 	setup() {
 		const { isAuthenticated } = useAuth0()
@@ -56,6 +59,22 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+.wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
 .content {
 	padding: 20px;
 }

@@ -187,7 +187,6 @@ const insertCellIntoQuill = cellName => {
 	}
 }
 
-// Hooks du cycle de vie
 onMounted(() => {
 	fetchCategories()
 	fetchApplications()
@@ -256,6 +255,14 @@ onBeforeUnmount(() => {
 
 .btn-primary:hover {
 	background-color: #0056b3;
+}
+
+.btn-secondary {
+	background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+	background-color: #5a6268;
 }
 
 .error {

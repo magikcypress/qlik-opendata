@@ -1,5 +1,6 @@
 <template>
-	<Menu />
+<div class="container">
+	<menuVertical class="menu" />
 	<div class="wrapper">
 		<h2>Objets par applications</h2>
 		<div v-if="loadError" class="error">
@@ -9,9 +10,8 @@
 			Chargement...
 		</div>
 		<div v-else>
-			<qlik-embed ui="analytics/selections" :app-id="qlikAppId" />
-
 			<div v-for="app in applicationsData" :key="app.qId" class="application">
+				
 				<el-link @click.prevent="toggleSheets(app.qId)">
 					<font-awesome-icon :icon="activeSheet === app.qId
 						? 'chevron-down'
@@ -20,6 +20,7 @@
 					&nbsp;{{ app.name }}
 				</el-link>
 				<div v-if="activeSheet === app.qId">
+					<qlik-embed ui="analytics/selections" :app-id="app.qId" />
 					<div v-for="object in app.sheets" :key="object.qData.name" class="object">
 						<ul>
 							<li>
@@ -32,13 +33,15 @@
 											<el-link href="#" class="link" @click.prevent="
 												toggleKpi(cell.name)
 												">
-												{{ formatCellType(cell.type) }}
-												- ({{ cell.name }}) &nbsp;
+												{{ formatCellType(cell.type) }} &nbsp;
 												<span :class="`lui-icon lui-icon--${formatCellType(cell.type)}`"
 													aria-hidden="true" />
 											</el-link>
 
 											<div class="button-container">
+												<button class="btn-copy" @click="handleCopy(cell.name, $event)">
+													<font-awesome-icon icon="clipboard" aria-hidden="true" title="Copier ID de la feuille" />
+												</button>
 												<button v-if="
 													!objectsInDatabase.has(
 														cell.name,
@@ -46,7 +49,7 @@
 												" class="btn btn-primary" @click="
 													addObjectToMongoDB(cell)
 													">
-													Ajouter un objet sur la page
+													Ajouter sur la page
 													publique
 												</button>
 												<button v-else class="btn btn-danger" @click="
@@ -60,7 +63,7 @@
 											</div>
 										</div>
 										<div v-if="activeObject === cell.name" class="kpi">
-											<qlik-embed ref="kpi" ui="analytics/chart" :app-id="qlikAppId"
+											<qlik-embed ref="kpi" ui="analytics/chart" :app-id="app.qId"
 												:object-id="cell.name" />
 										</div>
 									</li>
@@ -72,13 +75,14 @@
 			</div>
 		</div>
 	</div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { loadQlikScript } from '@/utils/utils'
+import { loadQlikScript, copyToClipboard } from '@/utils/utils'
 import { auth, apps, qix } from '@qlik/api'
-import Menu from '@/views/menuNav.vue'
+import menuVertical from '@/views/menuVertical.vue'
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_CLIENT_ID
@@ -162,7 +166,6 @@ const fetchApplications = async () => {
 		})
 
 		for (const appId of qlikAppsId) {
-			console.log('AppId:', appId)
 			await checkApplicationInDatabase(appId)
 		}
 	} catch (error) {
@@ -300,6 +303,11 @@ const checkObjectInDatabase = async () => {
 	}
 }
 
+const handleCopy = (text, event) => {
+    const targetElement = event.target.parentElement;
+    copyToClipboard(text, targetElement);
+};
+
 onMounted(() => {
 	loadQlikScript(tenantUrl, qlikClientId, redirectUrl)
 	checkObjectInDatabase()
@@ -308,8 +316,20 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
 .wrapper {
-	margin: 10px;
+    flex: 1;
+    padding: 20px;
 }
 
 .application {
@@ -317,6 +337,7 @@ onMounted(() => {
 	margin: 10px 0;
 	border: 1px solid #ddd;
 	border-radius: 5px;
+	background-color: #f9f9f9;
 }
 
 .object {
@@ -391,6 +412,19 @@ ul {
 
 .btn-danger:hover {
 	background-color: #bf0a1c;
+}
+
+.btn-copy {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.btn-copy:hover {
+    background-color: #0056b3;
 }
 
 .activate-button {
