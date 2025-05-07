@@ -2,7 +2,7 @@
 	<div>
 		<h2>Qlik en quelques chiffres...</h2>
 		<el-row>
-			<el-col :span="24" style="height: 400px">
+			<el-col :span="24" class="viz">
 				<qlik-embed ref="home" ui="analytics/sheet" app-id="3ab28c9d-56e6-40d8-8931-8f80fe76dbae"
 					object-id="PjmFr" />
 			</el-col>
@@ -93,5 +93,9 @@ h1 {
 .grid-content {
 	border-radius: 4px;
 	min-height: 36px;
+}
+
+.viz {
+	min-height: 400px;
 }
 </style>

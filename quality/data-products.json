@@ -1,1 +1,72 @@
-{"id":"67df09394f0a4f1d394906f5","tenantId":"B8GvT7XQ1C6j3TBZ6wYo1O3TBSAew2dp","spaceId":"6154544a61493fdbb11fb06f","name":"Mutations Immobili\u00e8re","description":"Donn\u00e9es sur les DVF (Demandes de valeurs fonci\u00e8res)  - Plus de 5 millions de lignes","datasetIds":["67df0c9edbae63118605b981","662facec21fe8b74045a5ff3"],"glossaryIds":[],"createdAt":"2025-03-22T19:02:17Z","createdBy":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","updatedAt":"2025-03-22T20:05:33Z","updatedBy":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","ownerId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","readMe":"Liste des communes Fran\u00e7aise et des mutations immobili\u00e8res en France","qri":"qri:data-product:\/\/67df09394f0a4f1d394906f5","keyContacts":[{"userId":"E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_","role":"Steward"}],"tags":[],"activated":true,"activatedOn":["5eea28af01b80600012885df"],"activatedAt":"2025-03-22T19:04:13Z","quality":{"validity":99.23072,"completeness":97.791176},"headers":{"date":["Wed, 07 May 2025 12:53:26 GMT"],"content-type":["application\/json"],"set-cookie":["AWSALB=sorEBQhb95jzh2jPwnbpS6pK6N2STAOXCFJhMYzcK\/ya7oQx0qeXFmdIJDZI1+EG2mZFS3siUcvGCFYHlBhg840YGL6rByqeo88m0KMtYS8\/OqkLCaoSzpJrseY2; Expires=Wed, 14 May 2025 12:53:25 GMT; Path=\/","AWSALBCORS=sorEBQhb95jzh2jPwnbpS6pK6N2STAOXCFJhMYzcK\/ya7oQx0qeXFmdIJDZI1+EG2mZFS3siUcvGCFYHlBhg840YGL6rByqeo88m0KMtYS8\/OqkLCaoSzpJrseY2; Expires=Wed, 14 May 2025 12:53:25 GMT; Path=\/; SameSite=None; Secure","eas.uaid=vXGTYQ1mNOBUBVBcYyyRL_atZKfh-8Gx.g33F73dOtCVxvEHkRkyARzbFCDjrDSYbYkcuhUiNPFhk12D-pqNfr95AEjnoWLloW9kgAIkY94ScQoR2lJ7Epw; path=\/; domain=qfp.eu.qlikcloud.com; samesite=none; secure; httponly"],"x-content-type-options":["nosniff"],"x-xss-protection":["0"],"cache-control":["no-store"],"pragma":["no-cache"],"expires":["0"],"strict-transport-security":["max-age=15724800; includeSubDomains"],"x-frame-options":["DENY"],"content-encoding":["gzip"]}}
+{
+    "id": "67df09394f0a4f1d394906f5",
+    "tenantId": "B8GvT7XQ1C6j3TBZ6wYo1O3TBSAew2dp",
+    "spaceId": "6154544a61493fdbb11fb06f",
+    "name": "Mutations Immobili\u00e8re",
+    "description": "Donn\u00e9es sur les DVF (Demandes de valeurs fonci\u00e8res)  - Plus de 5 millions de lignes",
+    "datasetIds": [
+        "67df0c9edbae63118605b981",
+        "662facec21fe8b74045a5ff3"
+    ],
+    "glossaryIds": [],
+    "createdAt": "2025-03-22T19:02:17Z",
+    "createdBy": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+    "updatedAt": "2025-03-22T20:05:33Z",
+    "updatedBy": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+    "ownerId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+    "readMe": "Liste des communes Fran\u00e7aise et des mutations immobili\u00e8res en France",
+    "qri": "qri:data-product:\/\/67df09394f0a4f1d394906f5",
+    "keyContacts": [
+        {
+            "userId": "E5ipwBBF2QltHGJP5UmgoP8TBq-UxrU_",
+            "role": "Steward"
+        }
+    ],
+    "tags": [],
+    "activated": true,
+    "activatedOn": [
+        "5eea28af01b80600012885df"
+    ],
+    "activatedAt": "2025-03-22T19:04:13Z",
+    "quality": {
+        "validity": 99.23072,
+        "completeness": 97.791176
+    },
+    "headers": {
+        "date": [
+            "Wed, 07 May 2025 12:53:26 GMT"
+        ],
+        "content-type": [
+            "application\/json"
+        ],
+        "set-cookie": [
+            "AWSALB=sorEBQhb95jzh2jPwnbpS6pK6N2STAOXCFJhMYzcK\/ya7oQx0qeXFmdIJDZI1+EG2mZFS3siUcvGCFYHlBhg840YGL6rByqeo88m0KMtYS8\/OqkLCaoSzpJrseY2; Expires=Wed, 14 May 2025 12:53:25 GMT; Path=\/",
+            "AWSALBCORS=sorEBQhb95jzh2jPwnbpS6pK6N2STAOXCFJhMYzcK\/ya7oQx0qeXFmdIJDZI1+EG2mZFS3siUcvGCFYHlBhg840YGL6rByqeo88m0KMtYS8\/OqkLCaoSzpJrseY2; Expires=Wed, 14 May 2025 12:53:25 GMT; Path=\/; SameSite=None; Secure",
+            "eas.uaid=vXGTYQ1mNOBUBVBcYyyRL_atZKfh-8Gx.g33F73dOtCVxvEHkRkyARzbFCDjrDSYbYkcuhUiNPFhk12D-pqNfr95AEjnoWLloW9kgAIkY94ScQoR2lJ7Epw; path=\/; domain=qfp.eu.qlikcloud.com; samesite=none; secure; httponly"
+        ],
+        "x-content-type-options": [
+            "nosniff"
+        ],
+        "x-xss-protection": [
+            "0"
+        ],
+        "cache-control": [
+            "no-store"
+        ],
+        "pragma": [
+            "no-cache"
+        ],
+        "expires": [
+            "0"
+        ],
+        "strict-transport-security": [
+            "max-age=15724800; includeSubDomains"
+        ],
+        "x-frame-options": [
+            "DENY"
+        ],
+        "content-encoding": [
+            "gzip"
+        ]
+    }
+}

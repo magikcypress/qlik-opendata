@@ -11,7 +11,7 @@
 				<el-link :href="`/publication/${publication._id}`">
 					<img :src="Jacket" alt="Publication Image" class="publication-image">
 				</el-link>
-				<el-link :href="`/publication/${publication._id}`">
+				<el-link :href="`/pub/${publication._id}`">
 					<h3>{{ publication.title }}</h3>
 				</el-link>
 				<div class="date">
