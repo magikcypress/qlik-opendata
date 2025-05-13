@@ -29,7 +29,7 @@ const router = createRouter({
 			component: PublicSite,
 		},
 		{
-			path: '/pub/:id',
+			path: '/publication/:id',
 			name: 'publication',
 			component: PublicArticle,
 		},

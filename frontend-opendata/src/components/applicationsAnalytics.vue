@@ -69,7 +69,7 @@ const applicationInDatabase = ref(new Set())
 const applicationData = ref([])
 const eac = ref('')
 
-const fetchApps = async () => {
+const fetchInfoApps = async () => {
 	try {
 		auth.setDefaultHostConfig({
 			host: tenantUrl,
@@ -172,7 +172,7 @@ const checkApplicationInDatabase = async () => {
 }
 
 onMounted(() => {
-	fetchApps()
+	fetchInfoApps()
 	checkApplicationInDatabase()
 })
 </script>

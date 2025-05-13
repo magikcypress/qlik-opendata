@@ -8,10 +8,10 @@
 		<div v-else-if="publications.length > 0" class="publications-container">
 			
 			<div v-for="publication in publications" :key="publication._id" class="publication-item">
-				<el-link :href="`/pub/${publication._id}`">
+				<el-link :href="`/publication/${publication._id}`">
 					<img :src="Jacket" alt="Publication Image" class="publication-image">
 				</el-link>
-				<el-link :href="`/pub/${publication._id}`">
+				<el-link :href="`/publication/${publication._id}`">
 					<h3>{{ publication.title }}</h3>
 				</el-link>
 				<div class="date">
