@@ -1,9 +1,8 @@
 <template>
-	<h3>Creer un graphique a la volée</h3>
+	<h2>Creer un graphique a la volée</h2>
 	{{ publication.qId }}
 	<div class="wrapper">
 		<div class="row">
-			<h2 class="pb-2">Comment creer un graphique a la volée</h2>
 			<div class="col-sm-7">
 				<div class="qlik-embed-example" id="qlik-embed-container2">
 					<qlik-embed id="onthefly" ui="analytics/chart" :app-id="`${publication.qId}`" type="barchart"
@@ -13,20 +12,20 @@
 			</div>
 			<div class="col-sm-5">
 				<div class="row">
-					<select class="form-select" id="dimDrop" required>
+					<select class="form-select custom-select" id="dimDrop" required>
 						<option value="">Dimension</option>
 						<option>Machine Name</option>
 						<option>Machine Age</option>
 						<option>Work Shift</option>
 						<option>Production Month Year</option>
 					</select>
-					<select class="form-select" id="measureDrop" required>
+					<select class="form-select custom-select" id="measureDrop" required>
 						<option value="">Measure</option>
 						<option>% Scrap</option>
 						<option>Avg Cycle Time</option>
 						<option>N. Parts Produced</option>
 					</select>
-					<select class="form-select" id="chartDrop" required>
+					<select class="form-select custom-select" id="chartDrop" required>
 						<option value="">Chart options</option>
 						<option>barchart</option>
 						<option>linechart</option>
@@ -61,3 +60,43 @@ const props = defineProps({
 	},
 })
 </script>
+
+<style scoped>
+.custom-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus sur le sélecteur */
+.custom-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* Style pour les options */
+.custom-select option {
+    padding: 10px;
+}
+
+/* Alignement des sélecteurs */
+.row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+}
+</style>
