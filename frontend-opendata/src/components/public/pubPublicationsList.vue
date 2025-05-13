@@ -8,12 +8,12 @@
 		<div v-else-if="publications.length > 0" class="publications-container">
 			
 			<div v-for="publication in publications" :key="publication._id" class="publication-item">
-				<a :href="`/publication/${publication._id}`">
+				<RouterLink :to="`/publication/${publication._id}`">
 					<img :src="Jacket" alt="Publication Image" class="publication-image">
-				</a>
-				<a :href="`/publication/${publication._id}`">
+				</RouterLink>
+				<RouterLink :to="`/publication/${publication._id}`">
 					<h3>{{ publication.title }}</h3>
-				</a>
+				</RouterLink>
 				<div class="date">
 					<strong>Author:</strong> {{ publication.author }} •
 					<strong>Published At:</strong>
