@@ -6,7 +6,7 @@
 import pubPublication from '@/components/public/pubPublications.vue'
 
 export default {
-	name: 'EditProduct',
+	name: 'publicArticle',
 }
 
 </script>
