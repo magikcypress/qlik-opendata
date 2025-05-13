@@ -30,7 +30,7 @@ const router = createRouter({
 		},
 		{
 			path: '/publication/:id',
-			name: 'publication',
+			name: 'PublicArticle',
 			component: PublicArticle,
 		},
 		{
