@@ -53,7 +53,7 @@ import { useRoute } from 'vue-router'
 import { loadQlikScriptAnon } from '@/utils/utils'
 
 import exportData from '@/components/exportData.vue'
-import onTheFly from '@/components/onthefly.vue'
+import onTheFly from '@/components/onTheFly.vue'
 
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID
