@@ -1,64 +1,65 @@
 <template>
 	<h2>Creer un graphique a la volée</h2>
-	{{ publication.qId }}
 	<div class="wrapper">
 		<div class="row">
 			<div class="col-sm-7">
-				<div class="qlik-embed-example" id="qlik-embed-container2">
-					<qlik-embed id="onthefly" ui="analytics/chart" :app-id="`${publication.qId}`" type="barchart"
-						dimensions=' ["[Machine Name]"]' measures='["[% Scrap]"]'>
-					</qlik-embed>
+				<div class="qlik-embed" id="qlik-embed-container2">
+                    <qlik-embed
+                        id="onthefly"
+                        ui="analytics/chart"
+                        :app-id="publication.qId"
+                        :type="selectedChartType"
+						:dimensions='[selectedDimension]' 
+						:measures='[selectedMeasure]'>
+                    </qlik-embed>
 				</div>
 			</div>
-			<div class="col-sm-5">
-				<div class="row">
-					<select class="form-select custom-select" id="dimDrop" required>
-						<option value="">Dimension</option>
-						<option>Machine Name</option>
-						<option>Machine Age</option>
-						<option>Work Shift</option>
-						<option>Production Month Year</option>
-					</select>
-					<select class="form-select custom-select" id="measureDrop" required>
-						<option value="">Measure</option>
-						<option>% Scrap</option>
-						<option>Avg Cycle Time</option>
-						<option>N. Parts Produced</option>
-					</select>
-					<select class="form-select custom-select" id="chartDrop" required>
-						<option value="">Chart options</option>
-						<option>barchart</option>
-						<option>linechart</option>
-						<option>piechart</option>
-						<option>table</option>
-					</select>
-					<div class="code-example">
-						<pre><code id="ontheflyCode" style="text-wrap: wrap;">
-&lt;qlik-embed
-id = "onthefly"
-ui="analytics/chart"
-app-id="96d75270-ebef-4e94-93c5-2f9ea68c3958"
-type="barchart"
-dimensions='["[Machine Name]"]'
-measures='["[% Scrap]"]'
-&gt;
-&lt;/qlik-embed&gt;
-                </code></pre>
-					</div>
-				</div>
-			</div>
+            <div class="col-sm-5">
+                <div class="row">
+                    <select class="form-select custom-select" v-model="selectedDimension" required>
+                        <option value="">Dimension</option>
+                        <option value='["[Année]"]'>Année</option>
+                        <option value='["[Commune_Rue]"]'>Commune_Rue</option>
+                    </select>
+                    <select class="form-select custom-select" v-model="selectedMeasure" required>
+                        <option value="">Mesure</option>
+                        <option value='["[Nb de Mutation]"]'>Nb de Mutation</option>
+                        <option value='["[Nb de transaction]"]'>Nb de transaction</option>
+                        <option value='["[Prix M2]"]'>Prix M2</option>
+                    </select>
+                    <select class="form-select custom-select" v-model="selectedChartType" required>
+                        <option value="">Chart options</option>
+                        <option value="barchart">Barchart</option>
+                        <option value="linechart">Linechart</option>
+                        <option value="piechart">Piechart</option>
+                        <option value="table">Table</option>
+                    </select>
+                </div>
+            </div>
 		</div>
 	</div>
 
 </template>
 
 <script setup>
+import { ref, watch } from 'vue';
+
 const props = defineProps({
 	publication: {
 		type: Object,
 		required: true,
 	},
 })
+
+const selectedDimension = ref('["[Année]"]');
+const selectedMeasure = ref('["[Nb de Mutation]"]');
+const selectedChartType = ref('barchart');
+
+watch([selectedDimension, selectedMeasure, selectedChartType], ([dimension, measure, chartType]) => {
+    if (dimension && measure && chartType) {
+        console.log(`Graphique mis à jour : Dimension=${dimension}, Mesure=${measure}, Type=${chartType}`);
+    }
+});
 </script>
 
 <style scoped>
@@ -91,6 +92,10 @@ const props = defineProps({
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.qlik-embed {
+	height: 400px;
 }
 
 /* Responsive pour les petits écrans */
