@@ -123,7 +123,6 @@ const fetchApplications = async () => {
 			...app,
 			sheets: app.sheets || [],
 		}))
-		console.log(applicationsData.value)
 	} catch (error) {
 		loadError.value = error.message
 	} finally {

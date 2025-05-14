@@ -12,12 +12,12 @@ b {
   font-weight: bold;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'LUI icons';
   src:
     url(/node_modules/leonardo-ui/dist/lui-icons.woff) format('woff'),
     url(/node_modules/leonardo-ui/dist/lui-icons.ttf) format('truetype');
-}
+} */
 
 @media (min-width: 1024px) {
   body {
