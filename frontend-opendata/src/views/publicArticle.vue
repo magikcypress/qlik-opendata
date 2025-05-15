@@ -58,7 +58,7 @@ import onTheFly from '@/components/onTheFly.vue'
 const tenantUrl = import.meta.env.VITE_QLIK_TENANT_URL
 const qlikClientId = import.meta.env.VITE_QLIK_AUTH0_ANON_CLIENT_ID
 
-const publication = ref(null)
+const publication = ref({})
 const publications = ref([])
 const isLoading = ref(true)
 const loadError = ref(null)
@@ -117,7 +117,7 @@ watch(
         isLoading.value = false
 
         if (publication.value && publication.value.aec) {
-            loadQlikScriptAnon(tenantUrl, qlikClientId, publication.value.aec)
+            loadQlikScriptAnon(tenantUrl, qlikClientId, publication.aec)
         } else {
             console.error('Publication ou AEC non défini')
         }
