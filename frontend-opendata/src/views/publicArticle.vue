@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { loadQlikScriptAnon } from '@/utils/utils'
 
@@ -108,6 +108,21 @@ const fetchPublications = async () => {
 const filteredPublications = computed(() => {
 	return publications.value.filter(pub => pub._id !== route.params.id)
 })
+
+watch(
+    () => route.params.id,
+    async () => {
+        isLoading.value = true
+        await fetchPublication()
+        isLoading.value = false
+
+        if (publication.value && publication.value.aec) {
+            loadQlikScriptAnon(tenantUrl, qlikClientId, publication.value.aec)
+        } else {
+            console.error('Publication ou AEC non défini')
+        }
+    },
+)
 
 onMounted(async () => {
 	await fetchPublication()
