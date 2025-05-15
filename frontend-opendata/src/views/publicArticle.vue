@@ -40,7 +40,7 @@
 			<h3>Publications</h3>
 			<ul>
 				<li v-for="pub in filteredPublications" :key="pub._id">
-					<RouterLink :to="`/publication/${pub._id}`">{{ pub.title }}</a>
+					<RouterLink :to="`/publication/${pub._id}`">{{ pub.title }}</RouterLink>
 				</li>
 			</ul>
 		</div>
