@@ -40,7 +40,7 @@
 			<h3>Publications</h3>
 			<ul>
 				<li v-for="pub in filteredPublications" :key="pub._id">
-					<a :href="`/publication/${pub._id}`">{{ pub.title }}</a>
+					<RouterLink :to="`/publication/${pub._id}`">{{ pub.title }}</a>
 				</li>
 			</ul>
 		</div>
@@ -49,7 +49,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { loadQlikScriptAnon } from '@/utils/utils'
 
 import exportData from '@/components/exportData.vue'
